@@ -1,0 +1,84 @@
+<style>
+    .card-modal-responsable {
+        background-color: #f7f7f7;
+        border-radius: 5px;
+        padding: 12px;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+
+<div class="modal fade" id="modalBalanceCumplimiento" tabindex="-1" role="dialog" aria-labelledby="modalBalanceCumplimiento"
+     aria-hidden="true">
+    <div class="modal-dialog  modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold" id="modalDetailResponsableLabel">Balance de cumplimiento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modalBalanceCumplimientoBody">
+
+
+                <div class="col-12">
+                        <div id="container"></div>
+
+
+                </div>
+            </div>
+            {# <div class="modal-footer"> #}
+            {# <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button> #}
+            {# </div> #}
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+
+        },
+        title: {
+            text: ''
+        },
+        credits: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                },
+                showInLegend: true,
+                colors: JSON.parse('{{ colores | raw }}')
+
+            }
+        },
+        series: [{
+            name: 'Porciento',
+            colorByPoint: true,
+            data: JSON.parse('{{ evaluaciones | raw }}')
+        }]
+    });
+</script>

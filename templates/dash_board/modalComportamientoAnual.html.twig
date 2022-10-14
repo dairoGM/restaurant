@@ -1,0 +1,135 @@
+<style>
+    .card-modal-responsable {
+        background-color: #f7f7f7;
+        border-radius: 5px;
+        padding: 12px;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+    }
+    .btn-primary:focus {
+        color: #fff;
+        background-color: #682423;
+    }
+</style>
+
+
+<div class="modal fade" id="modalComportamientoAnual" tabindex="-1" role="dialog" aria-labelledby="modalComportamientoAnual"
+     aria-hidden="true">
+    <div class="modal-dialog  modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold" id="modalDetailResponsableLabel">Comportamiento anual (real vs planificado)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modalComportamientoAnualBody">
+                <div class="row mb-4" style="display: flex; justify-content: center">
+                    <button class="btn btn-primary btn-acumulado" style="min-width: 110px; max-width: 110px">Acumulado</button>
+                    <button class="btn btn-secondary ml-1 btn-real" style="min-width: 110px; max-width: 110px">Real</button>
+                </div>
+                <div class="col-12">
+                        <div id="containerAcumulado" ></div>
+                        <div id="container" class="d-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    Highcharts.chart('container', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: `Año {{ year }}`
+        },
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+            categories: JSON.parse('{{ periodo | raw }}')
+        },
+        yAxis: {
+            title: {
+                text: 'Valores'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: true
+            }
+        },
+        series: [{
+            name: 'Plan',
+            data: JSON.parse('{{ planValor | raw }}')
+        }, {
+            name: 'Real',
+            data: JSON.parse('{{ real | raw }}')
+        }]
+    });
+
+    Highcharts.chart('containerAcumulado', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: `Año {{ year }}`
+        },
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+            categories: JSON.parse('{{ periodo | raw }}')
+        },
+        yAxis: {
+            title: {
+                text: 'Valores'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: true
+            }
+        },
+        series: [{
+            name: 'Plan',
+            data: JSON.parse('{{ acumuladoPlan | raw }}')
+        }, {
+            name: 'Real',
+            data: JSON.parse('{{ acumuladoReal | raw }}')
+        }]
+    });
+
+    $('.btn-acumulado').click(function () {
+        $('#containerAcumulado').removeClass('d-none');
+        $('#container').addClass('d-none');
+
+        $('.btn-acumulado').removeClass('btn-secondary')
+        $('.btn-acumulado').addClass('btn-primary')
+
+        $('.btn-real').removeClass('btn-primary')
+        $('.btn-real').addClass('btn-secondary')
+
+    })
+    $('.btn-real').click(function () {
+        $('#containerAcumulado').addClass('d-none');
+        $('#container').removeClass('d-none');
+
+        $('.btn-real').removeClass('btn-secondary')
+        $('.btn-real').addClass('btn-primary')
+
+        $('.btn-acumulado').removeClass('btn-primary')
+        $('.btn-acumulado').addClass('btn-secondary')
+    })
+</script>
