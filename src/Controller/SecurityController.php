@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Form\Admin\UserChgPswFormType;
 use App\Repository\Security\UserRepository;
-use App\Services\Chat\MyChatService;
+
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
@@ -61,7 +61,7 @@ class SecurityController extends AbstractController
      * @param MyChatService $myChatService
      * @return Response
      */
-    public function chgpsw(Request $request, UserRepository $usuarioRepository, UserPasswordEncoderInterface $encoder, MyChatService $myChatService)
+    public function chgpsw(Request $request, UserRepository $usuarioRepository, UserPasswordEncoderInterface $encoder)
     {
         try {               
             $usuario = $this->getUser();  
@@ -79,9 +79,6 @@ class SecurityController extends AbstractController
                 $encodedPassword = $encoder->encodePassword($usuario, $form->getData()->getPasswordPlainText());
                 $usuario->setPassword($encodedPassword);
                 $usuarioRepository->add($usuario);
-
-                //MYCHATSERVICE : Actualizar Password del Chat
-                $myChatService->resetPasswordForLoginUser($form->getData()->getPasswordPlainText());
 
 
                 $this->addFlash('success', 'La contraseña ha sido cambiada correctamente.');

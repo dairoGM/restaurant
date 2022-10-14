@@ -7,7 +7,6 @@ use App\Form\Admin\CambiarClaveFormType;
 use App\Form\Admin\UserChgPswFormType;
 use App\Form\Admin\UserFormType;
 use App\Repository\Security\UserRepository;
-use App\Services\Chat\MyChatService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,12 +29,11 @@ class CambioClaveController extends AbstractController
      * @param User $usuario
      * @param UserRepository $usuarioRepository
      * @param UserPasswordEncoderInterface $encoder
-     * @param MyChatService $myChatService
      * @return Response
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function cambiarContrasenna(Request $request, User $usuario, UserRepository $usuarioRepository, UserPasswordEncoderInterface $encoder, MyChatService $myChatService)
+    public function cambiarContrasenna(Request $request, User $usuario, UserRepository $usuarioRepository, UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(CambiarClaveFormType::class);
         $form->handleRequest($request);
@@ -49,11 +47,7 @@ class CambioClaveController extends AbstractController
 
             $usuarioRepository->edit($usuario, true);
 
-            //MYCHATSERVICE : 
-            if ($form->getData()->getPasswordPlainText() != "")
-            {
-                $myChatService->resetPasswordForLoginUser($form->getData()->getPasswordPlainText());
-            }
+
 
             $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
             return $this->redirectToRoute('app_dash_board', [], Response::HTTP_SEE_OTHER);

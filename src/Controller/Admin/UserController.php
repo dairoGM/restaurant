@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\Security\User;
 use App\Form\Admin\UserFormType;
 use App\Repository\Security\UserRepository;
-use App\Services\Chat\MyChatService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,7 +81,7 @@ class UserController extends AbstractController
      * @param MyChatService $myChatService
      * @return Response
      */
-    public function modificar(Request $request, User $usuario, UserRepository $usuarioRepository, UserPasswordEncoderInterface $encoder, MyChatService $myChatService)
+    public function modificar(Request $request, User $usuario, UserRepository $usuarioRepository, UserPasswordEncoderInterface $encoder)
     {
         try {            
             $form = $this->createForm(UserFormType::class, $usuario, ['action' => 'modificar']);

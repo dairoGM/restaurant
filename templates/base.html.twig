@@ -767,54 +767,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     toastr.error(err);
                 }
             });
-
-            //Load Chat : Mensages sin leer
-            $.ajax({
-                type: "POST",
-                cache: false,
-                url: "{{ path('app_chat_mensagesnl') }}",
-                dataType: "json",
-                success: function (res) {
-                    if (res.cant != 0)
-                        $('#chat_cant_mensages').html(res.cant);
-                }
-            });
-
-            //Load Chat : Ultimos mensajes
-            $.ajax({
-                type: "POST",
-                cache: false,
-                url: "{{ path('app_chat_lastmsg') }}",
-                dataType: "json",
-                success: function (res) {
-
-                    let tpl = '<a href="#" class="dropdown-item">'
-                        + '<div class="media-body">'
-                        + '<h3 class="dropdown-item-title"> Brad Diesel '
-                        + '<span class="float-right text-sm text-danger">'
-                        + '<i class="fa fa-envelope"></i></span></h3>'
-                        + '<p class="text-sm">Call me whenever you can...</p>'
-                        + '</div></a><div class="dropdown-divider"></div';
-
-                    let tpl_part1 = '<a href="#" class="dropdown-item"><div class="media-body"><h3 class="dropdown-item-title">';
-                    let tpl_part3 = '<span class="float-right text-sm text-danger"><i class="fa fa-envelope"></i></span></h3><p class="text-sm">'
-                    let tpl_part5 = '</p></div></a><div class="dropdown-divider"></div>';
-
-                    let messages = "";
-
-                    console.log(res.mensajes);
-                    for (i = 0; i < res.mensajes.length; i++) {
-                        let message = res.mensajes[i];
-
-                        if (message != undefined && message.name != undefined && message.message != undefined)
-                            messages += tpl_part1 + '<strong>' + message.name + '</strong>' + tpl_part3 + message.message + tpl_part5;
-
-                    }
-
-                    $('#lastmsg').html(messages);
-                }
-            });
-        }
+         }
 
         loadNotifications();
 

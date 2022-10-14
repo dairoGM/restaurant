@@ -22,7 +22,6 @@ use App\Repository\Personal\PlantillaRepository;
 use App\Repository\Personal\ResponsableRepository;
 use App\Repository\Personal\TipoOrganizacionRepository;
 use App\Repository\Security\UserRepository;
-use App\Services\Chat\MyChatService;
 use App\Services\Utils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -76,10 +75,9 @@ class PersonaController extends AbstractController
      * @param MunicipioRepository $municipioRepository
      * @param EstructuraRepository $estructuraRepository
      * @param ResponsabilidadRepository $responsabilidadRepository
-     * @param MyChatService $myChatService
      * @return Response
      */
-    public function registrar(TipoOrganizacionRepository $tipoOrganizacionRepository, OrganizacionRepository $organizacionRepository, EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $encoder, PersonaRepository $personaRepository, MunicipioRepository $municipioRepository, EstructuraRepository $estructuraRepository, ResponsabilidadRepository $responsabilidadRepository, MyChatService $myChatService)
+    public function registrar(TipoOrganizacionRepository $tipoOrganizacionRepository, OrganizacionRepository $organizacionRepository, EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $encoder, PersonaRepository $personaRepository, MunicipioRepository $municipioRepository, EstructuraRepository $estructuraRepository, ResponsabilidadRepository $responsabilidadRepository)
     {
         $persona = new Persona();
         $choices = [
@@ -147,10 +145,6 @@ class PersonaController extends AbstractController
 
             $em->flush();
 
-            //MYCHATSERVICE : Registrando Persona Usuario en el Chat
-            $myChatService->crearUsuarioChat($persona, $request->request->all()['persona']['contrasena']);
-
-
             $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
             return $this->redirectToRoute('app_persona_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -184,7 +178,7 @@ class PersonaController extends AbstractController
     public function modificar(PersonaOrganizacionRepository $personaOrganizacionRepository, TipoOrganizacionRepository $tipoOrganizacionRepository,
                               OrganizacionRepository $organizacionRepository, UserRepository $userRepository, PlantillaRepository $plantillaRepository,
                               UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, Request $request, Persona $persona, PersonaRepository $personaRepository,
-                              MunicipioRepository $municipioRepository, EstructuraRepository $estructuraRepository, ResponsabilidadRepository $responsabilidadRepository, Utils $utils, MyChatService $myChatService)
+                              MunicipioRepository $municipioRepository, EstructuraRepository $estructuraRepository, ResponsabilidadRepository $responsabilidadRepository, Utils $utils)
     {
         $choices = [
             'provincia_choices' => $persona->getProvincia()->getId(),
@@ -275,8 +269,6 @@ class PersonaController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
 
-            //MYCHATSERVICE : Registrando Persona Usuario en el Chat
-            $myChatService->updateUsuarioChatParaPersona($persona);
 
             return $this->redirectToRoute('app_persona_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -297,7 +289,7 @@ class PersonaController extends AbstractController
      * @param PersonaRepository $personaRepository
      * @return Response
      */
-    public function eliminar(Request $request, Persona $persona, PersonaRepository $personaRepository, PlantillaRepository $plantillaRepository, MyChatService $myChatService)
+    public function eliminar(Request $request, Persona $persona, PersonaRepository $personaRepository, PlantillaRepository $plantillaRepository)
     {
         try {
             if ($personaRepository->find($persona) instanceof Persona) {
@@ -308,11 +300,9 @@ class PersonaController extends AbstractController
                     }
                 }
 
-                $myChatService->elminarUsuarioChat($persona);
-
                 $personaRepository->remove($persona, true);
                 $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
-                
+
                 return $this->redirectToRoute('app_persona_index', [], Response::HTTP_SEE_OTHER);
             }
             $this->addFlash('error', 'Error en la entrada de datos');
