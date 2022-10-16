@@ -2,10 +2,8 @@
 
 namespace App\Controller\Client;
 
-use App\Entity\Client\ObjetivoEspecificoUsuarioFavoritos;
 use App\Entity\NotificacionesUsuario;
 use App\ExtendSys\Filter\FilterImpl;
-use App\Repository\Client\ObjetivoEspecificoUsuarioFavoritosRepository;
 use App\Repository\Estructura\EstructuraRepository;
 use App\Repository\Estructura\MunicipioRepository;
 use App\Repository\Personal\PersonaRepository;
@@ -38,15 +36,8 @@ class DashBoardController extends AbstractController
      * @Route("/dashboard/{id}", name="app_dash_board")
      * @param ObjetivoEspecificoRepository $objetivoEspecificoRepository
      * @param Utils $utils
-     * @param PlanRepository $planRepository
-     * @param PlanObjetivoGeneralRepository $planObjetivoGeneralRepository
-     * @param PlanIndicadorResponsableRepository $planIndicadorResponsableRepository
-     * @param EvaluacionRepository $evaluacionRepository
      * @param MunicipioRepository $municipioRepository
-     * @param ObjetivoEspecificoUsuarioFavoritosRepository $especificoUsuarioFavoritosRepository
      * @param EntityManagerInterface $entityManager
-     * @param ObjetivoGeneralRepository $objetivoGeneralRepository
-     * @param IndicadorRepository $indicadorRepository
      * @param Request $request
      * @param null $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
