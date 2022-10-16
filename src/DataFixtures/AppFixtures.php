@@ -7,6 +7,7 @@ use App\Entity\Personal\Sexo;
 use App\Entity\Planificacion\EstadoPlan;
 use App\Entity\Planificacion\Formula;
 use App\Entity\Planificacion\TipoPlan;
+use App\Entity\Security\User;
 use App\Entity\Traza\Accion;
 use App\Entity\Traza\Objeto;
 use App\Entity\Traza\TipoTraza;
