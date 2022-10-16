@@ -7,6 +7,10 @@ use App\Entity\Personal\Sexo;
 use App\Entity\Planificacion\EstadoPlan;
 use App\Entity\Planificacion\Formula;
 use App\Entity\Planificacion\TipoPlan;
+use App\Entity\Security\User;
+use App\Entity\Traza\Accion;
+use App\Entity\Traza\Objeto;
+use App\Entity\Traza\TipoTraza;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -14,13 +18,6 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-
-        $estadosPlan = ['Nuevo', 'En revisión', 'Aprobado'];
-        foreach ($estadosPlan as $value) {
-            $estado = new EstadoPlan();
-            $estado->setNombre($value);
-            $manager->persist($estado);
-        }
 
 
         $sexos[] = [
@@ -32,38 +29,29 @@ class AppFixtures extends Fixture
             'siglas' => 'F',
         ];
         foreach ($sexos as $value) {
-            $sexo = new Sexo();
-            $sexo->setNombre($value['nombre']);
-            $sexo->setSiglas($value['siglas']);
-            $manager->persist($sexo);
+            $item = new Sexo();
+            $item->setNombre($value['nombre']);
+            $item->setSiglas($value['siglas']);
+            $manager->persist($item);
         }
 
-
-        $tiposPlan[] = [
-            'nombre' => 'Anual',
-            'token_tipo_plan' => 'token-Anual'
-        ];
-        $tiposPlan[] = [
-            'nombre' => 'Mensual',
-            'token_tipo_plan' => 'token-Mensual'
-        ];
-        foreach ($tiposPlan as $value) {
-            $tipoPlan = new TipoPlan();
-            $tipoPlan->setNombre($value['nombre']);
-            $tipoPlan->setTokenTipoPlan($value['token_tipo_plan']);
-            $manager->persist($tipoPlan);
+        $tbn_accion = ['Crear', 'Modificar', 'Eliminar', 'Inicio de sesión', 'Cierre de sesión'];
+        foreach ($tbn_accion as $value) {
+            $accion = new Accion();
+            $accion->setNombre($value);
+            $manager->persist($accion);
         }
-
-
-        $formulas[] = [
-            'nombre' => 'Formula',
-            'token_tipo_formula' => 'PORCIENTO'
-        ];
-        foreach ($formulas as $value) {
-            $tipoPlan = new Formula();
-            $tipoPlan->setNombre($value['nombre']);
-            $tipoPlan->setTokenTipoFormula($value['token_tipo_formula']);
-            $manager->persist($tipoPlan);
+        $tbn_objeto = ['Autenticación'];
+        foreach ($tbn_objeto as $value) {
+            $objeto = new Objeto();
+            $objeto->setNombre($value);
+            $manager->persist($objeto);
+        }
+        $tbn_tipo_traza = ['Sesión', 'Negocio'];
+        foreach ($tbn_tipo_traza as $value) {
+            $tipo_traza = new TipoTraza();
+            $tipo_traza->setNombre($value);
+            $manager->persist($tipo_traza);
         }
 
         $manager->flush();

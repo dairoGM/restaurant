@@ -8,7 +8,7 @@ use App\Command\Install\Functionality;
 use App\Command\Install\InstallFunctionalityInterface;
 use App\Repository\Security\ModuloRepository;
 
-class InstallFuntionalityService implements InstallFunctionalityInterface 
+class InstallFuntionalityService implements InstallFunctionalityInterface
 {
 
     private FuncionalidadRepository $funcionalidadRepository;
@@ -20,35 +20,29 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
         $this->funcionalidadRepository = $funcionalidadRepository;
         $this->moduloRepository = $moduloRepository;
     }
-    
-     /**
+
+    /**
      * Define una Lista de Funcionalidades
-     * 
+     *
      * For create one -> Functionality::createFunctionality("ROLE_ADMIN_USER", "Administrar usuarios")
      *
      * @return Functionality[]
      */
-    function defineFunctionalities() : array
+    function defineFunctionalities(): array
     {
-        $functionalities = array();    
+        $functionalities = array();
 
         //Comunes
         $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesComunes());
-       
+
         //Administración 
-        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForAdministracion());  
+        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForAdministracion());
 
         //Personal
         $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForPersonal());
 
         //Estructura
         $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForEstructura());
-
-        //Plan de Activiades
-        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForPlanActividades());
-
-        //Planeacion
-        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForPlaneacion());
 
         //Rerporte
         $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForReporte());
@@ -64,7 +58,7 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
      *
      * @return bool
      */
-    function getExistFuncionality($roleKey) : bool
+    function getExistFuncionality($roleKey): bool
     {
         return $this->funcionalidadRepository->existFuncionalidad($roleKey);
     }
@@ -74,13 +68,12 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
      *
      * @return string[]
      */
-    function getAllRoleKeyInstaledFuncionalities() : array
+    function getAllRoleKeyInstaledFuncionalities(): array
     {
         $currentInstaled = $this->funcionalidadRepository->findAll();
 
         $roleKeys = array();
-        foreach($currentInstaled as $key => $functionality)
-        {             
+        foreach ($currentInstaled as $key => $functionality) {
             $roleKeys[] = $functionality->getRoleKey();
         }
 
@@ -88,11 +81,11 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
     }
 
     /**
-     * Crea una Funcionalidad 
-     * 
+     * Crea una Funcionalidad
+     *
      * @param Functionality $functionality
      */
-    function create(Functionality $functionality) : void
+    function create(Functionality $functionality): void
     {
         $functionalityEntity = new Funcionalidad();
 
@@ -101,56 +94,56 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
         $functionalityEntity->setNombre($functionality->getName());
         $functionalityEntity->setDescripcion($functionality->getDescription() ?? $functionalityEntity->getDescripcion());
 
-        $this->funcionalidadRepository->add($functionalityEntity, true);        
+        $this->funcionalidadRepository->add($functionalityEntity, true);
     }
 
     /**
-     * Actualiza una Funcionalidad 
-     * 
+     * Actualiza una Funcionalidad
+     *
      * @param Functionality $functionality
      */
-    function update(Functionality $functionality) : void
+    function update(Functionality $functionality): void
     {
-        $functionalityEntity = $this->funcionalidadRepository->findByRoleKey($functionality->getRoleKey()); 
+        $functionalityEntity = $this->funcionalidadRepository->findByRoleKey($functionality->getRoleKey());
 
         $functionalityEntity->setModulo($this->getModule($functionality->getModuleKey()));
         $functionalityEntity->setRoleKey($functionality->getRoleKey());
         $functionalityEntity->setNombre($functionality->getName());
         $functionalityEntity->setDescripcion($functionality->getDescription() ?? $functionalityEntity->getDescripcion());
 
-        $this->funcionalidadRepository->edit($functionalityEntity, true);    
+        $this->funcionalidadRepository->edit($functionalityEntity, true);
     }
 
     /**
-     * Elimina una Funcionalidad 
-     * 
+     * Elimina una Funcionalidad
+     *
      * @param string $roleKey de la funcionalidad
      */
-    function delete($roleKey) : void
+    function delete($roleKey): void
     {
-        $functionalityEntity = $this->funcionalidadRepository->findByRoleKey($roleKey); 
+        $functionalityEntity = $this->funcionalidadRepository->findByRoleKey($roleKey);
 
-        $this->funcionalidadRepository->remove($functionalityEntity, true);    
+        $this->funcionalidadRepository->remove($functionalityEntity, true);
     }
 
     /**
-     * Deshabilita una Funcionalidad 
-     * 
+     * Deshabilita una Funcionalidad
+     *
      * @param string $roleKey de la funcionalidad
      */
-    function disable($roleKey) : void
+    function disable($roleKey): void
     {
-        $functionalityEntity = $this->funcionalidadRepository->findByRoleKey($roleKey); 
+        $functionalityEntity = $this->funcionalidadRepository->findByRoleKey($roleKey);
 
         $functionalityEntity->setActivo(false);
 
-        $this->funcionalidadRepository->edit($functionalityEntity, true);    
+        $this->funcionalidadRepository->edit($functionalityEntity, true);
     }
-    
+
     /**
      * Elimina/Desinstala/Deshabilita, las Funcionalidades  Definidas defineFunctionalities()
-     * 
-     *  Action: define la accion de instalacion   
+     *
+     *  Action: define la accion de instalacion
      *  disable-> Indica que se deben Deshabilitar las funcionalidades
      *  delete -> Indica que se debe Eliminar las funcionalidades
      *
@@ -158,35 +151,30 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
      * @param [type] $action
      * @return int Cantidad de registros afectados
      */
-    function uninstallAll($functionalities, $action) : array
+    function uninstallAll($functionalities, $action): array
     {
         $roleKeys = array();
-        foreach($functionalities as $key => $functionality)
-        {             
+        foreach ($functionalities as $key => $functionality) {
             $roleKeys[] = $functionality->getRoleKey();
         }
 
         $unistaled = array();
         $currentInstaled = $this->funcionalidadRepository->findAll();
 
-        foreach($currentInstaled as &$functionalityEntity){
-            $roleKey = $functionalityEntity->getRoleKey();                       
-          
-            if(!in_array($roleKey, $roleKeys))
-            {                
+        foreach ($currentInstaled as &$functionalityEntity) {
+            $roleKey = $functionalityEntity->getRoleKey();
+
+            if (!in_array($roleKey, $roleKeys)) {
                 $functionalty = Functionality::createFunctionality(
                     $functionalityEntity->getRoleKey(),
                     $functionalityEntity->getNombre(),
                     $functionalityEntity->getDescripcion()
                 );
 
-                if($action == 'delete')
-                {
+                if ($action == 'delete') {
                     $this->funcionalidadRepository->remove($functionalityEntity, true);
                     $unistaled[] = $functionalty;
-                }
-                else if($action == 'disable')
-                {
+                } else if ($action == 'disable') {
                     $functionalityEntity->setActivo(false);
                     $this->funcionalidadRepository->edit($functionalityEntity);
                     $unistaled[] = $functionalty;
@@ -197,18 +185,18 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
         return $unistaled;
     }
 
-     /**
+    /**
      * Devuelve una funcionalidad existe dada su roleKey
      *
      * @return bool
      */
-    function getExistModule($moduleKey) : bool
+    function getExistModule($moduleKey): bool
     {
         return $this->moduloRepository->existModule($moduleKey);
     }
 
     private function getModule($moduleKey)
     {
-        return $this->moduloRepository->findByModuleKey($moduleKey); 
+        return $this->moduloRepository->findByModuleKey($moduleKey);
     }
 }

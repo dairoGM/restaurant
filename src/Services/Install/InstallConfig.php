@@ -24,9 +24,7 @@ class InstallConfig
         //Administración
         $modules[] = Module::createModule("MODULE_ADMIN", "Módulo de Administración", "Módulo de administración");
         $modules[] = Module::createModule("MODULE_PERSON", "Módulo de Personal", "Módulo de personal");
-        $modules[] = Module::createModule("MODULE_PLANING", "Módulo de Planificación", "Módulo de planificación estratégica");
         $modules[] = Module::createModule("MODULE_STRUCT", "Módulo de Estructura", "Módulo de estrucutra y composición");
-        $modules[] = Module::createModule("MODULE_PLACT", "Módulo de Plan de Actividaeds", "Módulo de plan de actividades y tareas");
         $modules[] = Module::createModule("MODULE_REPORT", "Módulo de Reportes", "Módulo de reportes");
         $modules[] = Module::createModule("MODULE_TRACE", "Módulo de Trazas", "Módulo de trazas");      
 
@@ -135,59 +133,6 @@ class InstallConfig
     }
 
     /**
-     * Define una Lista de Funcionalidades para Plan de Actividades
-     * 
-     * For create one -> Functionality::createFunctionality("ROLE_MODULO_PLAN_ACTIVIDADES", "Módulo de Plan de Actividades")
-     *
-     * @return Functionality[]
-     */
-    public static function defineFunctionalitiesForPlanActividades() : array
-    {
-        $functionalities = array(); 
-
-        //Plan Actividades
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLACT", "ROLE_HOME_ACTV", "Portada principal de plan de activiades", "Portada principal de plan de actividades"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLACT", "ROLE_GEST_ACTV", "Gestionar activides", "Gestionar actividades en el calendario"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLACT", "ROLE_GEST_ESTACTV", "Gestionar estado de activides", "Gestionar estado de activides"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLACT", "ROLE_GEST_NOTAS_ACTIV", "Gestionar notas de activides", "Gestionar notas de activides"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLACT", "ROLE_GEST_TYPACTIV", "Gestionar tipos de activides", "Gestionar tipos de activides"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLACT", "ROLE_GEST_TODOLIST", "Gestionar lista de tareas", "Gestionar lista de tareas"); 
-             
-
-        return $functionalities;
-    }
-
-    /**
-     * Define una Lista de Funcionalidades para Planeación
-     * 
-     * For create one -> Functionality::createFunctionality("ROLE_MODULO_PLANEACION", "Módulo de Planeación")
-     *
-     * @return Functionality[]
-     */
-    public static function defineFunctionalitiesForPlaneacion() : array
-    {
-        $functionalities = array(); 
-
-        //Planeacion
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_HOME_PLAN", "Portada principal de plan de estratégica", "Portada principal de plan de estratégica"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_ARC", "Gestionar área de resultados claves", "Gestionar área de resultados claves"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_EVAL", "Gestionar evaluaciones", "Gestionar evaluaciones"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_FREVAL", "Gestionar forma de evaluación", "Gestionar forma de evaluación"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_INDIC", "Gestionar indicadores", "Gestionar indicadores"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_OBJESPC", "Gestionar objetivos específicos", "Gestionar objetivos específicos"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_GENER", "Gestionar objetivos generales", "Gestionar objetivos generales"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_PLAN", "Gestionar planes", "Gestionar planes"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_EJCPLAN", "Gestionar ejecución del planes", "Gestionar ejecución del planes"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_TYPEVAL", "Gestionar tipos de evaluación", "Gestionar tipos de evaluación"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_TYPIND", "Gestionar tipos de indicador", "Gestionar tipos de indicador"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_UNMED", "Gestionar unidades de medidas", "Gestionar unidades de medidas"); 
-        $functionalities[] = Functionality::createFunctionality("MODULE_PLANING", "ROLE_GEST_INCUMPL", "Gestionar incumplimientos", "Gestionar incumplimientos");
-
-
-        return $functionalities;
-    }
-
-    /**
      * Define una Lista de Funcionalidades para Reporte
      * 
      * For create one -> Functionality::createFunctionality("ROLE_MODULO_REPORTE", "Módulo de Reporte")
@@ -200,12 +145,7 @@ class InstallConfig
 
         //Reporte
         $functionalities[] = Functionality::createFunctionality("MODULE_REPORT", "ROLE_HOME_REPORT", "Portada principal a reportes", "Portada principal a reportes");
-        $functionalities[] = Functionality::createFunctionality("MODULE_REPORT", "ROLE_ESTPL_REP", "Reporte de estado del plan", "Reporte de estado del plan");
-        $functionalities[] = Functionality::createFunctionality("MODULE_REPORT", "ROLE_MAPIND_REP", "Reporte de indicadores en el mapa", "Reporte de indicadores en el mapa");
-        $functionalities[] = Functionality::createFunctionality("MODULE_REPORT", "ROLE_PROGRAM_REP", "Reporte del programa", "Reporte del programa");
         $functionalities[] = Functionality::createFunctionality("MODULE_REPORT", "ROLE_CUSTOM_REP", "Reporte personalizado", "Reporte personalizado");
-        $functionalities[] = Functionality::createFunctionality("MODULE_REPORT", "ROLE_RESPONS_REP", "Reporte de responsables", "Reporte de responsable");
-        $functionalities[] = Functionality::createFunctionality("MODULE_REPORT", "ROLE_OBSERV_REP", "Reporte de causas de los indicadores evaluados de mal, regular y no evaluados", "Reporte de causas de los indicadores evaluados de mal, regular y no evaluados");
 
 
         return $functionalities;
@@ -257,8 +197,7 @@ class InstallConfig
                         ->addFunctionality("ROLE_GEST_USER")
                         ->addFunctionality("ROLE_GEST_FUNC")
                         ->addFunctionality("ROLE_GEST_MODULE")                                            
-                        ->addFunctionality("ROLE_GEST_ROLES")   
-                        ->addFunctionality("ROLE_GEST_CHAT")     
+                        ->addFunctionality("ROLE_GEST_ROLES")
         ;
 
         $roles[] = Role::createRole('ROL_STRUCT', "Administrador de Estructura y Composición", "Rol con permisos a todas las funcionalidades de estructura y composición")
@@ -291,31 +230,9 @@ class InstallConfig
                         ->addFunctionality("ROLE_GEST_TYPORG")                         
         ;
 
-        $roles[] = Role::createRole('ROL_PLANACTIV', "Administrador de Plan de Actividades", "Rol con permisos a todas las funcionalidades de plan de actividades")
-                        ->addFunctionality("ROLE_PORTADA_ADMIN")       
-                        ->addFunctionality("ROLE_HOME_ACTV")  
-                        ->addFunctionality("ROLE_GEST_ACTV")  
-                        ->addFunctionality("ROLE_GEST_ESTACTV")  
-                        ->addFunctionality("ROLE_GEST_NOTAS_ACTIV")  
-                        ->addFunctionality("ROLE_GEST_TYPACTIV")  
-                        ->addFunctionality("ROLE_GEST_TODOLIST")                                                                    
-        ;
 
-        $roles[] = Role::createRole('ROL_PLANAEST', "Administrador de Planificación Estratégica", "Rol con permisos a todas las funcionalidades de planificación estratégica")
-                        ->addFunctionality("ROLE_PORTADA_ADMIN")   
-                        ->addFunctionality("ROLE_HOME_PLAN") 
-                        ->addFunctionality("ROLE_GEST_ARC") 
-                        ->addFunctionality("ROLE_GEST_EVAL") 
-                        ->addFunctionality("ROLE_GEST_FREVAL") 
-                        ->addFunctionality("ROLE_GEST_INDIC") 
-                        ->addFunctionality("ROLE_GEST_OBJESPC")     
-                        ->addFunctionality("ROLE_GEST_GENER")  
-                        ->addFunctionality("ROLE_GEST_PLAN")  
-                        ->addFunctionality("ROLE_GEST_EJCPLAN")   
-                        ->addFunctionality("ROLE_GEST_TYPEVAL")  
-                        ->addFunctionality("ROLE_GEST_TYPIND")  
-                        ->addFunctionality("ROLE_GEST_UNMED")                                                                         
-        ;
+
+
 
         $roles[] = Role::createRole('ROL_REPORT', "Visualizador de Reportes", "Rol con permisos a todos los reportes")
                         ->addFunctionality("ROLE_PORTADA_ADMIN")   
