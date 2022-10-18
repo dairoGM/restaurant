@@ -64,7 +64,7 @@ class Persona extends BaseEntity
      *           message= "Caracteres no válidos, por favor verifique."
      * )
      */
-    private ?string $segundoNombre  = null;
+    private ?string $segundoNombre = null;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -107,11 +107,6 @@ class Persona extends BaseEntity
      */
     private ?string $telefono = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity="DatosFuc")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private ?DatosFuc $datosFuc = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Estructura\Provincia")
@@ -424,17 +419,6 @@ class Persona extends BaseEntity
         return $this;
     }
 
-    public function getDatosFuc()
-    {
-        return $this->datosFuc;
-    }
-
-    public function setDatosFuc($datosFuc)
-    {
-        $this->datosFuc = $datosFuc;
-
-        return $this;
-    }
 
     public function getProvincia()
     {
@@ -560,7 +544,6 @@ class Persona extends BaseEntity
     {
         $this->foto = $foto;
     }
-
 
 
     public function getTwitter(): ?string
