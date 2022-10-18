@@ -15,6 +15,7 @@ class NotificationController extends AbstractController
 
     /**
      * @Route("/notificaciones/usuario", name="app_notificaciones_usuario")
+     * @param NotificacionesUsuarioRepository $notificacionesUsuarioRepository
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function index(NotificacionesUsuarioRepository $notificacionesUsuarioRepository): Response

@@ -199,12 +199,12 @@ curl -X POST https://127.0.0.1:8000/api/login_check \
 
 > Migrations
 ```
- php bin/console doctrine:database:create 
  php bin/console doctrine:database:drop --force
+ php bin/console doctrine:database:create 
  php bin/console doctrine:schema:update --force
- php bin/console make:entity 
  php bin/console doctrine:fixtures:load
 
+ php bin/console make:entity 
  php bin/console make:migration
  php bin/console doctrine:migrations:migrate
 ```

@@ -61,12 +61,6 @@
                                href="{{ path('app_persona_modificar_estructura_responsabilidad', {'id': item.id}) }}"><i
                                         class="fa fa-address-card"></i>
                             </a>
-                            {% if item.esResponsable == false %}
-                                <button title="Definir como responsable" class="btn btn-outline-primary elementRemove"
-                                        data-url="{{ path('app_persona_definir_responsable', {'id': item.id}) }}">
-                                    <i class="fa fa-address-book"></i>
-                                </button>
-                            {% endif %}
                             <button title="Eliminar" class="btn btn-outline-danger elementRemove"
                                     data-url="{{ path('app_persona_eliminar', {'id': item.id}) }}">
                                 <i class="fa fa-trash"></i>
