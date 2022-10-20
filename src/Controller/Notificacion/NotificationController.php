@@ -15,12 +15,13 @@ class NotificationController extends AbstractController
 
     /**
      * @Route("/notificaciones/usuario", name="app_notificaciones_usuario")
+     * @param NotificacionesUsuarioRepository $notificacionesUsuarioRepository
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function index(NotificacionesUsuarioRepository $notificacionesUsuarioRepository): Response
     {
 
-        $notificaciones = $notificacionesUsuarioRepository->findBy(['usuarioRecive' => $this->getUser()],['id' => 'DESC'],10);
+        $notificaciones = $notificacionesUsuarioRepository->findBy(['usuarioRecive' => $this->getUser()], ['id' => 'DESC']);
 
         return $this->render('cliente/notificaciones.html.twig', [
             'notificaciones' => $notificaciones,
@@ -45,7 +46,7 @@ class NotificationController extends AbstractController
      * @Route("/notificaciones/usuario/eliminar/{id}", name="app_notificaciones_usuario_eliminar")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function eliminar(EntityManagerInterface $entityManager,NotificacionesUsuario $id)
+    public function eliminar(EntityManagerInterface $entityManager, NotificacionesUsuario $id)
     {
 
         $entityManager->remove($id);
