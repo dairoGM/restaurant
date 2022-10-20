@@ -19,7 +19,7 @@
                class="nav-link nav-link-menu">
                 <i class="nav-icon fas fa-cog"></i>
                 <p>
-                    Configuración
+                    Seguridad
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
@@ -48,12 +48,24 @@
                         <p>Funcionalidades</p>
                     </a>
                 </li>
-{#                <li class="nav-item">#}
-{#                    <a href="{{ path('app_chat_index') }}"#}
-{#                       class="nav-link nav-link-menu">#}
-{#                        <p>Chat</p>#}
-{#                    </a>#}
-{#                </li>#}
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#"
+               class="nav-link nav-link-menu">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                    Configuración
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ path('app_usuario_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Notificaciones</p>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>

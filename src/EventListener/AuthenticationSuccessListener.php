@@ -13,7 +13,6 @@ class AuthenticationSuccessListener
      */
     public function  onAuthenticationSuccessResponse(AuthenticationSuccessEvent $event)
     {
-        pr("hola");
         $data = $event->getData();
         $user = $event->getUser();
        

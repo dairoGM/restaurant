@@ -51,16 +51,7 @@ class DashBoardController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/dashboard/responsables/indicador/{id}", name="app_dash_board_responsables_indicador")
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     */
-    public function responsablesIndicador(Indicador $id)
-    {
 
-
-        return $this->render('dash_board/modalResponsable.html.twig', ['indicador' => $id]);
-    }
 
 
 }

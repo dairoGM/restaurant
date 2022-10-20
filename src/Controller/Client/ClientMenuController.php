@@ -26,6 +26,8 @@ class ClientMenuController extends AbstractController
 
     /**
      * @Route("/change/filter/plan/user/{id}", name="app_change_filter_plan_user")
+     * @param Request $request
+     * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function appChangeFilterPlanUser(Request $request, $id)

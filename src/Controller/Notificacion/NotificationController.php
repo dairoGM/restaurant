@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Client;
+namespace App\Controller\Notificacion;
 
 use App\Entity\NotificacionesUsuario;
 use App\Repository\NotificacionesUsuarioRepository;
@@ -15,7 +15,6 @@ class NotificationController extends AbstractController
 
     /**
      * @Route("/notificaciones/usuario", name="app_notificaciones_usuario")
-     * @param NotificacionesUsuarioRepository $notificacionesUsuarioRepository
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function index(NotificacionesUsuarioRepository $notificacionesUsuarioRepository): Response
@@ -49,9 +48,9 @@ class NotificationController extends AbstractController
     public function eliminar(EntityManagerInterface $entityManager,NotificacionesUsuario $id)
     {
 
-      $entityManager->remove($id);
-      $entityManager->flush();
+        $entityManager->remove($id);
+        $entityManager->flush();
 
-      return $this->redirectToRoute('app_notificaciones_usuario_todas');
+        return $this->redirectToRoute('app_notificaciones_usuario_todas');
     }
 }
