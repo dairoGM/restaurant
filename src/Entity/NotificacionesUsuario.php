@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\NotificacionesUsuarioRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Security\User;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=NotificacionesUsuarioRepository::class)
@@ -46,7 +47,8 @@ class NotificacionesUsuario
     private ?bool $leido = false;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
      */
     private $fechaCreado;
 
@@ -161,10 +163,6 @@ class NotificacionesUsuario
     {
         $this->url = $url;
     }
-
-
-
-
 
 
 }

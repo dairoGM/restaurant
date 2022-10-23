@@ -2,7 +2,7 @@
 <span class="dropdown-header cantidadContainer d-none">{{ notificaciones | length }}</span>
 {% for n in notificaciones %}
     <div class="dropdown-divider"></div>
-    <a href="{% if n.url %} {{ n.url }} {% else %} # {% endif %}" class="dropdown-item" data-toggle="tooltip" data-placement="top" title="{{ n.texto }}">
+    <a target="_blank" href="{% if n.url %} {{ n.url }} {% else %} # {% endif %}" class="dropdown-item" data-toggle="tooltip" data-placement="top" title="{{ n.texto }}">
 
         <div class="text-truncate">
 
