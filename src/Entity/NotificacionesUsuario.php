@@ -6,6 +6,7 @@ use App\Repository\NotificacionesUsuarioRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Security\User;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=NotificacionesUsuarioRepository::class)
