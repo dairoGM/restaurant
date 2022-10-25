@@ -2,7 +2,7 @@
 
 namespace App\Repository\Catalogo;
 
-use App\Entity\Personal\TipoRuta;
+use App\Entity\Catalogo\TipoRuta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
