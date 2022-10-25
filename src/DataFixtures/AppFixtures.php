@@ -172,6 +172,16 @@ class AppFixtures extends Fixture
         $manager->persist($persona);
 
 
+
+
+
+
+
+
+
+
+
+
         $manager->flush();
     }
 

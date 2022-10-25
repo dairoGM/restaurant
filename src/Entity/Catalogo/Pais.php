@@ -15,10 +15,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Pais extends BaseNomenclator
 {
+
+
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="string", nullable=false, length="2")
+     * @Assert\Regex(
+     *           pattern= "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/",
+     *           match=   true,
+     *           message= "Caracteres no válidos, por favor verifique."
+     * )
      */
-    private ?int $codigo;
+    private ?string $iso2;
 
     /**
      * @ORM\Column(type="string", nullable=false, length="3")
@@ -28,7 +35,8 @@ class Pais extends BaseNomenclator
      *           message= "Caracteres no válidos, por favor verifique."
      * )
      */
-    private ?string $siglas;
+    private ?string $iso3;
+
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -36,26 +44,20 @@ class Pais extends BaseNomenclator
     private string $extId;
 
 
-    public function getCodigo()
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private string $codigoTelefonico;
+
+
+    public function getIso2()
     {
-        return $this->codigo;
+        return $this->iso2;
     }
 
-    public function setCodigo($codigo)
+    public function setIso2($iso2)
     {
-        $this->codigo = $codigo;
-
-        return $this;
-    }
-
-    public function getSiglas()
-    {
-        return $this->siglas;
-    }
-
-    public function setSiglas($siglas)
-    {
-        $this->siglas = $siglas;
+        $this->iso2 = $iso2;
 
         return $this;
     }
@@ -68,6 +70,31 @@ class Pais extends BaseNomenclator
     public function setExtId($extId)
     {
         $this->extId = $extId;
+
+        return $this;
+    }
+
+
+    public function getIso3()
+    {
+        return $this->iso3;
+    }
+
+    public function setIso3($iso3)
+    {
+        $this->iso3 = $iso3;
+
+        return $this;
+    }
+
+    public function getCodigoTelefonico()
+    {
+        return $this->codigoTelefonico;
+    }
+
+    public function setCodigoTelefonico($codigoTelefonico)
+    {
+        $this->codigoTelefonico = $codigoTelefonico;
 
         return $this;
     }
