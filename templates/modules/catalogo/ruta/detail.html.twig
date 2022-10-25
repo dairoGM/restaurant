@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-6">
+        <h5 class="mb-0"><b>Clave:</b> {{ item.clave | default('') }}</h5>
+        <h5 class="mb-0"><b>Key ruta:</b> {{ item.keyRuta | default('') }}</h5>
+        <h5 class="mb-0"><b>Key ruta nueva:</b> {{ item.keyRutaNueva | default('') }}</h5>
+
+    </div>
+    <div class="col-6">
+        <h5 class="mb-0"><b>Región:</b> {{ item.region.region | default('') }}</h5>
+        <h5 class="mb-0"><b>Clasificación de ruta:</b> {{ item.clasificacionRuta.clasificacionRuta | default('') }}</h5>
+        <h5 class="mb-0"><b>Tipo de ruta:</b> {{ item.tipoRuta.tipoRuta | default('') }}</h5>
+        {% if '1' == item.activo %}
+            <h5 class="mb-0"><b>Estado:</b> Habilitado</h5>
+        {% else %}
+            <h5 class="mb-0"><b>Estado:</b> Deshabilitado</h5>
+        {% endif %}
+    </div>
+</div>
+

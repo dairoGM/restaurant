@@ -2,7 +2,7 @@
 
 namespace App\Repository\Catalogo;
 
-use App\Entity\Estructura\Ruta;
+use App\Entity\Catalogo\Ruta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;

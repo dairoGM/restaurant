@@ -102,4 +102,5 @@ class Ruta extends BaseCatalogo
 
         return $this;
     }
+
 }
