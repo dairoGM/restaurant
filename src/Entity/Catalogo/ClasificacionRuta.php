@@ -22,6 +22,18 @@ class ClasificacionRuta extends BaseCatalogo
     private ?string $clasificacionRutaNueva;
 
 
+    public function getClasificacionRuta()
+    {
+        return $this->clasificacionRuta;
+    }
+
+    public function setClasificacionRuta($clasificacionRuta)
+    {
+        $this->clasificacionRuta = $clasificacionRuta;
+
+        return $this;
+    }
+
     public function getClasificacionRutaNueva()
     {
         return $this->clasificacionRutaNueva;
