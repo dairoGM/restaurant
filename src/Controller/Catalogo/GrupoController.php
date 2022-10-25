@@ -73,7 +73,7 @@ class GrupoController extends AbstractController
      */
     public function modificar(Request $request, Grupo $grupo, GrupoRepository $grupoRepository)
     {
-//        try {
+        try {
             $form = $this->createForm(GrupoType::class, $grupo, ['action' => 'modificar']);
             $form->handleRequest($request);
 
@@ -86,10 +86,10 @@ class GrupoController extends AbstractController
             return $this->render('modules/catalogo/grupo/edit.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_grupo_modificar', ['id' => $grupo], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_grupo_modificar', ['id' => $grupo], Response::HTTP_SEE_OTHER);
+        }
     }
 
     /**

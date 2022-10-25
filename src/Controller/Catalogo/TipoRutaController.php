@@ -73,7 +73,7 @@ class TipoRutaController extends AbstractController
      */
     public function modificar(Request $request, TipoRuta $tipoRuta, TipoRutaRepository $tipoRutaRepository)
     {
-//        try {
+        try {
             $form = $this->createForm(TipoRutaType::class, $tipoRuta, ['action' => 'modificar']);
             $form->handleRequest($request);
 
@@ -86,10 +86,10 @@ class TipoRutaController extends AbstractController
             return $this->render('modules/catalogo/tipo_ruta/edit.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_tipo_ruta_modificar', ['id' => $tipoRuta], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_tipo_ruta_modificar', ['id' => $tipoRuta], Response::HTTP_SEE_OTHER);
+        }
     }
 
     /**

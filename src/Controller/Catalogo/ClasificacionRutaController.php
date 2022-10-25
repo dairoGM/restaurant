@@ -44,7 +44,7 @@ class ClasificacionRutaController extends AbstractController
      */
     public function registrar(Request $request, ClasificacionRutaRepository $clasificacionRutaRepository)
     {
-//        try {
+        try {
             $newEntity = new ClasificacionRuta();
             $form = $this->createForm(ClasificacionRutaType::class, $newEntity, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class ClasificacionRutaController extends AbstractController
             return $this->render('modules/catalogo/clasificacion_ruta/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_clasificacion_ruta_registrar', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_clasificacion_ruta_registrar', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 

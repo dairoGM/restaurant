@@ -73,7 +73,7 @@ class RegionController extends AbstractController
      */
     public function modificar(Request $request, Region $region, RegionRepository $regionRepository)
     {
-//        try {
+        try {
             $form = $this->createForm(RegionType::class, $region, ['action' => 'modificar']);
             $form->handleRequest($request);
 
@@ -86,10 +86,10 @@ class RegionController extends AbstractController
             return $this->render('modules/catalogo/region/edit.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_region_modificar', ['id' => $region], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_region_modificar', ['id' => $region], Response::HTTP_SEE_OTHER);
+        }
     }
 
     /**

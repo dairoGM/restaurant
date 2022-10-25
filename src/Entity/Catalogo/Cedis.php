@@ -46,6 +46,18 @@ class Cedis extends BaseCatalogo
         return $this;
     }
 
+    public function getCedis()
+    {
+        return $this->cedis;
+    }
+
+    public function setCedis($cedis)
+    {
+        $this->cedis = $cedis;
+
+        return $this;
+    }
+
     public function getTerritorio()
     {
         return $this->territorio;

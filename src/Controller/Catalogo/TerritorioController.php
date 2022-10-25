@@ -44,7 +44,7 @@ class TerritorioController extends AbstractController
      */
     public function registrar(Request $request, TerritorioRepository $territorioRepository)
     {
-//        try {
+        try {
             $newEntity = new Territorio();
             $form = $this->createForm(TerritorioType::class, $newEntity, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class TerritorioController extends AbstractController
             return $this->render('modules/catalogo/territorio/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_territorio_registrar', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_territorio_registrar', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 
@@ -73,23 +73,23 @@ class TerritorioController extends AbstractController
      */
     public function modificar(Request $request, Territorio $territorio, TerritorioRepository $territorioRepository)
     {
-//        try {
-        $form = $this->createForm(TerritorioType::class, $territorio, ['action' => 'modificar']);
-        $form->handleRequest($request);
+        try {
+            $form = $this->createForm(TerritorioType::class, $territorio, ['action' => 'modificar']);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $territorioRepository->edit($territorio);
-            $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
-            return $this->redirectToRoute('app_territorio_index', [], Response::HTTP_SEE_OTHER);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $territorioRepository->edit($territorio);
+                $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
+                return $this->redirectToRoute('app_territorio_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->render('modules/catalogo/territorio/edit.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_territorio_modificar', ['id' => $territorio], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->render('modules/catalogo/territorio/edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_territorio_modificar', ['id' => $territorio], Response::HTTP_SEE_OTHER);
-//        }
     }
 
     /**
