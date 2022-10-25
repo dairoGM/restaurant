@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Catalogo\Pais;
 use App\Entity\Estructura\CategoriaEstructura;
 use App\Entity\Estructura\CategoriaResponsabilidad;
 use App\Entity\Estructura\Estructura;
@@ -26,6 +27,7 @@ use App\Repository\Personal\SexoRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -39,8 +41,48 @@ class AppFixtures extends Fixture
         $this->passwordEncoder = $encoder;
     }
 
+    private $csvParsingOptions = array(
+        'finder_in' => 'Resources/',
+        'finder_name' => 'countries.csv',
+        'ignoreFirstLine' => true
+    );
+
     public function load(ObjectManager $manager)
     {
+
+        $ignoreFirstLine = $this->csvParsingOptions['ignoreFirstLine'];
+        $finder = new Finder();
+        $finder->files()
+            ->in($this->csvParsingOptions['finder_in'])
+            ->name($this->csvParsingOptions['finder_name']);
+
+        foreach ($finder as $file) {
+            $csv = $file;
+        }
+        if (($handle = fopen($csv->getRealPath(), "r")) !== FALSE) {
+            $i = 0;
+            while (($data = fgetcsv($handle, null, ";")) !== FALSE) {
+                $i++;
+                if ($ignoreFirstLine && $i == 1) {
+                    continue;
+                }
+                $rows[] = $data[0];
+            }
+            fclose($handle);
+        }
+
+
+
+        foreach ($rows as $value) {
+            $datosPais = explode(',', $value);
+            $pais = new Pais();
+            $pais->setNombre($datosPais[0]);
+            $pais->setActivo(true);
+            $pais->setIso3($datosPais[1]);
+            $pais->setIso2($datosPais[2]);
+            $pais->setCodigoTelefonico($datosPais[3]);
+            $manager->persist($pais);
+        }
 
 
         $sexos[] = [
@@ -170,16 +212,6 @@ class AppFixtures extends Fixture
         $persona->setPrimerApellido('Inial');
         $persona->setSegundoApellido('123');
         $manager->persist($persona);
-
-
-
-
-
-
-
-
-
-
 
 
         $manager->flush();
