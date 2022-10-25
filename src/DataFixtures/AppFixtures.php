@@ -80,7 +80,7 @@ class AppFixtures extends Fixture
             $pais->setActivo(true);
             $pais->setIso3($datosPais[1]);
             $pais->setIso2($datosPais[2]);
-            $pais->setCodigoTelefonico($datosPais[3]);
+            $pais->setCodigoTelefonico(intval($datosPais[3]));
             $manager->persist($pais);
         }
 
