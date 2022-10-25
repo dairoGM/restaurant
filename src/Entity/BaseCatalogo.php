@@ -26,7 +26,7 @@ abstract class BaseCatalogo
      *           message= "Caracteres no válidos, por favor verifique."
      * )
      */
-    private ?string $clave = null;
+    protected ?string $clave = null;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -39,6 +39,12 @@ abstract class BaseCatalogo
      * @ORM\Column(type="datetime")
      */
     protected $actualizado;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected ?bool $activo = true;
+
 
     public function getId(): ?int
     {
@@ -55,8 +61,28 @@ abstract class BaseCatalogo
         return $this->actualizado;
     }
 
+
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+
     public function getClave()
     {
         return $this->clave;
+    }
+
+    public function setClave($clave)
+    {
+        $this->clave = $clave;
+
+        return $this;
+    }
+
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+
+        return $this;
     }
 }
