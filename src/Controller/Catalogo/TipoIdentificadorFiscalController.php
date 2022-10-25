@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/catalogo/tipoIdentificadorFiscal")
- * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CARRERA")
+ * @IsGranted("ROLE_ADMIN", "ROLE_GEST_TIPOIDFISCAL")
  */
 class TipoIdentificadorFiscalController extends AbstractController
 {
@@ -44,7 +44,7 @@ class TipoIdentificadorFiscalController extends AbstractController
      */
     public function registrar(Request $request, TipoIdentificadorFiscalRepository $tipoIdentificadorFiscalRepository)
     {
-//        try {
+        try {
             $newEntity = new TipoIdentificadorFiscal();
             $form = $this->createForm(TipoIdentificadorFiscalType::class, $newEntity, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class TipoIdentificadorFiscalController extends AbstractController
             return $this->render('modules/catalogo/tipoIdentificadorFiscal/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_tipo_identificador_fiscal_registrar', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_tipo_identificador_fiscal_registrar', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 

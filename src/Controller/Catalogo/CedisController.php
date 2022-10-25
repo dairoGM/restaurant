@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/catalogo/cedis")
- * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CARRERA")
+ * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CEDIS")
  */
 class CedisController extends AbstractController
 {
@@ -44,7 +44,7 @@ class CedisController extends AbstractController
      */
     public function registrar(Request $request, CedisRepository $cedisRepository)
     {
-//        try {
+        try {
             $newEntity = new Cedis();
             $form = $this->createForm(CedisType::class, $newEntity, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class CedisController extends AbstractController
             return $this->render('modules/catalogo/cedis/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_cedis_registrar', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_cedis_registrar', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 

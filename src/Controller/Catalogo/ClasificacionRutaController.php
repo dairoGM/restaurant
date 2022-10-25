@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/catalogo/clasificacion_ruta")
- * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CARRERA")
+ * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CLASIFRUTA")
  */
 class ClasificacionRutaController extends AbstractController
 {

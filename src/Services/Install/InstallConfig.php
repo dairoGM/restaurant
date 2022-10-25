@@ -27,6 +27,7 @@ class InstallConfig
         $modules[] = Module::createModule("MODULE_STRUCT", "Módulo de Estructura", "Módulo de estrucutra y composición");
         $modules[] = Module::createModule("MODULE_REPORT", "Módulo de Reportes", "Módulo de reportes");
         $modules[] = Module::createModule("MODULE_TRACE", "Módulo de Trazas", "Módulo de trazas");      
+        $modules[] = Module::createModule("MODULE_CATALOGO", "Módulo de Catalogos", "Módulo de Catalogos");
 
         return $modules;
     }
@@ -70,7 +71,6 @@ class InstallConfig
         $functionalities[] = Functionality::createFunctionality("MODULE_ADMIN", "ROLE_GEST_FUNC", "Gestionar funcionalidades", "Gestionar funcionalidades del sistema");
         $functionalities[] = Functionality::createFunctionality("MODULE_ADMIN", "ROLE_GEST_MODULE", "Gestionar módulos", "Gestionar módulos del sistema");
         $functionalities[] = Functionality::createFunctionality("MODULE_ADMIN", "ROLE_GEST_ROLES", "Gestionar roles", "Gestionar los roles del sistema");    
-        $functionalities[] = Functionality::createFunctionality("MODULE_ADMIN", "ROLE_GEST_CHAT", "Gestionar chat", "Gestionar y sincronizar los usuarios del chat");  
 
         return $functionalities;
     }
@@ -131,6 +131,35 @@ class InstallConfig
 
         return $functionalities;
     }
+
+    /**
+     * Define una Lista de Funcionalidades para Catalogo
+     *
+     * For create one -> Functionality::createFunctionality("MODULE_CATALOGO", "Módulo de Catalogos")
+     *
+     * @return Functionality[]
+     */
+    public static function defineFunctionalitiesForCatalogo() : array
+    {
+        $functionalities = array();
+
+        //Reporte
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_HOME_CATALOGO", "Portada principal a catalogo", "Portada principal a catalogo");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_RUTA", "Gestionar rutas", "Gestionar rutas");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_CLIENTE", "Gestionar clientes", "Gestionar clientes");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_TIPORUTA", "Gestionar tipos de rutas", "Gestionar tipos de rutas");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_CLASIFRUTA", "Gestionar clasificaciones de rutas", "Gestionar clasificaciones de rutas");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_GRUPO", "Gestionar grupos", "Gestionar grupos");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_REGION", "Gestionar regiones", "Gestionar regiones");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_TERRITORIO", "Gestionar territorios", "Gestionar territorios");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_CEDIS", "Gestionar cedis", "Gestionar cedis");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_PAIS", "Gestionar paises", "Gestionar paises");
+        $functionalities[] = Functionality::createFunctionality("MODULE_CATALOGO", "ROLE_GEST_TIPOIDFISCAL", "Gestionar tipos de identificador fiscal", "Gestionar tipos de identificador fiscal");
+
+
+        return $functionalities;
+    }
+
 
     /**
      * Define una Lista de Funcionalidades para Reporte
