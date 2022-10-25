@@ -36,7 +36,7 @@ class TipoRutaType extends AbstractType
                     new Length([
                         'allowEmptyString' => true,
                         'maxMessage' => 'El número máximo de caracteres permitidos es 50',
-                        'max' => 10,
+                        'max' => 50,
                     ]),
                 ]
             ])
