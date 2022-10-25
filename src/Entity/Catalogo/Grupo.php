@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbn_tipo_ruta")
+ * @ORM\Table(name="tbn_grupo")
  */
 class Grupo extends BaseCatalogo
 {
