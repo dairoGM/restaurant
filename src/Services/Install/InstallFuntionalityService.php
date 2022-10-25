@@ -50,6 +50,8 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
         //Trazas
         $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForTrazas());
 
+        //Catalogos
+        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForCatalogo());
         return $functionalities;
     }
 
