@@ -104,7 +104,6 @@ class ClienteController extends AbstractController
                 $allPost = $request->request->all();
                 if (isset($allPost['cliente']['ruta']) && count($allPost['cliente']['ruta']) > 0) {
 
-                    /*Elimino todos los objetivos especificos*/
                     foreach ($rutaClienteRepository->findBy(['cliente' => $cliente->getId()]) as $value) {
                         $rutaClienteRepository->remove($value);
                     }
