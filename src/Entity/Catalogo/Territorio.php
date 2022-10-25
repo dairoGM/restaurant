@@ -20,7 +20,7 @@ class Territorio extends BaseCatalogo
     /**
      * @ORM\Column(type="string", nullable=false, length="50")
      */
-    private ?string $territorioNueva;
+    private ?string $territorioNuevo;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Catalogo\Region")
@@ -41,14 +41,14 @@ class Territorio extends BaseCatalogo
         return $this;
     }
 
-    public function getTerritorioNueva()
+    public function getTerritorioNuevo()
     {
-        return $this->territorioNueva;
+        return $this->territorioNuevo;
     }
 
-    public function setTerritorioNueva($territorioNueva)
+    public function setTerritorioNuevo($territorioNuevo)
     {
-        $this->territorioNueva = $territorioNueva;
+        $this->territorioNuevo = $territorioNuevo;
 
         return $this;
     }
