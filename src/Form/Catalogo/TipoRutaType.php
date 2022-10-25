@@ -24,7 +24,7 @@ class TipoRutaType extends AbstractType
                     new NotBlank(),
                     new Length([
                         'allowEmptyString' => true,
-                        'maxMessage' => 'El número máximo de caracteres permitodos es 10',
+                        'maxMessage' => 'El número máximo de caracteres permitidos es 10',
                         'max' => 10,
                     ]),
                 ]
@@ -35,7 +35,7 @@ class TipoRutaType extends AbstractType
                     new NotBlank(),
                     new Length([
                         'allowEmptyString' => true,
-                        'maxMessage' => 'El número máximo de caracteres permitodos es 50',
+                        'maxMessage' => 'El número máximo de caracteres permitidos es 50',
                         'max' => 10,
                     ]),
                 ]
