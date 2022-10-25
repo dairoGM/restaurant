@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Sólo debe ser posible editar su nombre, descripción y su campo activo.
  *
  * @ORM\Entity
- * @ORM\Table(name="seguridad.tbd_funcionalidad")
+ * @ORM\Table(name="tbd_funcionalidad")
  * @UniqueEntity(fields="nombre", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
  */
 class Funcionalidad extends BaseEntity implements AuthorityInterface

@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Usuario Local del Sistema
  * @ORM\Entity
  * @UniqueEntity(fields="email", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
- * @ORM\Table(name="seguridad.tbd_usuario")
+ * @ORM\Table(name="tbd_usuario")
  */
 class User extends BaseEntity implements UserInterface, AuthorityInterface
 {
@@ -44,7 +44,7 @@ class User extends BaseEntity implements UserInterface, AuthorityInterface
      * Roles asignados al usuario.
      *
      * @ORM\ManyToMany(targetEntity="Rol", cascade={"persist"}, fetch="EAGER")
-     * @ORM\JoinTable(name="seguridad.tbr_user_rol",
+     * @ORM\JoinTable(name="tbr_user_rol",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="rol_id", referencedColumnName="id", onDelete="cascade")}
      *      )
