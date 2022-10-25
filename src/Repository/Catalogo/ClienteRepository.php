@@ -2,7 +2,7 @@
 
 namespace App\Repository\Catalogo;
 
-use App\Entity\Estructura\Cliente;
+use App\Entity\Catalogo\Cliente;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
