@@ -16,15 +16,15 @@ class RutaCliente extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Catalogo\Ruta")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private ?Ruta $ruta = null;
+    private ?Ruta $ruta;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Catalogo\Cliente")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private ?Cliente $cliente = null;
+    private ?Cliente $cliente;
 
 
     public function getRuta()

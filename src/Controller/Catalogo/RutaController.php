@@ -44,7 +44,7 @@ class RutaController extends AbstractController
      */
     public function registrar(Request $request, RutaRepository $rutaRepository)
     {
-//        try {
+        try {
             $newEntity = new Ruta();
             $form = $this->createForm(RutaType::class, $newEntity, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class RutaController extends AbstractController
             return $this->render('modules/catalogo/ruta/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_ruta_registrar', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_ruta_registrar', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 
