@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\MappedSuperclass()
+ * @UniqueEntity(fields="clave", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
  */
 abstract class BaseCatalogo
 {
