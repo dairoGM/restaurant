@@ -69,7 +69,23 @@ class Utils
         ];
         return $meses;
     }
-
+    public function procesarRolesUsuarioAutenticado($idUsuario)
+    {
+        $usuario = $this->em->getRepository(User::class)->find($idUsuario);
+        $arrayEstructuras = [];
+        /* @var $value Rol */
+        foreach ($usuario->getUserRoles() as $value) {
+            $rolEstructura = $this->em->getRepository(RolEstructura::class)->findBy(['rol' => $value->getId()]);
+            if (is_array($rolEstructura)) {
+                foreach ($rolEstructura as $value2) {
+                    if (!in_array($value2->getEstructura()->getId(), $arrayEstructuras)) {
+                        $arrayEstructuras[] = $value2->getEstructura()->getId();
+                    }
+                }
+            }
+        }
+        return $arrayEstructuras;
+    }
 
     public function getAwesomeIcons()
     {
