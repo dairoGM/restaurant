@@ -1,6 +1,6 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Rutas{% endblock %}
+{% block title %}Bodegas{% endblock %}
 
 {% block body %}
 
@@ -10,8 +10,8 @@
         <div class="card-header">
             <div class="row" style="display: flex; justify-content: space-between; align-items: center">
 
-                <h3 class="card-title text-bold text-gray">Listado de rutas</h3>
-                <a title="Adicionar" class="btn btn-primary mr-2" href="{{ path('app_ruta_registrar') }}"><i
+                <h3 class="card-title text-bold text-gray">Listado de bodegas</h3>
+                <a title="Adicionar" class="btn btn-primary mr-2" href="{{ path('app_bodega_registrar') }}"><i
                             class="fa fa-plus"></i>
                 </a>
 
@@ -24,11 +24,8 @@
                 <tr>
                     <th>No.</th>
                     <th>Clave</th>
-                    <th>Key ruta</th>
-                    <th>Key ruta nueva</th>
-                    <th>Región</th>
-                    <th>Clasificación de ruta</th>
-                    <th>Tipo de ruta</th>
+                    <th>Cedis</th>
+                    <th>Descripción</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -38,30 +35,27 @@
                     <tr>
                         <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.clave | default('') }}</td>
-                        <td>{{ item.keyRuta | default('') }}</td>
-                        <td>{{ item.keyRutaNueva | default('') }}</td>
-                        <td>{{ item.region.region | default('') }}</td>
-                        <td>{{ item.clasificacionRuta.clasificacionRuta | default('') }}</td>
-                        <td>{{ item.tipoRuta.tipoRuta | default('') }}</td>
-                        <td class="-text-center">
+                        <td>{{ item.cedis.cedis | default('') }}</td>
+                        <td>{{ item.descripcion | default('') }}</td>
+                        <td width="8%" class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>
                             {% else %}
                                 <span class="ms-status">Deshabilitado</span>
                             {% endif %}
                         </td>
-                        <td class="text-center">
+                        <td width="15%" class="text-center">
                             <button title="Detalles" class="btn btn-outline-primary modalDetailAction"
-                                    data-url="{{ path('app_ruta_detail', {'id' : item.id}) }}"
-                                    data-title="Detalles de la ruta">
+                                    data-url="{{ path('app_bodega_detail', {'id' : item.id}) }}"
+                                    data-title="Detalles de la bodega">
                                 <i class="fa fa-eye "></i>
                             </button>
                             <a title="Modificar" class="btn btn-outline-primary"
-                               href="{{ path('app_ruta_modificar', {'id': item.id}) }}"><i
+                               href="{{ path('app_bodega_modificar', {'id': item.id}) }}"><i
                                         class="fa fa-edit"></i>
                             </a>
                             <button title="Eliminar" class="btn btn-outline-danger elementRemove"
-                                    data-url="{{ path('app_ruta_eliminar', {'id': item.id}) }}">
+                                    data-url="{{ path('app_bodega_eliminar', {'id': item.id}) }}">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>

@@ -32,7 +32,7 @@
                 <tbody>
                 {% for item in registros %}
                     <tr>
-                        <td>{{ loop.index }}</td>
+                        <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.clave | default('') }}</td>
                         <td>{{ item.tipoRuta | default('') }}</td>
                         <td class="-text-center">

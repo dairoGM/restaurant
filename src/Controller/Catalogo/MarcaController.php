@@ -26,14 +26,14 @@ class MarcaController extends AbstractController
      */
     public function index(MarcaRepository $marcaRepository)
     {
-        try {
+//        try {
             return $this->render('modules/catalogo/marca/index.html.twig', [
                 'registros' => $marcaRepository->findBy([], ['activo' => 'desc', 'id' => 'desc']),
             ]);
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_marca_index', [], Response::HTTP_SEE_OTHER);
-        }
+//        } catch (\Exception $exception) {
+//            $this->addFlash('error', $exception->getMessage());
+//            return $this->redirectToRoute('app_marca_index', [], Response::HTTP_SEE_OTHER);
+//        }
     }
 
     /**
@@ -44,7 +44,7 @@ class MarcaController extends AbstractController
      */
     public function registrar(Request $request, MarcaRepository $marcaRepository)
     {
-        try {
+//        try {
             $newEntity = new Marca();
             $form = $this->createForm(MarcaType::class, $newEntity, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class MarcaController extends AbstractController
             return $this->render('modules/catalogo/marca/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_marca_registrar', [], Response::HTTP_SEE_OTHER);
-        }
+//        } catch (\Exception $exception) {
+//            $this->addFlash('error', $exception->getMessage());
+//            return $this->redirectToRoute('app_marca_registrar', [], Response::HTTP_SEE_OTHER);
+//        }
     }
 
 

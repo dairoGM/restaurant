@@ -32,17 +32,17 @@
                 <tbody>
                 {% for item in registros %}
                     <tr>
-                        <td>{{ loop.index }}</td>
+                        <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.clave | default('') }}</td>
                         <td>{{ item.descripcion | default('') }}</td>
-                        <td class="-text-center">
+                        <td width="8%" class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>
                             {% else %}
                                 <span class="ms-status">Deshabilitado</span>
                             {% endif %}
                         </td>
-                        <td class="text-center">
+                        <td width="10%" class="text-center">
                             <button title="Detalles" class="btn btn-outline-primary modalDetailAction"
                                     data-url="{{ path('app_mecanica_detail', {'id' : item.id}) }}"
                                     data-title="Detalles de la mecanica">

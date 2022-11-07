@@ -29,7 +29,7 @@
                 <tbody>
                 {% for item in registros %}
                     <tr>
-                        <td>{{ loop.index }}</td>
+                        <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.nombre | default('') }}</td>
                         <td>{{ item.iso2 | default('') }}</td>
                         <td>{{ item.iso3 | default('') }}</td>

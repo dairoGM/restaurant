@@ -33,7 +33,7 @@
                 <tbody>
                 {% for item in registros %}
                     <tr>
-                        <td>{{ loop.index }}</td>
+                        <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.clave | default('') }}</td>
                         <td>{{ item.grupo | default('') }}</td>
                         <td>{{ item.grupoNuevo | default('') }}</td>
