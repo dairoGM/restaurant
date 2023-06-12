@@ -7,6 +7,7 @@ use App\Entity\Personal\Persona;
 use App\Entity\Personal\PersonaOrganizacion;
 use App\Entity\Personal\Plantilla;
 use App\Entity\Personal\Responsable;
+use App\Entity\Personal\Vendedor;
 use App\Entity\Security\User;
 use App\Entity\Traza\ConfiguracionTraza;
 use App\Form\Personal\PersonaType;
@@ -21,6 +22,7 @@ use App\Repository\Personal\PersonaRepository;
 use App\Repository\Personal\PlantillaRepository;
 use App\Repository\Personal\ResponsableRepository;
 use App\Repository\Personal\TipoOrganizacionRepository;
+use App\Repository\Personal\VendedorRepository;
 use App\Repository\Security\UserRepository;
 use App\Services\Utils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +45,7 @@ class PersonaController extends AbstractController
      * @param PersonaRepository $personaRepository
      * @return Response
      */
-    public function index(Request $request, PersonaRepository $personaRepository, ResponsableRepository $responsableRepository, Utils $utils)
+    public function index(Request $request, VendedorRepository $vendedorRepository, PersonaRepository $personaRepository, ResponsableRepository $responsableRepository, Utils $utils)
     {
         try {
             $request->getSession()->remove('usuario_modificado');
@@ -51,12 +53,16 @@ class PersonaController extends AbstractController
             $estructurasNegocio = $utils->procesarRolesUsuarioAutenticado($this->getUser()->getId());
             $registros = $personaRepository->gePersonasDadoArrayEstructuras($estructurasNegocio);
 
+            $response = [];
             foreach ($registros as $value) {
-                $resp = $responsableRepository->findBy(['persona' => $value->getId(), 'activo' => true]);
-                $value->esResponsable = isset($resp[0]);
+                $vend = $vendedorRepository->findBy(['persona' => $value->getId()]);
+                $value->esVendedor = isset($vend[0]);
+
+                $response[] = $value;
+
             }
             return $this->render('modules/personal/persona/index.html.twig', [
-                'registros' => $registros,
+                'registros' => $response,
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
@@ -176,9 +182,9 @@ class PersonaController extends AbstractController
      * @return Response
      */
     public function modificar(PersonaOrganizacionRepository $personaOrganizacionRepository, TipoOrganizacionRepository $tipoOrganizacionRepository,
-                              OrganizacionRepository $organizacionRepository, UserRepository $userRepository, PlantillaRepository $plantillaRepository,
-                              UserPasswordEncoderInterface $encoder, EntityManagerInterface $em, Request $request, Persona $persona, PersonaRepository $personaRepository,
-                              MunicipioRepository $municipioRepository, EstructuraRepository $estructuraRepository, ResponsabilidadRepository $responsabilidadRepository, Utils $utils)
+                              OrganizacionRepository        $organizacionRepository, UserRepository $userRepository, PlantillaRepository $plantillaRepository,
+                              UserPasswordEncoderInterface  $encoder, EntityManagerInterface $em, Request $request, Persona $persona, PersonaRepository $personaRepository,
+                              MunicipioRepository           $municipioRepository, EstructuraRepository $estructuraRepository, ResponsabilidadRepository $responsabilidadRepository, Utils $utils)
     {
         $choices = [
             'provincia_choices' => $persona->getProvincia()->getId(),
@@ -303,6 +309,32 @@ class PersonaController extends AbstractController
                 $personaRepository->remove($persona, true);
                 $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
 
+                return $this->redirectToRoute('app_persona_index', [], Response::HTTP_SEE_OTHER);
+            }
+            $this->addFlash('error', 'Error en la entrada de datos');
+            return $this->redirectToRoute('app_persona_index', [], Response::HTTP_SEE_OTHER);
+        } catch (\Exception $exception) {
+            pr($exception->getMessage());
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_persona_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/crear_vendedor", name="app_persona_crear_vendedor", methods={"GET"})
+     * @param Persona $persona
+     * @param PersonaRepository $personaRepository
+     * @return Response
+     */
+    public function crearVendedor(Persona $persona, PersonaRepository $personaRepository, VendedorRepository $vendedorRepository)
+    {
+        try {
+            if ($personaRepository->find($persona) instanceof Persona) {
+                $new = new Vendedor();
+                $new->setPersona($persona);
+                $vendedorRepository->add($new, true);
+
+                $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
                 return $this->redirectToRoute('app_persona_index', [], Response::HTTP_SEE_OTHER);
             }
             $this->addFlash('error', 'Error en la entrada de datos');
