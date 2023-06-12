@@ -1,0 +1,66 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-2">
+                <h5 class="mb-0"><a href="{% if item.persona.foto != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/personas/{{ item.persona.foto }} {% else %} /assets/images/usuario.png {% endif %}" target="_blank">
+                        <img src="{% if item.persona.foto != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/personas/{{ item.persona.foto }}{% else %} /assets/images/usuario.png {% endif %}" class="img-circle" style="width: 120px;height: 120px; object-fit: cover">
+                    </a></h5>
+            </div>
+            <div class="col-5">
+                <h5 class="mb-0"><b>Nombre:</b> {{ item.persona.primerNombre ~ ' ' ~ item.persona.segundoNombre ~' '~ item.persona.primerApellido ~ ' ' ~ item.persona.segundoApellido }}</h5>
+                <h5 class="mb-0">
+                    <b>CI:</b> {{ item.persona.carnetIdentidad }}
+                </h5>
+                <h5 class="mb-0">
+                    <b>Provincia:</b> {{ item.persona.provincia.nombre | default('') }}
+                </h5>
+                <h5 class="mb-0">
+                    <b>Municipio:</b> {{ item.persona.municipio.nombre | default('') }}
+                </h5>
+            </div>
+            <div class="col-5">
+                <h5 class="mb-0"><b>Estructura:</b> {{ item.persona.estructura.nombre | default('') }}</h5>
+                <h5 class="mb-0"><b>Responsabilidad:</b> {{ item.persona.responsabilidad.nombre | default('') }}</h5>
+                <h5 class="mb-0"><b>Usuario:</b> {{ item.persona.usuario.email | default('') }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% block javascripts %}
+    <script>
+        $(".dataTable1").DataTable({
+            "lengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]],
+            "responsive": true, "lengthChange": true, "autoWidth": false,
+            language: {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "No existen resultados",
+                "sInfo": "Registros del _START_ al _END_ de  _TOTAL_ ",
+                "sInfoEmpty": "Rregistros del 0 al 0 de  0 ",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "buttons": {
+                    "copy": "Copiar",
+                    "colvis": "Visibilidad"
+                }
+            }
+        });
+    </script>
+{% endblock %}
