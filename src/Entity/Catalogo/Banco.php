@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbn_banco")
+ * @ORM\Table(name="sq_catalogo.tbn_banco")
  */
 class Banco extends BaseNomenclator
 {

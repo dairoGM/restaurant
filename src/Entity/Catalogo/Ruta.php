@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_ruta")
+ * @ORM\Table(name="sq_catalogo.tbd_ruta")
  */
 class Ruta extends BaseCatalogo
 {

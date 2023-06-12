@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_cedis")
+ * @ORM\Table(name="sq_catalogo.tbd_cedis")
  */
 class Cedis extends BaseCatalogo
 {

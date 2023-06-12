@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbn_marca")
+ * @ORM\Table(name="sq_catalogo.tbn_marca")
  */
 class Marca extends BaseCatalogo
 {

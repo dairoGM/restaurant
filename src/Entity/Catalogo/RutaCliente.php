@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbr_ruta_cliente")
+ * @ORM\Table(name="sq_catalogo.tbr_ruta_cliente")
  */
 class RutaCliente extends BaseEntity
 {

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbn_tipo_identificador_fiscal")
+ * @ORM\Table(name="sq_catalogo.tbn_tipo_identificador_fiscal")
  */
 class TipoIdentificadorFiscal extends BaseCatalogo
 {
