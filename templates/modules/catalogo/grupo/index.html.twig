@@ -26,6 +26,7 @@
                     <th>Clave</th>
                     <th>Grupo</th>
                     <th>Grupo nuevo</th>
+                    <th>Compañía</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -37,6 +38,7 @@
                         <td>{{ item.clave | default('') }}</td>
                         <td>{{ item.grupo | default('') }}</td>
                         <td>{{ item.grupoNuevo | default('') }}</td>
+                        <td>{{ item.compania.nombre | default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>

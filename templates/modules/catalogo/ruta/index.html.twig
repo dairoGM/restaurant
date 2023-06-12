@@ -29,6 +29,7 @@
                     <th>Región</th>
                     <th>Clasificación de ruta</th>
                     <th>Tipo de ruta</th>
+                    <th>Compañía</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -43,6 +44,7 @@
                         <td>{{ item.region.region | default('') }}</td>
                         <td>{{ item.clasificacionRuta.clasificacionRuta | default('') }}</td>
                         <td>{{ item.tipoRuta.tipoRuta | default('') }}</td>
+                        <td>{{ item.compania.nombre | default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>

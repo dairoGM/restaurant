@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class TipoIdentificadorFiscal extends BaseCatalogo
 {
     /**
-     * @ORM\Column(type="string", nullable=false, length="50")
+     * @ORM\Column(type="string", nullable=true, length="50")
      */
     private ?string $descripcion;
 
@@ -48,5 +48,27 @@ class TipoIdentificadorFiscal extends BaseCatalogo
         $this->paisId = $paisId;
 
         return $this;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Catalogo\Compania")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Compania $compania = null;
+
+    /**
+     * @return Compania|null
+     */
+    public function getCompania(): ?Compania
+    {
+        return $this->compania;
+    }
+
+    /**
+     * @param Compania|null $compania
+     */
+    public function setCompania(?Compania $compania): void
+    {
+        $this->compania = $compania;
     }
 }

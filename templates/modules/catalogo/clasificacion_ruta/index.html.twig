@@ -27,6 +27,7 @@
                     <th>Clasificación de ruta</th>
                     <th>Clasificación de ruta nueva</th>
                     <th>Estado</th>
+                    <th>Compañía</th>
                     <th class="text-center">Opciones</th>
                 </tr>
                 </thead>
@@ -37,6 +38,7 @@
                         <td>{{ item.clave | default('') }}</td>
                         <td>{{ item.clasificacionRuta | default('') }}</td>
                         <td>{{ item.clasificacionRutaNueva | default('') }}</td>
+                        <td>{{ item.compania.nombre | default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>

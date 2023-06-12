@@ -88,4 +88,26 @@ class Temporada extends BaseCatalogo
 
         return $this;
     }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Catalogo\Compania")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Compania $compania = null;
+
+    /**
+     * @return Compania|null
+     */
+    public function getCompania(): ?Compania
+    {
+        return $this->compania;
+    }
+
+    /**
+     * @param Compania|null $compania
+     */
+    public function setCompania(?Compania $compania): void
+    {
+        $this->compania = $compania;
+    }
 }

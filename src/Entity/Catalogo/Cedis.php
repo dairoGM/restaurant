@@ -34,6 +34,12 @@ class Cedis extends BaseCatalogo
      */
     private ?Grupo $grupo = null;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Catalogo\Compania")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Compania $compania = null;
+
     public function getCedisNuevo()
     {
         return $this->cedisNuevo;
@@ -80,5 +86,21 @@ class Cedis extends BaseCatalogo
         $this->grupo = $grupo;
 
         return $this;
+    }
+
+    /**
+     * @return Compania|null
+     */
+    public function getCompania(): ?Compania
+    {
+        return $this->compania;
+    }
+
+    /**
+     * @param Compania|null $compania
+     */
+    public function setCompania(?Compania $compania): void
+    {
+        $this->compania = $compania;
     }
 }

@@ -2,6 +2,7 @@
     <div class="col-6">
         <h5 class="mb-0"><b>Clave:</b> {{ item.clave | default('') }}</h5>
         <h5 class="mb-0"><b>Descripción:</b> {{ item.cedis | default('') }}</h5>
+        <h5 class="mb-0"><b>Compañía:</b> {{ item.compania.nombre | default('') }}</h5>
     </div>
     <div class="col-6">
         <h5 class="mb-0"><b>Fecha de inicio:</b> {{ item.fechaInicio | default('d/m/Y') }}</h5>

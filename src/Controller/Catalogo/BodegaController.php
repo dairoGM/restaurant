@@ -44,7 +44,7 @@ class BodegaController extends AbstractController
      */
     public function registrar(Request $request, BodegaRepository $bodegaRepository)
     {
-//        try {
+        try {
             $newEntity = new Bodega();
             $form = $this->createForm(BodegaType::class, $newEntity, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class BodegaController extends AbstractController
             return $this->render('modules/catalogo/bodega/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_bodega_registrar', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_bodega_registrar', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 

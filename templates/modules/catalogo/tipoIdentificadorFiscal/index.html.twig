@@ -27,6 +27,7 @@
                     <th>Clave</th>
                     <th>País</th>
                     <th>Descripción</th>
+                    <th>Compañía</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -38,6 +39,7 @@
                         <td>{{ item.clave | default('') }}</td>
                         <td>{{ item.pais.nombre | default('') }}</td>
                         <td>{{ item.descripcion | default('') }}</td>
+                        <td>{{ item.compania.nombre | default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>

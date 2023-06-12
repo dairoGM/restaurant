@@ -3,6 +3,7 @@
 namespace App\Form\Catalogo;
 
 use App\Entity\Catalogo\Cliente;
+use App\Entity\Catalogo\Compania;
 use App\Entity\Catalogo\Pais;
 use App\Entity\Catalogo\Region;
 use App\Entity\Catalogo\TipoIdentificadorFiscal;
@@ -44,6 +45,14 @@ class TipoIdentificadorFiscalType extends AbstractType
             ->add('pais', EntityType::class, [
                 'label' => 'País',
                 'class' => Pais::class,
+                'choice_label' => 'nombre',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null
+            ]) ->add('compania', EntityType::class, [
+                'class' => Compania::class,
                 'choice_label' => 'nombre',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');

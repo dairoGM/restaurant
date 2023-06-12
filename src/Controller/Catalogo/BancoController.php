@@ -44,7 +44,7 @@ class BancoController extends AbstractController
      */
     public function registrar(Request $request, BancoRepository $bancoRepository)
     {
-        try {
+//        try {
             $newEntity = new Banco();
             $form = $this->createForm(BancoType::class, $newEntity, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class BancoController extends AbstractController
             return $this->render('modules/catalogo/banco/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_banco_registrar', [], Response::HTTP_SEE_OTHER);
-        }
+//        } catch (\Exception $exception) {
+//            $this->addFlash('error', $exception->getMessage());
+//            return $this->redirectToRoute('app_banco_registrar', [], Response::HTTP_SEE_OTHER);
+//        }
     }
 
 

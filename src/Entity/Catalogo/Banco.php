@@ -14,11 +14,15 @@ class Banco extends BaseNomenclator
 
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Catalogo\Compania")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Compania $compania = null;
+
+    /**
      * @ORM\Column(type="string", nullable=true, length="50")
      */
     private ?string $nombreCorto;
-
-
 
 
     /**
@@ -37,7 +41,21 @@ class Banco extends BaseNomenclator
         $this->nombreCorto = $nombreCorto;
     }
 
+    /**
+     * @return Compania|null
+     */
+    public function getCompania(): ?Compania
+    {
+        return $this->compania;
+    }
 
+    /**
+     * @param Compania|null $compania
+     */
+    public function setCompania(?Compania $compania): void
+    {
+        $this->compania = $compania;
+    }
 
 
 }

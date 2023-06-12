@@ -6,6 +6,9 @@
         <h5 class="mb-0"><b>Nombre corto:</b> {{ item.nombreCorto | default('') }}</h5>
     </div>
     <div class="col-4">
+        <h5 class="mb-0"><b>Compañía:</b> {{ item.compania.nombre | default('') }}</h5>
+    </div>
+    <div class="col-4">
         {% if '1' == item.activo %}
             <h5 class="mb-0"><b>Estado:</b> Habilitado</h5>
         {% else %}

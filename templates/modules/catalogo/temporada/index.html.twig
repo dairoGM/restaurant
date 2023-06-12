@@ -27,6 +27,7 @@
                     <th>Fecha de inicio</th>
                     <th>Fecha de fin</th>
                     <th>Descripción</th>
+                    <th>Compañía</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -39,6 +40,7 @@
                         <td>{{ item.fechaInicio | date('d/m/Y') }}</td>
                         <td>{{ item.fechaFin | date('d/m/Y') }}</td>
                         <td>{{ item.descripcion | default('') }}</td>
+                        <td>{{ item.compania.nombre | default('') }}</td>
                         <td width="8%" class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>

@@ -3,6 +3,7 @@
 namespace App\Form\Catalogo;
 
 use App\Entity\Catalogo\ClasificacionRuta;
+use App\Entity\Catalogo\Compania;
 use App\Entity\Catalogo\Region;
 use App\Entity\Catalogo\Ruta;
 use App\Entity\Catalogo\TipoRuta;
@@ -82,6 +83,14 @@ class RutaType extends AbstractType
                 'choice_label' => 'tipoRuta',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.tipoRuta', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null
+            ]) ->add('compania', EntityType::class, [
+                'class' => Compania::class,
+                'choice_label' => 'nombre',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
                 },
                 'placeholder' => 'Seleccione',
                 'empty_data' => null

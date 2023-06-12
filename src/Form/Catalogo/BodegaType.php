@@ -3,6 +3,7 @@
 namespace App\Form\Catalogo;
 
 use App\Entity\Catalogo\Cedis;
+use App\Entity\Catalogo\Compania;
 use App\Entity\Catalogo\Grupo;
 use App\Entity\Catalogo\Bodega;
 use App\Entity\Catalogo\Territorio;
@@ -45,6 +46,15 @@ class BodegaType extends AbstractType
                 'choice_label' => 'cedis',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.cedis', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null
+            ])
+            ->add('compania', EntityType::class, [
+                'class' => Compania::class,
+                'choice_label' => 'nombre',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
                 },
                 'placeholder' => 'Seleccione',
                 'empty_data' => null

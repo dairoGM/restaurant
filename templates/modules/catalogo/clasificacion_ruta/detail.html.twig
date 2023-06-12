@@ -3,6 +3,7 @@
         <h5 class="mb-0"><b>Clave:</b> {{ item.clave | default('') }}</h5>
         <h5 class="mb-0"><b>Clasificación de ruta:</b> {{ item.clasificacionRuta | default('') }}</h5>
         <h5 class="mb-0"><b>Clasificación de ruta nueva:</b> {{ item.clasificacionRutaNueva | default('') }}</h5>
+        <h5 class="mb-0"><b>Compañía:</b> {{ item.compania.nombre | default('') }}</h5>
     </div>
     <div class="col-6">
         {% if '1' == item.activo %}

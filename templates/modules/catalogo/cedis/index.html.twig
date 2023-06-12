@@ -28,6 +28,7 @@
                     <th>Cedis nuevo</th>
                     <th>Territorio</th>
                     <th>Grupo</th>
+                    <th>Compañía</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -41,6 +42,7 @@
                         <td>{{ item.cedisNuevo | default('') }}</td>
                         <td>{{ item.territorio.territorio | default('') }}</td>
                         <td>{{ item.grupo.grupo | default('') }}</td>
+                        <td>{{ item.compania.nombre | default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>

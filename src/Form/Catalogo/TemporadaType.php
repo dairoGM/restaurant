@@ -2,6 +2,7 @@
 
 namespace App\Form\Catalogo;
 
+use App\Entity\Catalogo\Compania;
 use App\Entity\Catalogo\Grupo;
 use App\Entity\Catalogo\Cedis;
 use App\Entity\Catalogo\Temporada;
@@ -59,6 +60,14 @@ class TemporadaType extends AbstractType
                 'attr' => [
                     'class' => 'date-time-picker'
                 ],
+            ]) ->add('compania', EntityType::class, [
+                'class' => Compania::class,
+                'choice_label' => 'nombre',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null
             ]);
     }
 

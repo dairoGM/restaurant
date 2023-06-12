@@ -25,6 +25,7 @@
                     <th>No.</th>
                     <th>Clave</th>
                     <th>Tipo de ruta</th>
+                    <th>Compañía</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -35,6 +36,7 @@
                         <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.clave | default('') }}</td>
                         <td>{{ item.tipoRuta | default('') }}</td>
+                        <td>{{ item.compania.nombre | default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>
