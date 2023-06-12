@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbn_accion")
+ * @ORM\Table(name="sq_traza.tbn_accion")
  */
 class Accion extends BaseNomenclator
 {    

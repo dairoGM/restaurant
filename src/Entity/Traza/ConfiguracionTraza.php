@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_configuracion_traza")
+ * @ORM\Table(name="sq_traza.tbd_configuracion_traza")
  */
 class ConfiguracionTraza
 {

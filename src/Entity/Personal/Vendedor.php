@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_vendedor")
+ * @ORM\Table(name="sq_personal.tbd_vendedor")
  */
 class Vendedor extends BaseEntity
 {

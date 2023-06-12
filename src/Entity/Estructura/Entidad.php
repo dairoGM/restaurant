@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_entidad")
+ * @ORM\Table(name="sq_estructura.tbd_entidad")
  * @UniqueEntity(fields="codigo", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
  */
 class Entidad extends BaseNomenclator

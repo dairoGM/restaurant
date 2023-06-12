@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbr_persona_organizacion")
+ * @ORM\Table(name="sq_personal.tbr_persona_organizacion")
  */
 class PersonaOrganizacion extends BaseEntity
 {

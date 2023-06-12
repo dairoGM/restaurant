@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_persona")
+ * @ORM\Table(name="sq_personal.tbd_persona")
  * @UniqueEntity(fields="carnetIdentidad", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
  * @UniqueEntity(fields="numeroSerieCarnetIdentidad", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
  */

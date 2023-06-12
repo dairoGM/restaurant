@@ -8,7 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_traza")
+ * @ORM\Table(name="sq_traza.tbd_traza")
  */
 class Traza
 {

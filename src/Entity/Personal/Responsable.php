@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_responsable")
+ * @ORM\Table(name="sq_personal.tbd_responsable")
  */
 class Responsable extends BaseEntity
 {
