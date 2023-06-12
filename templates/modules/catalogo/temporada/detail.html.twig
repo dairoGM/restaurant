@@ -5,8 +5,8 @@
         <h5 class="mb-0"><b>Compañía:</b> {{ item.compania.nombre | default('') }}</h5>
     </div>
     <div class="col-6">
-        <h5 class="mb-0"><b>Fecha de inicio:</b> {{ item.fechaInicio | default('d/m/Y') }}</h5>
-        <h5 class="mb-0"><b>Fecha de fin:</b> {{ item.fechaFin | default('d/m/Y') }}</h5>
+        <h5 class="mb-0"><b>Fecha de inicio:</b> {{ item.fechaInicio | date('d/m/Y') }}</h5>
+        <h5 class="mb-0"><b>Fecha de fin:</b> {{ item.fechaFin | date('d/m/Y') }}</h5>
         {% if '1' == item.activo %}
             <h5 class="mb-0"><b>Estado:</b> Habilitado</h5>
         {% else %}
