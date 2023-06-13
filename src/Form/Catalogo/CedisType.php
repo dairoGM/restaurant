@@ -77,6 +77,7 @@ class CedisType extends AbstractType
             ])->add('compania', EntityType::class, [
                 'class' => Compania::class,
                 'choice_label' => 'nombre',
+                'label' => 'Compañía',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
                 },
