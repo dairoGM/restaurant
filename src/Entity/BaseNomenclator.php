@@ -14,21 +14,11 @@ abstract class BaseNomenclator extends BaseEntity
 {
     /**
      * @ORM\Column(type="string", nullable=false)
-     * @Assert\Regex(
-     *           pattern= "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/",
-     *           match=   true,
-     *           message= "Caracteres no válidos, por favor verifique."
-     * )
      */
     private ?string $nombre = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Regex(
-     *           pattern= "/^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_\s]+$/",
-     *           match=   true,
-     *           message= "Caracteres no válidos, por favor verifique."
-     * )
      */
     private ?string $descripcion = null;
 

@@ -1,0 +1,92 @@
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column nav-legacy nav-child-indent" data-widget="treeview"
+        role="menu"
+        data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+
+        <li class="nav-item">
+            <a href="{{ path('app_admin_home') }}"
+               class="nav-link nav-link-menu  {% if 'app_admin_home' in app.request.get('_route') %} active {% endif %}">
+                <i class="nav-icon fas fa-home"></i>
+                <p>
+                    Inicio
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#"
+               class="nav-link nav-link-menu">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                    Gestión
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ path('app_evento_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Eventos</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_maridaje_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Maridajes</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_catering_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Caterings</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="#"
+               class="nav-link nav-link-menu">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                    Configuración
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ path('app_tipo_evento_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Tipos de eventos</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_tipo_catering_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Tipos de caterings</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_tipo_maridaje_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Tipos de maridajes</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_tipo_experiencia_culinaria_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Tipos de experiencias culinarias</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_tipo_experiencia_gastronomica_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Tipos de experiencias gastronómicas</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</nav>

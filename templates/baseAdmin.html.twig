@@ -189,38 +189,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="{{ path('app_administracion_portada') }}"
                            class="nav-link {% if app.request.pathinfo|split('/')[1] == 'administracion' %} active {% endif %}">Administración</a>
                     </li>
-                {% endif %}
-                {% if hasRoles('ROLE_HOME_CATALOGO') %}
                     <li class=" d-none d-sm-inline-block">
-                        <a href="{{ path('app_catalogo_portada') }}"
-                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'catalogo' %} active {% endif %}">Catálogos</a>
+                        <a href="{{ path('app_configuracion_portada') }}"
+                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'configuracion' %} active {% endif %}">Configuración</a>
                     </li>
                 {% endif %}
-                {% if hasRoles('ROLE_HOME_PERSONAL') %}
-                    <li class=" d-none d-sm-inline-block">
-                        <a href="{{ path('app_personal_portada') }}"
-                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'personal' %} active {% endif %}">Personal</a>
-                    </li>
-                {% endif %}
-                {% if hasRoles('ROLE_HOME_STRUCT') %}
-                    <li class=" d-none d-sm-inline-block">
-                        <a href="{{ path('app_estructura_portada') }}"
-                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'estructura' %} active {% endif %}">Estructura</a>
-                    </li>
-                {% endif %}
-                {% if hasRoles('ROLE_HOME_REPORT') %}
-                    <li class=" d-none d-sm-inline-block">
-                        <a href="{{ path('app_reporte_portada') }}"
-                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'reporte' %} active {% endif %}">Reportes</a>
-                    </li>
-                {% endif %}
+{#                {% if hasRoles('ROLE_HOME_CATALOGO') %}#}
+{#                    <li class=" d-none d-sm-inline-block">#}
+{#                        <a href="{{ path('app_catalogo_portada') }}"#}
+{#                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'catalogo' %} active {% endif %}">Catálogos</a>#}
+{#                    </li>#}
+{#                {% endif %}#}
+{#                {% if hasRoles('ROLE_HOME_PERSONAL') %}#}
+{#                    <li class=" d-none d-sm-inline-block">#}
+{#                        <a href="{{ path('app_personal_portada') }}"#}
+{#                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'personal' %} active {% endif %}">Personal</a>#}
+{#                    </li>#}
+{#                {% endif %}#}
+{#                {% if hasRoles('ROLE_HOME_STRUCT') %}#}
+{#                    <li class=" d-none d-sm-inline-block">#}
+{#                        <a href="{{ path('app_estructura_portada') }}"#}
+{#                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'estructura' %} active {% endif %}">Estructura</a>#}
+{#                    </li>#}
+{#                {% endif %}#}
+{#                {% if hasRoles('ROLE_HOME_REPORT') %}#}
+{#                    <li class=" d-none d-sm-inline-block">#}
+{#                        <a href="{{ path('app_reporte_portada') }}"#}
+{#                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'reporte' %} active {% endif %}">Reportes</a>#}
+{#                    </li>#}
+{#                {% endif %}#}
 
-                {% if hasRoles('ROLE_HOME_TRAZAS') %}
-                    <li class=" d-none d-sm-inline-block">
-                        <a href="{{ path('app_traza_portada') }}"
-                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'traza' %} active {% endif %}">Trazas</a>
-                    </li>
-                {% endif %}
+{#                {% if hasRoles('ROLE_HOME_TRAZAS') %}#}
+{#                    <li class=" d-none d-sm-inline-block">#}
+{#                        <a href="{{ path('app_traza_portada') }}"#}
+{#                           class="nav-link {% if app.request.pathinfo|split('/')[1] == 'traza' %} active {% endif %}">Trazas</a>#}
+{#                    </li>#}
+{#                {% endif %}#}
             </ul>
 
             <!-- Right navbar links -->
@@ -229,7 +233,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_dash_board') }}">
                         <i class="fas fa-globe" data-toggle="tooltip" data-placement="bottom"
-                           title="Tablero de control"></i>
+                           title="Dashboard"></i>
                     </a>
                 </li>
                 <!-- Navbar Search -->
@@ -286,13 +290,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </li>
                 <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link nbtn" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge cantidadNotificacionesBadge">0</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="notificacionesContainer"></div>
-                </li>
+{#                <li class="nav-item dropdown">#}
+{#                    <a class="nav-link nbtn" data-toggle="dropdown" href="#">#}
+{#                        <i class="far fa-bell"></i>#}
+{#                        <span class="badge badge-warning navbar-badge cantidadNotificacionesBadge">0</span>#}
+{#                    </a>#}
+{#                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="notificacionesContainer"></div>#}
+{#                </li>#}
                 {#                <li class="nav-item">#}
                 {#                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">#}
                 {#                        <i class="fas fa-expand-arrows-alt"></i>#}
@@ -320,7 +324,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             {# <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> #}
             {#            <img src="{{ asset('assets/images/869px-Coat_of_arms_of_the_Artemisa_Province.svg.png') }}"#}
             {#                 alt="AdminLTE Logo" class="brand-image img-circle" style="opacity: .8">#}
-            <span class="brand-text font-weight-light" style="font-weight: bold !important;">NOMBRE SISTEMA</span>
+            <span class="brand-text font-weight-light" style="font-weight: bold !important;">Backoffice</span>
         </a>
 
         <!-- Sidebar -->
@@ -340,29 +344,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <!-- Sidebar Menu -->
             {% if 'app_usuario_cambiar_clave' not in app.request.get('_route') %}
-                {% if app.request.pathinfo|split('/')[1] == 'estructura' %}
-                    {% include 'pages/sidevar/estuctura.html.twig' %}
-                {% endif %}
+{#                {% if app.request.pathinfo|split('/')[1] == 'estructura' %}#}
+{#                    {% include 'pages/sidevar/estuctura.html.twig' %}#}
+{#                {% endif %}#}
 
-                {% if app.request.pathinfo|split('/')[1] == 'personal' %}
-                    {% include 'pages/sidevar/personal.html.twig' %}
-                {% endif %}
+{#                {% if app.request.pathinfo|split('/')[1] == 'personal' %}#}
+{#                    {% include 'pages/sidevar/personal.html.twig' %}#}
+{#                {% endif %}#}
 
                 {% if app.request.pathinfo|split('/')[1] == 'administracion' %}
                     {% include 'pages/sidevar/administracion.html.twig' %}
                 {% endif %}
 
-                {% if app.request.pathinfo|split('/')[1] == 'catalogo' %}
-                    {% include 'pages/sidevar/catalogo.html.twig' %}
+                {% if app.request.pathinfo|split('/')[1] == 'configuracion' %}
+                    {% include 'pages/sidevar/configuracion.html.twig' %}
                 {% endif %}
 
-                {% if app.request.pathinfo|split('/')[1] == 'reporte' %}
-                    {% include 'pages/sidevar/reporte.html.twig' %}
-                {% endif %}
+{#                {% if app.request.pathinfo|split('/')[1] == 'catalogo' %}#}
+{#                    {% include 'pages/sidevar/catalogo.html.twig' %}#}
+{#                {% endif %}#}
 
-                {% if app.request.pathinfo|split('/')[1] == 'traza' %}
-                    {% include 'pages/sidevar/traza.html.twig' %}
-                {% endif %}
+{#                {% if app.request.pathinfo|split('/')[1] == 'reporte' %}#}
+{#                    {% include 'pages/sidevar/reporte.html.twig' %}#}
+{#                {% endif %}#}
+
+{#                {% if app.request.pathinfo|split('/')[1] == 'traza' %}#}
+{#                    {% include 'pages/sidevar/traza.html.twig' %}#}
+{#                {% endif %}#}
             {% endif %}
             <!-- /.sidebar-menu -->
         </div>
@@ -414,11 +422,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
-            Propietario
+            Definir
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2022-{{ date('Y') | date('Y') }} </strong> Todos los derechos
-        reservados.
+        <strong>Copyright &copy; {{ date('Y') | date('Y') }} </strong>
     </footer>
 </div>
 <!-- ./wrapper -->
@@ -654,11 +661,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         }
 
-        loadNotifications();
-
-        setInterval(function () {
-            loadNotifications()
-        }, 2500);
+        // loadNotifications();
+        //
+        // setInterval(function () {
+        //     loadNotifications()
+        // }, 2500);
 
         $(document).on('click', '.notificationRemove', function (e) {
             e.preventDefault()
@@ -675,7 +682,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 dataType: "html",
                 success: function (res) {
                     // $('.nd').addClass('show')
-                    loadNotifications()
+                    // loadNotifications()
                     $(".tooltip").tooltip("hide");
 
                 },
