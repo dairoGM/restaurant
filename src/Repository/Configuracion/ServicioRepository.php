@@ -48,4 +48,23 @@ class ServicioRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function listarServiciosPublicos()
+    {
+        $qb = $this->createQueryBuilder('qb')
+            ->select('qb.id, 
+                        qb.nombreCorto, 
+                        qb.nombreLargo, 
+                        qb.orden,                                           
+                        qb.activo,                                           
+                        qb.publico,                                           
+                        qb.descripcion,
+                         qb.imagenPortada, 
+                         qb.imagenDetallada
+                         ')
+            ->where("qb.publico = true");
+        $qb->orderBy('qb.orden');
+        $resul = $qb->getQuery()->getResult();
+        return $resul;
+    }
 }

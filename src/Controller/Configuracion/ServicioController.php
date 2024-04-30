@@ -44,7 +44,7 @@ class ServicioController extends AbstractController
      */
     public function registrar(Request $request, ServicioRepository $servicioRepository)
     {
-//        try {
+        try {
             $entidad = new Servicio();
             $form = $this->createForm(ServicioType::class, $entidad, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -73,10 +73,10 @@ class ServicioController extends AbstractController
             return $this->render('modules/configuracion/servicio/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_servicio_index', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_servicio_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 
@@ -130,6 +130,7 @@ class ServicioController extends AbstractController
 
             return $this->render('modules/configuracion/servicio/edit.html.twig', [
                 'form' => $form->createView(),
+                'servicio' => $servicio
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
@@ -148,6 +149,30 @@ class ServicioController extends AbstractController
         try {
             if ($servicioRepository->find($servicio) instanceof Servicio) {
                 $servicioRepository->remove($servicio, true);
+                $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
+                return $this->redirectToRoute('app_servicio_index', [], Response::HTTP_SEE_OTHER);
+            }
+            $this->addFlash('error', 'Error en la entrada de datos');
+            return $this->redirectToRoute('app_servicio_index', [], Response::HTTP_SEE_OTHER);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_servicio_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/publicar", name="app_servicio_publicar", methods={"GET"})
+     * @param Servicio $servicio
+     * @param ServicioRepository $servicioRepository
+     * @return Response
+     */
+    public function publicar(Servicio $servicio, ServicioRepository $servicioRepository)
+    {
+        try {
+            if ($servicioRepository->find($servicio) instanceof Servicio) {
+                $servicio->setPublico(!$servicio->getPublico());
+                $servicioRepository->edit($servicio, true);
+
                 $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
                 return $this->redirectToRoute('app_servicio_index', [], Response::HTTP_SEE_OTHER);
             }

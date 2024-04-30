@@ -28,7 +28,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Portada extends BaseEntity
 {
-
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private ?bool $activo = true;
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private ?bool $publico = false;
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -72,6 +79,37 @@ class Portada extends BaseEntity
         $this->imagen = $imagen;
     }
 
+    /**
+     * @return bool|null
+     */
+    public function getActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    /**
+     * @param bool|null $activo
+     */
+    public function setActivo(?bool $activo): void
+    {
+        $this->activo = $activo;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getPublico(): ?bool
+    {
+        return $this->publico;
+    }
+
+    /**
+     * @param bool|null $publico
+     */
+    public function setPublico(?bool $publico): void
+    {
+        $this->publico = $publico;
+    }
 
 
 }

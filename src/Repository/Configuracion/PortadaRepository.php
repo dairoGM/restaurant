@@ -48,4 +48,19 @@ class PortadaRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function listarPortadas()
+    {
+        $qb = $this->createQueryBuilder('qb')
+            ->select('qb.id,                        
+                        qb.activo,                                           
+                        qb.publico,                                           
+                        qb.descripcion,
+                         qb.imagen
+                         ')
+            ->where("qb.publico = true");
+        $qb->orderBy('qb.id');
+        $resul = $qb->getQuery()->getResult();
+        return $resul;
+    }
 }

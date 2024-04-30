@@ -21,16 +21,9 @@
                     {{ form_widget(form.nombreCorto) }}
                     {{ form_errors(form.nombreCorto) }}
                 </div>
-                <div class="col-12 col-sm-8 col-md-8 col-lg-8 col-xl-8 form-group">
-                    {{ form_label(form.nombreLargo) }}
-                    {{ form_widget(form.nombreLargo) }}
-                    {{ form_errors(form.nombreLargo) }}
-                </div>
-
-
                 <div class="col-4 form-group">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-10">
                             {{ form_label(form.imagenPortada) }}
                             {{ form_widget(form.imagenPortada) }}
                             {{ form_errors(form.imagenPortada) }}
@@ -40,10 +33,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-4 form-group">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-10">
                             {{ form_label(form.imagenDetallada) }}
                             {{ form_widget(form.imagenDetallada) }}
                             {{ form_errors(form.imagenDetallada) }}
@@ -53,11 +45,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">
+                    {{ form_label(form.nombreLargo) }}
+                    {{ form_widget(form.nombreLargo) }}
+                    {{ form_errors(form.nombreLargo) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.orden) }}
+                    {{ form_widget(form.orden) }}
+                    {{ form_errors(form.orden) }}
+                </div>
                 <div class="col-4 form-group">
                     {{ form_label(form.activo) }}
                     {{ form_widget(form.activo) }}
                     {{ form_errors(form.activo) }}
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">
@@ -80,6 +83,17 @@
 
 {% block javascripts %}
     <script>
+
+        $('#servicio_orden').bind("keypress", function (event) {
+            if (event.charCode != 0) {
+                var regex = new RegExp("^[0-9-]*$");
+                var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                if (!regex.test(key)) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+        });
 
         $("#servicio_imagenPortada").on('change', function () {
             //Get count of selected files
@@ -118,8 +132,8 @@
             var imgPath = $(this)[0].value;
 
             var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
-            var image_holder = $("#image-holder1");
-            image_holder.empty();
+            var image_holder1 = $("#image-holder1");
+            image_holder1.empty();
             if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.

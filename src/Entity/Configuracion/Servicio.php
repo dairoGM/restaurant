@@ -64,6 +64,11 @@ class Servicio extends BaseEntity
     private ?bool $publico = false;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $orden;
+
+    /**
      * @return string|null
      */
     public function getNombreCorto(): ?string
@@ -173,6 +178,22 @@ class Servicio extends BaseEntity
     public function setPublico(?bool $publico): void
     {
         $this->publico = $publico;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOrden(): ?int
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param int|null $orden
+     */
+    public function setOrden(?int $orden): void
+    {
+        $this->orden = $orden;
     }
 
 

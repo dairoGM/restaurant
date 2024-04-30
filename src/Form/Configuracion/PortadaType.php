@@ -3,6 +3,7 @@
 namespace App\Form\Configuracion;
 
 use App\Entity\Configuracion\Evento;
+use App\Entity\Configuracion\Portada;
 use App\Entity\Configuracion\Servicio;
 use App\Entity\Configuracion\TipoEvento;
 use App\Entity\Estructura\Provincia;
@@ -21,38 +22,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ServicioType extends AbstractType
+class PortadaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombreCorto', TextType::class, [
-                'constraints' => [
-                    new NotBlank()
-                ]
-            ])
-            ->add('nombreLargo', TextareaType::class, [
-                'required' => false,
-            ])
+
             ->add('activo', CheckboxType::class, [
                 'required' => false
-            ])
-            ->add('orden', IntegerType::class, [
-                'required' => false,
-                'attr' => [
-                    'min' => 1
-                ]
             ])
             ->add('descripcion', TextareaType::class, [
                 'label' => 'Descripción',
                 'required' => false,
             ])
-            ->add('imagenPortada', FileType::class, array(
-                "attr" => array("type" => "file"),
-                "required" => false,
-                "mapped" => false,
-
-            ))->add('imagenDetallada', FileType::class, array(
+            ->add('imagen', FileType::class, array(
                 "attr" => array("type" => "file"),
                 "required" => false,
                 "mapped" => false,
@@ -63,7 +46,7 @@ class ServicioType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Servicio::class,
+            'data_class' => Portada::class,
         ]);
     }
 }
