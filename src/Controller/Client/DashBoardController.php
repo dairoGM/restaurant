@@ -12,6 +12,7 @@ use App\Services\Utils;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,21 +35,12 @@ class DashBoardController extends AbstractController
 
     /**
      * @Route("/dashboard/{id}", name="app_dash_board")
-     * @param ObjetivoEspecificoRepository $objetivoEspecificoRepository
-     * @param Utils $utils
-     * @param MunicipioRepository $municipioRepository
-     * @param EntityManagerInterface $entityManager
-     * @param Request $request
      * @param null $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function index( $id = null)
     {
-
-
-        return $this->render('dash_board/index.html.twig', [
-
-        ]);
+        return $this->render('modules/admin/index.html.twig');
     }
 
 
