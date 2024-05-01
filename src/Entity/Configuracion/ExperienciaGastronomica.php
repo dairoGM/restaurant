@@ -37,15 +37,22 @@ class ExperienciaGastronomica extends BaseNomenclator
     private ?TipoExperienciaGastronomica $tipoExperienciaGastronomica;
 
     /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $fecha;
-
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $orden;
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $cantidadParticipantes;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $publico = false;
 
     /**
      * @return TipoExperienciaGastronomica|null
@@ -93,6 +100,38 @@ class ExperienciaGastronomica extends BaseNomenclator
     public function setCantidadParticipantes(?int $cantidadParticipantes): void
     {
         $this->cantidadParticipantes = $cantidadParticipantes;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOrden(): ?int
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param int|null $orden
+     */
+    public function setOrden(?int $orden): void
+    {
+        $this->orden = $orden;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getPublico(): ?bool
+    {
+        return $this->publico;
+    }
+
+    /**
+     * @param bool|null $publico
+     */
+    public function setPublico(?bool $publico): void
+    {
+        $this->publico = $publico;
     }
 
 
