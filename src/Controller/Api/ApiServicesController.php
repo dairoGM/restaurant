@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Repository\Configuracion\CateringRepository;
 use App\Repository\Configuracion\EventoRepository;
+use App\Repository\Configuracion\ExperienciaGastronomicaRepository;
 use App\Repository\Configuracion\MaridajeRepository;
 use App\Repository\Configuracion\PortadaRepository;
 use App\Repository\Configuracion\ServicioRepository;
@@ -106,7 +107,7 @@ class ApiServicesController extends AbstractController
 
     /**
      * @Route("/portada/listar", name="api_portada_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param ServicioRepository $portadaRepository
+     * @param PortadaRepository $portadaRepository
      * @return JsonResponse
      */
     public function listarPortadas(PortadaRepository $portadaRepository)
@@ -121,6 +122,22 @@ class ApiServicesController extends AbstractController
                 }
             }
             return $this->json($response);
+        } catch (Exception $exc) {
+            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+        }
+    }
+
+
+    /**
+     * @Route("/experiencia_gastronomica/publicos/listar", name="api_experiencia_gastronomica_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param ExperienciaGastronomicaRepository $experienciaGastronomicaRepository
+     * @return JsonResponse
+     */
+    public function listarExperienciaGastronomica(ExperienciaGastronomicaRepository $experienciaGastronomicaRepository)
+    {
+        try {
+            $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica();
+            return $this->json($result);
         } catch (Exception $exc) {
             return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
         }

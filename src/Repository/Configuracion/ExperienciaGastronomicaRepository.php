@@ -48,4 +48,25 @@ class ExperienciaGastronomicaRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function listarExperienciaGastronomica()
+    {
+        $qb = $this->createQueryBuilder('qb')
+            ->select('qb.id, 
+                        qb.nombre, 
+                        qb.activo, 
+                        qb.fecha,                        
+                        qb.publico,                         
+                        qb.orden,                         
+                        qb.cantidadParticipantes,                       
+                        qb.descripcion, 
+                        teg.nombre as nombreEipoExperienciaGastronomica, 
+                        teg.id as idTipoExperienciaGastronomica')
+            ->innerJoin('qb.tipoExperienciaGastronomica', 'teg');
+
+        $qb->orderBy('qb.orden');
+        $resul = $qb->getQuery()->getResult();
+
+        return $resul;
+    }
 }
