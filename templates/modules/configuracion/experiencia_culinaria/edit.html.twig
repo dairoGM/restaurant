@@ -1,6 +1,6 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Modificar experiencia gastronómica{% endblock %}
+{% block title %}Modificar experiencia culinaria{% endblock %}
 
 {% block body %}
 
@@ -8,7 +8,7 @@
         <div class="card-header">
             <div class="row" style="display: flex; justify-content: space-between; align-items: center">
 
-                <h3 class="card-title text-bold text-gray">Modificar experiencia gastronómica</h3>
+                <h3 class="card-title text-bold text-gray">Modificar experiencia culinaria</h3>
 
             </div>
         </div>
@@ -22,9 +22,9 @@
                     {{ form_errors(form.nombre) }}
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 form-group">
-                    {{ form_label(form.tipoExperienciaGastronomica) }}
-                    {{ form_widget(form.tipoExperienciaGastronomica) }}
-                    {{ form_errors(form.tipoExperienciaGastronomica) }}
+                    {{ form_label(form.tipoExperienciaCulinaria) }}
+                    {{ form_widget(form.tipoExperienciaCulinaria) }}
+                    {{ form_errors(form.tipoExperienciaCulinaria) }}
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 form-group">
                     {{ form_label(form.orden) }}
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="card-footer" style="display: flex; justify-content: flex-end; align-items: center;">
-            <a class="btn btn-danger mr-2 btn-cancel" data-url="{{ path('app_experiencia_gastronomica_index') }}"
+            <a class="btn btn-danger mr-2 btn-cancel" data-url="{{ path('app_experiencia_culinaria_index') }}"
                data-title=""
                data-content="¿Está seguro que desea realizar la acción?" type="button">Cancelar</a>
             <button class="btn btn-primary">Aceptar</button>
@@ -71,7 +71,7 @@
 {% block javascripts %}
     <script>
 
-        $('#experiencia_gastronomica_cantidadParticipantes, #experiencia_gastronomica_orden').bind("keypress", function (event) {
+        $('#experiencia_culinaria_cantidadParticipantes, #experiencia_culinaria_orden').bind("keypress", function (event) {
             if (event.charCode != 0) {
                 var regex = new RegExp("^[0-9-]*$");
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);

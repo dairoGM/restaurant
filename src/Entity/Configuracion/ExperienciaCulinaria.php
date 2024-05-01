@@ -37,15 +37,23 @@ class ExperienciaCulinaria extends BaseNomenclator
     private ?TipoExperienciaCulinaria $tipoExperienciaCulinaria;
 
     /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $fecha;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $publico = false;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $cantidadParticipantes;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $orden;
 
     /**
      * @return TipoExperienciaGastronomica|null
@@ -93,6 +101,54 @@ class ExperienciaCulinaria extends BaseNomenclator
     public function setCantidadParticipantes(?int $cantidadParticipantes): void
     {
         $this->cantidadParticipantes = $cantidadParticipantes;
+    }
+
+    /**
+     * @return TipoExperienciaCulinaria|null
+     */
+    public function getTipoExperienciaCulinaria(): ?TipoExperienciaCulinaria
+    {
+        return $this->tipoExperienciaCulinaria;
+    }
+
+    /**
+     * @param TipoExperienciaCulinaria|null $tipoExperienciaCulinaria
+     */
+    public function setTipoExperienciaCulinaria(?TipoExperienciaCulinaria $tipoExperienciaCulinaria): void
+    {
+        $this->tipoExperienciaCulinaria = $tipoExperienciaCulinaria;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOrden(): ?int
+    {
+        return $this->orden;
+    }
+
+    /**
+     * @param int|null $orden
+     */
+    public function setOrden(?int $orden): void
+    {
+        $this->orden = $orden;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getPublico(): ?bool
+    {
+        return $this->publico;
+    }
+
+    /**
+     * @param bool|null $publico
+     */
+    public function setPublico(?bool $publico): void
+    {
+        $this->publico = $publico;
     }
 
 
