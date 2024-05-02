@@ -68,9 +68,9 @@
                                         class="fa fa-edit"></i>
                             </a>
                             {% if '1' == item.activo %}
-                                <button title="Publicar/Ocultar" class="btn btn-outline-primary elementRemove"
+                                <button title="{% if '1' == item.publico %} Ocultar {% else %} Publicar {% endif %}" class="{% if '0' == item.publico %} btn btn-outline-primary {% else %} btn btn-outline-secondary {% endif %} elementRemove"
                                         data-url="{{ path('app_experiencia_culinaria_publicar', {'id': item.id}) }}">
-                                    <i class="fas fa-cog"></i>
+                                    <i class="fa fa-check-circle"></i>
                                 </button>
                             {% endif %}
                             <button title="Eliminar" class="btn btn-outline-danger elementRemove"
