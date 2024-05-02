@@ -1,0 +1,160 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Adicionar espacio{% endblock %}
+
+{% block body %}
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="row" style="display: flex; justify-content: space-between; align-items: center">
+
+                <h3 class="card-title text-bold text-gray">Adicionar espacio</h3>
+
+            </div>
+        </div>
+        <!-- /.card-header -->
+        {{ form_start(form) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 form-group">
+                    {{ form_label(form.nombreCorto) }}
+                    {{ form_widget(form.nombreCorto) }}
+                    {{ form_errors(form.nombreCorto) }}
+                </div>
+                <div class="col-4 form-group">
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_label(form.imagenPortada) }}
+                            {{ form_widget(form.imagenPortada) }}
+                            {{ form_errors(form.imagenPortada) }}
+                        </div>
+                        <div class="col-2">
+                            <div id="image-holder"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 form-group">
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_label(form.imagenDetallada) }}
+                            {{ form_widget(form.imagenDetallada) }}
+                            {{ form_errors(form.imagenDetallada) }}
+                        </div>
+                        <div class="col-2">
+                            <div id="image-holder1"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">
+                    {{ form_label(form.nombreLargo) }}
+                    {{ form_widget(form.nombreLargo) }}
+                    {{ form_errors(form.nombreLargo) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.orden) }}
+                    {{ form_widget(form.orden) }}
+                    {{ form_errors(form.orden) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.activo) }}
+                    {{ form_widget(form.activo) }}
+                    {{ form_errors(form.activo) }}
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">
+                    {{ form_label(form.descripcion) }}
+                    {{ form_widget(form.descripcion) }}
+                    {{ form_errors(form.descripcion) }}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="display: flex; justify-content: flex-end; align-items: center;">
+            <a class="btn btn-danger mr-2 btn-cancel" data-url="{{ path('app_espacio_index') }}" data-title=""
+               data-content="¿Está seguro que desea realizar la acción?" type="button">Cancelar</a>
+            <button class="btn btn-primary">Aceptar</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+
+        $('#espacio_orden').bind("keypress", function (event) {
+            if (event.charCode != 0) {
+                var regex = new RegExp("^[0-9-]*$");
+                var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+                if (!regex.test(key)) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+        });
+
+        $("#espacio_imagenPortada").on('change', function () {
+            //Get count of selected files
+            var countFiles = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
+
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder = $("#image-holder");
+            image_holder.empty();
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < countFiles; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "thumb-image   img-circle",
+                                "style": 'width: 40px; height: 40px; position: absolute; bottom: 0;'
+                            }).appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                    }
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            } else {
+                alert("Pls select only images");
+            }
+        });
+
+        $("#espacio_imagenDetallada").on('change', function () {
+            //Get count of selected files
+            var countFiles = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
+
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder1 = $("#image-holder1");
+            image_holder1.empty();
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < countFiles; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "thumb-image   img-circle",
+                                "style": 'width: 40px; height: 40px; position: absolute; bottom: 0;'
+                            }).appendTo(image_holder1);
+                        }
+                        image_holder1.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                    }
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            } else {
+                alert("Pls select only images");
+            }
+        });
+    </script>
+{% endblock %}

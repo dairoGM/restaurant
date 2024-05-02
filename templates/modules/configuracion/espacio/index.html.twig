@@ -1,0 +1,100 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Espacios{% endblock %}
+
+{% block body %}
+
+    {% include 'pages/modalDetail.html.twig' %}
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="row" style="display: flex; justify-content: space-between; align-items: center">
+
+                <h3 class="card-title text-bold text-gray">Listado de espacios</h3>
+                <a title="Adicionar" class="btn btn-primary mr-2" href="{{ path('app_espacio_registrar') }}"><i
+                            class="fa fa-plus"></i>
+                </a>
+
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table class="table table-bordered table-striped dataTable">
+                <thead class="table-custom-header">
+                <tr>
+                    <th>No.</th>
+
+                    <th>Imagen portada</th>
+                    <th>Imagen detallada</th>
+                    <th>Nombre corto</th>
+                    <th>Nombre largo</th>
+                    <th>Orden</th>
+                    <th>Publicado</th>
+                    <th>Estado</th>
+                    <th class="text-center">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in registros %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <a href="{% if item.imagenPortada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenPortada/{{ item.imagenPortada }} {% else %} /assets/images/usuario.png {% endif %}"
+                               target="_blank">
+                                <img src="{% if item.imagenPortada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenPortada/{{ item.imagenPortada }}{% else %} /assets/images/usuario.png {% endif %}"
+                                     class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
+                            </a></td>
+                        <td>
+                            <a href="{% if item.imagenDetallada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenDetallada/{{ item.imagenDetallada }} {% else %} /assets/images/usuario.png {% endif %}"
+                               target="_blank">
+                                <img src="{% if item.imagenDetallada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenDetallada/{{ item.imagenDetallada }}{% else %} /assets/images/usuario.png {% endif %}"
+                                     class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
+                            </a></td>
+                        <td>{{ item.nombreCorto | default('') }}</td>
+                        <td>{{ item.nombreLargo |default('') }}</td>
+                        <td>{{ item.orden |default('') }}</td>
+                        <td class="-text-center">
+                            {% if '1' == item.publico %}
+                                <span class="ms-status -active">Sí</span>
+                            {% else %}
+                                <span class="ms-status">No</span>
+                            {% endif %}
+                        </td>
+                        <td class="-text-center">
+                            {% if '1' == item.activo %}
+                                <span class="ms-status -active">Habilitado</span>
+                            {% else %}
+                                <span class="ms-status">Deshabilitado</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button title="Detalles" class="btn btn-outline-primary modalDetailAction"
+                                    data-url="{{ path('app_espacio_detail', {'id' : item.id}) }}"
+                                    data-title="Detalles del espacio">
+                                <i class="fa fa-eye "></i>
+                            </button>
+                            <a title="Modificar" class="btn btn-outline-primary"
+                               href="{{ path('app_espacio_modificar', {'id': item.id}) }}"><i
+                                        class="fa fa-edit"></i>
+                            </a>
+                            {% if '1' == item.activo %}
+                                <button title="Publicar/Ocultar" class="btn btn-outline-primary elementRemove"
+                                        data-url="{{ path('app_espacio_publicar', {'id': item.id}) }}">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            {% endif %}
+                            <button title="Eliminar" class="btn btn-outline-danger elementRemove"
+                                    data-url="{{ path('app_espacio_eliminar', {'id': item.id}) }}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+{% endblock %}
