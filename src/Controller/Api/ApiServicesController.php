@@ -2,7 +2,9 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Restaurant\Contactenos;
 use App\Entity\Restaurant\Perfil;
+use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
 use App\Form\Restaurant\PerfilType;
 use App\Repository\Configuracion\CateringRepository;
@@ -18,6 +20,7 @@ use App\Repository\Estructura\EstructuraRepository;
 use App\Repository\Institucion\InstitucionEditorialRepository;
 use App\Repository\Institucion\InstitucionRepository;
 use App\Repository\Institucion\InstitucionRevistaCientificaRepository;
+use App\Repository\Restaurant\ContactenosRepository;
 use App\Repository\Restaurant\PerfilRepository;
 use App\Services\Utils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -309,6 +312,43 @@ class ApiServicesController extends AbstractController
             if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario']) && isset($jsonParams['clave']) && !empty($jsonParams['clave'])) {
                 $perfil = $perfilRepository->listarPerfiles(['usuario' => $jsonParams['usuario'], 'clave' => $jsonParams['clave']]);
                 return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'data' => $perfil[0] ?? []]);
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/contactenos/crear", name="api_contactenos_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param ContactenosRepository $contactenosRepository
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    public function crearContactenos(Request $request, ContactenosRepository $contactenosRepository, EntityManagerInterface $em)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+
+            if (isset($jsonParams['correo']) && !empty($jsonParams['correo']) && isset($jsonParams['nombre']) && !empty($jsonParams['nombre'])
+                && isset($jsonParams['mensaje']) && !empty($jsonParams['mensaje'])) {
+
+                $contactenos = new Contactenos();
+                $form = $this->createForm(ContactenosApiType::class, $contactenos);
+                $form->submit($jsonParams);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $contactenos->setNombre($jsonParams['nombre']);
+                    $contactenos->setCorreo($jsonParams['correo']);
+                    $contactenos->setMensaje($jsonParams['mensaje']);
+
+                    $em->persist($contactenos);
+                    $em->flush();
+
+                    return $this->json(['messaje' => 'OK', 'data' => $contactenosRepository->listarContactenos(['id' => $contactenos->getId()], ['id' => 'desc'], 1)]);
+                }
+                return $this->json(['messaje' => $form->getErrors(), 'data' => []], Response::HTTP_BAD_REQUEST);
             }
             return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
         } catch (\Exception $exc) {
