@@ -90,6 +90,33 @@
 {% block javascripts %}
     <script>
 
+        ClassicEditor.create(document.getElementById('evento_descripcion'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+
         $('#evento_cantidadParticipantes').bind("keypress", function (event) {
             if (event.charCode != 0) {
                 var regex = new RegExp("^[0-9-]*$");

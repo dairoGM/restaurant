@@ -18,7 +18,7 @@ abstract class BaseNomenclator extends BaseEntity
     private ?string $nombre = null;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $descripcion = null;
 

@@ -45,3 +45,33 @@
     </div>
 
 {% endblock %}
+{% block javascripts %}
+    <script>
+        ClassicEditor.create(document.getElementById('menu_descripcion'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+    </script>
+{% endblock %}

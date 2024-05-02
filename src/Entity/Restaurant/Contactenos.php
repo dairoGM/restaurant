@@ -25,7 +25,7 @@ class Contactenos extends BaseEntity
     private ?string $correo = null;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $mensaje = null;
 
