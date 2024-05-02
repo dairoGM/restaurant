@@ -51,7 +51,7 @@
                                      class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
                             </a></td>
                         <td>{{ item.nombreCorto | default('') }}</td>
-                        <td>{{ item.nombreLargo |default('') }}</td>
+                        <td>{{ item.nombreLargo | raw }}</td>
                         <td>{{ item.orden |default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.publico %}
