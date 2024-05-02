@@ -49,27 +49,35 @@ class PerfilRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarPerfils()
+
+    public function listarPerfiles($filters = [], $orderBy = [], $limit = null)
     {
-        $qb = $this->createQueryBuilder('qb')
-            ->select('qb.id, 
-                        qb.nombre, 
-                        qb.activo, 
-                        qb.fecha, 
-                        qb.orden, 
-                        qb.locacion, 
-                        qb.telefonoAuspiciador, 
-                        qb.cantidadParticipantes, 
-                        qb.gestionarBuffet, 
-                        qb.ambientacion, 
-                        qb.descripcion, 
-                        te.nombre as nombreTipoPerfil, 
-                        te.id as idTipoPerfil')
-            ->innerJoin('qb.tipoPerfil', 'te');
-
-        $qb->orderBy('qb.orden');
-        $resul = $qb->getQuery()->getResult();
-
-        return $resul;
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "qb.id,  
+                DateFormat(qb.creado, 'DD/MM/YYYY HH24:mi:ss') as creado,
+                DateFormat(qb.creado, 'DD/MM/YYYY HH24:mi:ss') as actualizado,
+                qb.usuario,
+                qb.activo"
+            );
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("qb.$key = '$value'");
+            }
+        }
+        if (count($orderBy) == 0) {
+            $query->orderBy('qb.id', 'DESC');
+        } else {
+            foreach ($orderBy as $key => $value) {
+                $query->addOrderBy("qb.$key", $value);
+            }
+        }
+//        echo '<pre>';
+//        print_r($query->getQuery()->getSQL());
+//        die;
+        return $query->getQuery()->getResult(1);
     }
 }

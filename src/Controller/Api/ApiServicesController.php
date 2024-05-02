@@ -2,6 +2,9 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Restaurant\Perfil;
+use App\Form\Restaurant\PerfilApiType;
+use App\Form\Restaurant\PerfilType;
 use App\Repository\Configuracion\CateringRepository;
 use App\Repository\Configuracion\EventoRepository;
 use App\Repository\Configuracion\ExperienciaCulinariaRepository;
@@ -15,6 +18,10 @@ use App\Repository\Estructura\EstructuraRepository;
 use App\Repository\Institucion\InstitucionEditorialRepository;
 use App\Repository\Institucion\InstitucionRepository;
 use App\Repository\Institucion\InstitucionRevistaCientificaRepository;
+use App\Repository\Restaurant\PerfilRepository;
+use App\Services\Utils;
+use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,9 +55,9 @@ class ApiServicesController extends AbstractController
     {
         try {
             $result = $eventoRepository->listarEventos();
-            return $this->json($result);
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
-            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
 
@@ -63,9 +70,9 @@ class ApiServicesController extends AbstractController
     {
         try {
             $result = $maridajeRepository->listarMaridajes();
-            return $this->json($result);
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
-            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
 
@@ -78,9 +85,9 @@ class ApiServicesController extends AbstractController
     {
         try {
             $result = $cateringRepository->listarCatering();
-            return $this->json($result);
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
-            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
 
@@ -101,9 +108,9 @@ class ApiServicesController extends AbstractController
                     $response[] = $value;
                 }
             }
-            return $this->json($response);
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
         } catch (Exception $exc) {
-            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
 
@@ -123,9 +130,9 @@ class ApiServicesController extends AbstractController
                     $response[] = $value;
                 }
             }
-            return $this->json($response);
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
         } catch (Exception $exc) {
-            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
 
@@ -139,24 +146,24 @@ class ApiServicesController extends AbstractController
     {
         try {
             $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica();
-            return $this->json($result);
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
-            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
 
     /**
      * @Route("/experiencia_culinaria/publicos/listar", name="api_experiencia_culinaria_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param ExperienciaGastronomicaRepository $experienciaCulinariaRepository
+     * @param ExperienciaCulinariaRepository $experienciaCulinariaRepository
      * @return JsonResponse
      */
     public function listarExperienciaCulinaria(ExperienciaCulinariaRepository $experienciaCulinariaRepository)
     {
         try {
             $result = $experienciaCulinariaRepository->listarExperienciaCulinaria();
-            return $this->json($result);
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
-            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => null], Response::HTTP_BAD_GATEWAY);
         }
     }
 
@@ -170,9 +177,142 @@ class ApiServicesController extends AbstractController
     {
         try {
             $result = $menuRepository->listarMenus();
-            return $this->json($result);
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
-            return $this->json($exc->getMessage(), Response::HTTP_FORBIDDEN);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/perfil/listar", name="api_perfil_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param PerfilRepository $perfilRepository
+     * @return JsonResponse
+     */
+    public function listarPerfiles(Request $request, PerfilRepository $perfilRepository)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            $filtros = [];
+            $usuario = $jsonParams['usuario'] ?? null;
+            if (!empty($usuario)) {
+                $filtros['usuario'] = $usuario;
+            }
+            $result = $perfilRepository->listarPerfiles($filtros);
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+    /**
+     * @Route("/perfil/crear", name="api_perfil_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param PerfilRepository $perfilRepository
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    public function crearPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+
+            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario']) && isset($jsonParams['clave']) && !empty($jsonParams['clave'])) {
+                $perfil = $perfilRepository->findOneBy(['usuario' => $jsonParams['usuario']]);
+
+                if (!$perfil instanceof Perfil) {
+                    $perfil = new Perfil();
+                }
+                $form = $this->createForm(PerfilApiType::class, $perfil);
+                $form->submit($jsonParams);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $perfil->setNombre($perfil->getUsuario());
+                    $perfil->setActivo(true);
+                    $em->persist($perfil);
+                    $em->flush();
+
+                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['usuario' => $jsonParams['usuario']], ['id' => 'desc'], 1)]);
+                }
+                return $this->json(['messaje' => $form->getErrors(), 'data' => []], Response::HTTP_BAD_REQUEST);
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/perfil/editar", name="api_perfil_editar", methods={"PUT"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param PerfilRepository $perfilRepository
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    public function editarPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
+    {
+
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario']) && isset($jsonParams['clave']) && !empty($jsonParams['clave'])) {
+                $perfil = $perfilRepository->findOneBy(['usuario' => $jsonParams['registrationKey']]);
+                if ($perfil instanceof Perfil) {
+                    $form = $this->createForm(PerfilApiType::class, $perfil);
+                    $form->submit($jsonParams);
+                    $em->persist($perfil);
+                    $em->flush();
+                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->getNotes(['usuario' => $jsonParams['usuario']], ['id' => 'desc'], 1)[0]]);
+                }
+                return $this->json(['messaje' => 'Item no found', 'data' => []], Response::HTTP_NOT_FOUND);
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+
+    }
+
+    /**
+     * @Route("/perfil/eliminar", name="api_perfil_eliminar", methods={"POST"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param PerfilRepository $perfilRepository
+     * @return JsonResponse
+     */
+    public function eliminarPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario'])) {
+                $perfil = $perfilRepository->findBy(['usuario' => $jsonParams['usuario']]);
+                if (isset($perfil[0])) {
+                    $em->remove($perfil[0]);
+                    $em->flush();
+                }
+                return $this->json(['messaje' => 'Elemento eliminado satisfactoriamente.', 'data' => []]);
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+    /**
+     * @Route("/autenticar", name="api_autenticar", methods={"POST"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param PerfilRepository $perfilRepository
+     * @return JsonResponse
+     */
+    public function autenticar(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario']) && isset($jsonParams['clave']) && !empty($jsonParams['clave'])) {
+                $perfil = $perfilRepository->listarPerfiles(['usuario' => $jsonParams['usuario'], 'clave' => $jsonParams['clave']]);
+                return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'data' => $perfil[0] ?? []]);
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
 }
