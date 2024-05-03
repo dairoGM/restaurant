@@ -57,8 +57,11 @@ class MenuRepository extends ServiceEntityRepository
                         qb.nombre, 
                         qb.activo,                                         
                         qb.publico,                            
-                        qb.descripcion"
-            );
+                        qb.descripcion,
+                        e.id as idEspacio,
+                        e.nombreCorto as nombreCortoEspacio"
+            )
+        ->innerJoin('qb.espacio', 'e');
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }
