@@ -27,7 +27,7 @@ class DatosContacto
      */
     private $telefonoCelular;
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string")
      */
     private $correo;
 

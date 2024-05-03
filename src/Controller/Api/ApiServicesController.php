@@ -16,6 +16,7 @@ use App\Repository\Configuracion\MaridajeRepository;
 use App\Repository\Configuracion\MenuRepository;
 use App\Repository\Configuracion\PortadaRepository;
 use App\Repository\Configuracion\ServicioRepository;
+use App\Repository\Configuracion\SobreRepository;
 use App\Repository\Estructura\CategoriaEstructuraRepository;
 use App\Repository\Estructura\EstructuraRepository;
 use App\Repository\Institucion\InstitucionEditorialRepository;
@@ -367,6 +368,20 @@ class ApiServicesController extends AbstractController
     {
         try {
             return $this->json(['messaje' => 'OK', 'data' => $datosContactoRepository->findAll()]);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+    /**
+     * @Route("/sobre/listar", name="api_sobre_crear", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param SobreRepository $sobreRepository
+     * @return JsonResponse
+     */
+    public function listarSobre(SobreRepository $sobreRepository)
+    {
+        try {
+            return $this->json(['messaje' => 'OK', 'data' => $sobreRepository->findAll()]);
         } catch (\Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }

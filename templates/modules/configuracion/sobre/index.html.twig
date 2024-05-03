@@ -1,0 +1,94 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Sobre {% endblock %}
+
+{% block body %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="row" style="display: flex; justify-content: space-between; align-items: center">
+                <h3 class="card-title text-bold text-gray">Sobre </h3>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table class="table table-bordered table-striped dataTable">
+                <thead class="table-custom-header">
+                <tr>
+                    <th>No.</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in registros %}
+                    <tr>
+                        <td width="1%">{{ loop.index }}</td>
+                        <td><input style="width: 90%; margin-top: 8%" class="form-control" type="tel" id="dc_nombre_{{ item.id }}"
+                                   name="dc_nombre_{{ item.id }}" value="{{ item.nombre }}"></td>
+                        
+                        <td><textarea style="width: 90%" class="form-control"  id="dc_descripcion_{{ item.id }}"
+                                      name="dc_descripcion_{{ item.id }}" value="{{ item.descripcion }}"></textarea>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        ClassicEditor.create(document.getElementById('dc_descripcion_1'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+
+        $('input[id*="dc_"]').on('blur', function (e) {
+            var valor = $(this).val();
+            var campo = e.currentTarget.id.split('_')[1];
+            var id = e.currentTarget.id.split('_')[2];
+            HoldOn.open({
+                theme: "sk-cube-grid",
+                message: 'Por favor espere...',
+                textColor: "white"
+            });
+            $.post("{{ path('app_sobre_guardar') }}",
+                {
+                    id: id,
+                    campo: campo,
+                    valor: valor,
+                },
+                function (data) {
+                    toastr.success("El elemento ha sido modificado correctamente.");
+                    setTimeout(function () {
+                        $(window).attr('location', window.location)
+                    }, 500);
+                    HoldOn.close()
+                });
+        })
+    </script>
+{% endblock %}

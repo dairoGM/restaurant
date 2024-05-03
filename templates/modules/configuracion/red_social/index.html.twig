@@ -1,0 +1,70 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Redes sociales{% endblock %}
+
+{% block body %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="row" style="display: flex; justify-content: space-between; align-items: center">
+                <h3 class="card-title text-bold text-gray">Redes sociales</h3>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table class="table table-bordered table-striped ">
+                <thead class="table-custom-header">
+                <tr>
+                    <th>No.</th>
+                    <th>Nombre</th>
+                    <th>Enlace</th>
+                    <th class="text-center">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in registros %}
+                    <tr>
+                        <td width="1%">{{ loop.index }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td><input style="width: 95%" class="form-control" type="tel" id="rs_enlace_{{ item.id }}"
+                                   name="rs_enlace_{{ item.id }}" value="{{ item.enlace }}"></td>
+                        <td width="2%">
+                            <button title="{% if '1' == item.activo %} Deshabilitar {% else %} Habilitar {% endif %}" class="{% if '1' == item.activo %} btn btn-outline-primary {% else %} btn btn-outline-secondary {% endif %} elementRemove"
+                                    data-url="{{ path('app_red_social_eliminar', {'id': item.id}) }}">
+                                <i class="fa fa-check-circle"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('input[id*="rs_"]').on('blur', function (e) {
+            var valor = $(this).val();
+            var campo = e.currentTarget.id.split('_')[1];
+            var id = e.currentTarget.id.split('_')[2];
+            HoldOn.open({
+                theme: "sk-cube-grid",
+                message: 'Por favor espere...',
+                textColor: "white"
+            });
+            $.post("{{ path('app_red_social_guardar') }}",
+                {
+                    id: id,
+                    campo: campo,
+                    valor: valor,
+                },
+                function (data) {
+                    toastr.success("El elemento ha sido modificado correctamente.");
+                    setTimeout(function () {
+                        $(window).attr('location', window.location)
+                    }, 500);
+                    HoldOn.close()
+                });
+        })
+    </script>
+{% endblock %}
