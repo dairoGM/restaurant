@@ -17,6 +17,7 @@ use App\Repository\Configuracion\ExperienciaGastronomicaRepository;
 use App\Repository\Configuracion\MaridajeRepository;
 use App\Repository\Configuracion\MenuRepository;
 use App\Repository\Configuracion\PortadaRepository;
+use App\Repository\Configuracion\ReservaRepository;
 use App\Repository\Configuracion\ServicioRepository;
 use App\Repository\Configuracion\SobreRepository;
 use App\Repository\Estructura\CategoriaEstructuraRepository;
@@ -61,7 +62,7 @@ class ApiServicesController extends AbstractController
     public function listarEventos(EventoRepository $eventoRepository)
     {
         try {
-            $result = $eventoRepository->listarEventos();
+            $result = $eventoRepository->listarEventos(['activo'=>true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -69,14 +70,14 @@ class ApiServicesController extends AbstractController
     }
 
     /**
-     * @Route("/maridajes/listar", name="api_maridajes_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/maridaje/listar", name="api_maridajes_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param MaridajeRepository $maridajeRepository
      * @return JsonResponse
      */
     public function listarMaridajes(MaridajeRepository $maridajeRepository)
     {
         try {
-            $result = $maridajeRepository->listarMaridajes();
+            $result = $maridajeRepository->listarMaridajes(['activo'=>true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -91,7 +92,7 @@ class ApiServicesController extends AbstractController
     public function listarCatering(CateringRepository $cateringRepository)
     {
         try {
-            $result = $cateringRepository->listarCatering();
+            $result = $cateringRepository->listarCatering(['activo'=>true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -99,14 +100,14 @@ class ApiServicesController extends AbstractController
     }
 
     /**
-     * @Route("/servicios/publicos/listar", name="api_servicios_publicos_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/servicio/listar", name="api_servicio_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param ServicioRepository $servicioRepository
      * @return JsonResponse
      */
     public function listarServiciosPublicos(ServicioRepository $servicioRepository)
     {
         try {
-            $result = $servicioRepository->listarServiciosPublicos();
+            $result = $servicioRepository->listarServicios(['publico'=>true, 'activo'=>true]);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
@@ -129,7 +130,7 @@ class ApiServicesController extends AbstractController
     public function listarPortadas(PortadaRepository $portadaRepository)
     {
         try {
-            $result = $portadaRepository->listarPortadas();
+            $result = $portadaRepository->listarPortadas(['publico'=>true, 'activo'=>true]);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
@@ -152,7 +153,7 @@ class ApiServicesController extends AbstractController
     public function listarExperienciaGastronomica(ExperienciaGastronomicaRepository $experienciaGastronomicaRepository)
     {
         try {
-            $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica();
+            $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica(['publico'=>true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -167,7 +168,7 @@ class ApiServicesController extends AbstractController
     public function listarExperienciaCulinaria(ExperienciaCulinariaRepository $experienciaCulinariaRepository)
     {
         try {
-            $result = $experienciaCulinariaRepository->listarExperienciaCulinaria();
+            $result = $experienciaCulinariaRepository->listarExperienciaCulinaria(['publico'=>true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => null], Response::HTTP_BAD_GATEWAY);
@@ -176,14 +177,14 @@ class ApiServicesController extends AbstractController
 
 
     /**
-     * @Route("/menu/publicos/listar", name="api_menu_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/menu/listar", name="api_menu_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param MenuRepository $menuRepository
      * @return JsonResponse
      */
     public function listarMenu(MenuRepository $menuRepository)
     {
         try {
-            $result = $menuRepository->listarMenus();
+            $result = $menuRepository->listarMenus(['publico' => true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -398,7 +399,7 @@ class ApiServicesController extends AbstractController
     public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository)
     {
         try {
-            $result = $espacioRepository->listarEspaciosPublicos(['publico' => true]);
+            $result = $espacioRepository->listarEspaciosPublicos(['publico' => true, 'activo' => true]);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
@@ -407,6 +408,23 @@ class ApiServicesController extends AbstractController
                 }
             }
             return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/item_reserva/listar", name="api_item_reserva_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param ReservaRepository $reservaRepository
+     * @return JsonResponse
+     */
+    public function listarItemReserva(ReservaRepository $reservaRepository)
+    {
+        try {
+            $result = $reservaRepository->listarItemReserva(['activo' => true]);
+
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }

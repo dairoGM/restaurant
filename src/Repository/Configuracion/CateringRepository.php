@@ -49,9 +49,9 @@ class CateringRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarCatering()
+    public function listarCatering($filters = [], $orderBy = [], $limit = null)
     {
-        $qb = $this->createQueryBuilder('qb')
+        $query = $this->createQueryBuilder('qb')
             ->select('qb.id, 
                         qb.nombre, 
                         qb.activo, 
@@ -63,10 +63,25 @@ class CateringRepository extends ServiceEntityRepository
                         tc.nombre as nombreTipoCatering, 
                         tc.id as idTipoCatering')
             ->innerJoin('qb.tipoCatering', 'tc');
-
-        $qb->orderBy('qb.nombre');
-        $resul = $qb->getQuery()->getResult();
-
-        return $resul;
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("qb.$key = '$value'");
+            }
+        }
+        if (count($orderBy) == 0) {
+            $query->orderBy('qb.nombre', 'ASC');
+        } else {
+            foreach ($orderBy as $key => $value) {
+                $query->addOrderBy("qb.$key", $value);
+            }
+        }
+//        echo '<pre>';
+//        print_r($query->getQuery()->getSQL());
+//        die;
+        return $query->getQuery()->getResult(1);
     }
+
 }

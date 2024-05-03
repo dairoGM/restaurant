@@ -49,19 +49,34 @@ class MenuRepository extends ServiceEntityRepository
         }
     }
 
-
-    public function listarMenus()
+    public function listarMenus($filters = [], $orderBy = [], $limit = null)
     {
-        $qb = $this->createQueryBuilder('qb')
-            ->select('qb.id, 
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "qb.id, 
                         qb.nombre, 
                         qb.activo,                                         
                         qb.publico,                            
-                        qb.descripcion ');
-
-        $qb->orderBy('qb.nombre');
-        $resul = $qb->getQuery()->getResult();
-
-        return $resul;
+                        qb.descripcion"
+            );
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("qb.$key = '$value'");
+            }
+        }
+        if (count($orderBy) == 0) {
+            $query->orderBy('qb.id', 'DESC');
+        } else {
+            foreach ($orderBy as $key => $value) {
+                $query->addOrderBy("qb.$key", $value);
+            }
+        }
+//        echo '<pre>';
+//        print_r($query->getQuery()->getSQL());
+//        die;
+        return $query->getQuery()->getResult(1);
     }
 }

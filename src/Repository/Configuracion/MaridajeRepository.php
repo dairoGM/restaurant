@@ -49,9 +49,9 @@ class MaridajeRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarMaridajes()
+    public function listarMaridajes($filters = [], $orderBy = [], $limit = null)
     {
-        $qb = $this->createQueryBuilder('qb')
+        $query = $this->createQueryBuilder('qb')
             ->select('qb.id, 
                         qb.nombre, 
                         qb.activo, 
@@ -62,10 +62,25 @@ class MaridajeRepository extends ServiceEntityRepository
                         tm.nombre as nombreTipoMaridaje, 
                         tm.id as idTipoMaridaje')
             ->innerJoin('qb.tipoMaridaje', 'tm');
-
-        $qb->orderBy('qb.nombre');
-        $resul = $qb->getQuery()->getResult();
-
-        return $resul;
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("qb.$key = '$value'");
+            }
+        }
+        if (count($orderBy) == 0) {
+            $query->orderBy('qb.nombre', 'ASC');
+        } else {
+            foreach ($orderBy as $key => $value) {
+                $query->addOrderBy("qb.$key", $value);
+            }
+        }
+//        echo '<pre>';
+//        print_r($query->getQuery()->getSQL());
+//        die;
+        return $query->getQuery()->getResult(1);
     }
+
 }

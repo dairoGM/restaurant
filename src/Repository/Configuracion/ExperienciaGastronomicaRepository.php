@@ -49,9 +49,9 @@ class ExperienciaGastronomicaRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarExperienciaGastronomica()
+    public function listarExperienciaCulinaria($filters = [], $orderBy = [], $limit = null)
     {
-        $qb = $this->createQueryBuilder('qb')
+        $query = $this->createQueryBuilder('qb')
             ->select('qb.id, 
                         qb.nombre, 
                         qb.activo, 
@@ -63,10 +63,25 @@ class ExperienciaGastronomicaRepository extends ServiceEntityRepository
                         teg.nombre as nombreEipoExperienciaGastronomica, 
                         teg.id as idTipoExperienciaGastronomica')
             ->innerJoin('qb.tipoExperienciaGastronomica', 'teg');
-
-        $qb->orderBy('qb.orden');
-        $resul = $qb->getQuery()->getResult();
-
-        return $resul;
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("qb.$key = '$value'");
+            }
+        }
+        if (count($orderBy) == 0) {
+            $query->orderBy('qb.orden', 'DESC');
+        } else {
+            foreach ($orderBy as $key => $value) {
+                $query->addOrderBy("qb.$key", $value);
+            }
+        }
+//        echo '<pre>';
+//        print_r($query->getQuery()->getSQL());
+//        die;
+        return $query->getQuery()->getResult(1);
     }
+
 }
