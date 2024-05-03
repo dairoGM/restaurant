@@ -1,0 +1,87 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Configurar redes sociales al espacio{% endblock %}
+
+{% block body %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="row" style="display: flex; justify-content: space-between; align-items: center">
+                <h3 class="card-title text-bold text-gray">Configurar redes sociales al espacio</h3>
+            </div>
+        </div>
+        <!-- /.card-header -->
+
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <h5 class="mb-0"><b>Nombre corto:</b> {{ espacio.nombreCorto | default('') }}</h5>
+                </div>
+                <div class="col-4">
+                    {% if '1' == espacio.activo %}
+                        <h5 class="mb-0"><b>Estado:</b> Habilitado</h5>
+                    {% else %}
+                        <h5 class="mb-0"><b>Estado:</b> Deshabilitado</h5>
+                    {% endif %}
+                </div>
+                <div class="col-4">
+                    {% if '1' == espacio.publico %}
+                        <h5 class="mb-0"><b>Publico:</b> Sí</h5>
+                    {% else %}
+                        <h5 class="mb-0"><b>Publico:</b> No </h5>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+            <table class="table table-bordered table-striped ">
+                <thead class="table-custom-header">
+                <tr>
+                    <th>No.</th>
+                    <th>Nombre</th>
+                    <th>Enlace</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in redesSociales %}
+                    <tr>
+                        <td width="1%">{{ loop.index }}</td>
+                        <td>{{ item.nombre }}</td>
+                        <td><input style="width: 95%" class="form-control" type="tel" id="rs_enlace_{{ item.id }}"
+                                   name="rs_enlace_{{ item.id }}" value="{{redesSocialesAsignadas[item.id] | default('') }}"></td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('input[id*="rs_"]').on('blur', function (e) {
+            var valor = $(this).val();
+            var campo = e.currentTarget.id.split('_')[1];
+            var id = e.currentTarget.id.split('_')[2];
+            HoldOn.open({
+                theme: "sk-cube-grid",
+                message: 'Por favor espere...',
+                textColor: "white"
+            });
+            $.post("{{ path('app_espacio_guardar_configuracion') }}",
+                {
+                    idRedSocial: id,
+                    idEspacio: '{{ espacio.id }}',
+                    campo: campo,
+                    valor: valor,
+                },
+                function (data) {
+                    toastr.success("El elemento ha sido modificado correctamente.");
+                    setTimeout(function () {
+                        $(window).attr('location', window.location)
+                    }, 500);
+                    HoldOn.close()
+                });
+        })
+    </script>
+{% endblock %}

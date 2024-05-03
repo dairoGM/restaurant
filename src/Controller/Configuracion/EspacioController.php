@@ -4,8 +4,11 @@ namespace App\Controller\Configuracion;
 
 
 use App\Entity\Configuracion\Espacio;
+use App\Entity\Configuracion\EspacioRedesSociales;
 use App\Form\Configuracion\EspacioType;
+use App\Repository\Configuracion\EspacioRedesSocialesRepository;
 use App\Repository\Configuracion\EspacioRepository;
+use App\Repository\Configuracion\RedSocialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -135,6 +138,67 @@ class EspacioController extends AbstractController
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
             return $this->redirectToRoute('app_espacio_modificar', ['id' => $espacio], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/configurar_redes_sociales", name="app_espacio_configurar", methods={"GET", "POST"})
+     * @param Espacio $espacio
+     * @param RedSocialRepository $redSocialRepository
+     * @return Response
+     */
+    public function configurar(Espacio $espacio, RedSocialRepository $redSocialRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository)
+    {
+        try {
+            $redesAsignadas = $espacioRedesSocialesRepository->findBy(['espacio' => $espacio->getId()], ['id' => 'asc']);
+            $arrayAsignadas = [];
+            if (is_array($redesAsignadas)) {
+                foreach ($redesAsignadas as $value) {
+                    $arrayAsignadas[$value->getRedSocial()->getId()] = $value->getEnlace();
+                }
+            }
+
+            return $this->render('modules/configuracion/espacio/configurarRedesSociales.html.twig', [
+                'espacio' => $espacio,
+                'redesSociales' => $redSocialRepository->findBy(['activo' => true], ['id' => 'asc']),
+                'redesSocialesAsignadas' => $arrayAsignadas
+            ]);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_espacio_modificar', ['id' => $espacio], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/guardar_configuracion", name="app_espacio_guardar_configuracion", methods={"GET", "POST"})
+     * @param Request $request
+     * @param RedSocialRepository $redSocialRepository
+     * @return Response
+     */
+    public function guardarConfiguracion(Request $request, EspacioRepository $espacioRepository, RedSocialRepository $redSocialRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository)
+    {
+        try {
+            $allPost = $request->request->All();
+
+            $exist = $espacioRedesSocialesRepository->findBy(['espacio' => $allPost['idEspacio'], 'redSocial' => $allPost['idRedSocial']]);
+
+            $new = new EspacioRedesSociales();
+            $isNew = true;
+            if (isset($exist[0])) {
+                $new = $exist[0];
+                $isNew = false;
+            }
+            $new->setEnlace($allPost['valor']);
+            $new->setEspacio($espacioRepository->find($allPost['idEspacio']));
+            $new->setRedSocial($redSocialRepository->find($allPost['idRedSocial']));
+            if ($isNew) {
+                $espacioRedesSocialesRepository->add($new, true);
+            } else {
+                $espacioRedesSocialesRepository->edit($new, true);
+            }
+            return $this->json('OK');
+        } catch (\Exception $exception) {
+            return $this->json(null);
         }
     }
 
