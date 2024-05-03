@@ -49,20 +49,17 @@ class PlatoRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarPlato($filters = [], $orderBy = [], $limit = null)
+    public function listarPlatos($filters = [], $orderBy = [], $limit = null)
     {
         $query = $this->createQueryBuilder('qb')
             ->select('qb.id, 
                         qb.nombre, 
-                        qb.activo, 
-                        qb.fecha,                        
-                        qb.cantidadPlantosPersonas,                         
-                        qb.cantidadTragosPersonas,                         
-                        qb.cantidadParticipantes,                       
-                        qb.descripcion, 
-                        tc.nombre as nombreTipoPlato, 
-                        tc.id as idTipoPlato')
-            ->innerJoin('qb.tipoPlato', 'tc');
+                        qb.precio,                                                  
+                        qb.activo,                                           
+                        qb.publico,                                           
+                        qb.descripcion,
+                         qb.imagen
+                         ') ;
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }
@@ -72,7 +69,7 @@ class PlatoRepository extends ServiceEntityRepository
             }
         }
         if (count($orderBy) == 0) {
-            $query->orderBy('qb.nombre', 'ASC');
+            $query->orderBy('qb.orden', 'DESC');
         } else {
             foreach ($orderBy as $key => $value) {
                 $query->addOrderBy("qb.$key", $value);

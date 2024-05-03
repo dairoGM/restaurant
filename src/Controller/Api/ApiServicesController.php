@@ -15,6 +15,7 @@ use App\Repository\Configuracion\ExperienciaCulinariaRepository;
 use App\Repository\Configuracion\ExperienciaGastronomicaRepository;
 use App\Repository\Configuracion\MaridajeRepository;
 use App\Repository\Configuracion\MenuRepository;
+use App\Repository\Configuracion\PlatoRepository;
 use App\Repository\Configuracion\PortadaRepository;
 use App\Repository\Configuracion\ReservaRepository;
 use App\Repository\Configuracion\ServicioRepository;
@@ -428,6 +429,27 @@ class ApiServicesController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/plato/listar", name="api_plato_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param PlatoRepository $platoRepository
+     * @return JsonResponse
+     */
+    public function listarPlatos(PlatoRepository $platoRepository)
+    {
+        try {
+            $result = $platoRepository->listarPlatos(['publico' => true, 'activo' => true]);
+            $response = [];
+            if (is_array($result)) {
+                foreach ($result as $value) {
+                    $value['imagen'] = $this->baseUrl . "/uploads/images/plato/imagen/" . $value['imagen'];
+                    $response[] = $value;
+                }
+            }
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 
     /**
      * @Route("/enviar-datos-contacto", name="enviar-datos-contacto", methods={"POST", "OPTIONS"} )
