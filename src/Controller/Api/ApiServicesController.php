@@ -7,6 +7,8 @@ use App\Entity\Restaurant\Perfil;
 use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
 use App\Repository\Configuracion\CateringRepository;
+use App\Repository\Configuracion\ConocenosRedesSocialesRepository;
+use App\Repository\Configuracion\ConocenosRepository;
 use App\Repository\Configuracion\DatosContactoRepository;
 use App\Repository\Configuracion\EspacioRedesSocialesRepository;
 use App\Repository\Configuracion\EspacioRepository;
@@ -407,7 +409,7 @@ class ApiServicesController extends AbstractController
     public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository)
     {
         try {
-            $result = $espacioRepository->listarEspaciosPublicos(['publico' => true, 'activo' => true]);
+            $result = $espacioRepository->listarEspacios(['publico' => true, 'activo' => true]);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
@@ -452,6 +454,31 @@ class ApiServicesController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
+
+    /**
+     * @Route("/conocenos/listar", name="api_conocenos_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param ConocenosRepository $conocenosRepository
+     * @param ConocenosRedesSocialesRepository $conocenosRedesSocialesRepository
+     * @return JsonResponse
+     */
+    public function listarConocenos(ConocenosRepository $conocenosRepository, ConocenosRedesSocialesRepository $conocenosRedesSocialesRepository)
+    {
+        try {
+            $result = $conocenosRepository->listarConocenos(['publico' => true]);
+            $response = [];
+            if (is_array($result)) {
+                foreach ($result as $value) {
+                    $value['redes_sociales'] = $conocenosRedesSocialesRepository->listarRedesSocialesEspacios(['c.id' => $value['id']]);
+                    $response[] = $value;
+                }
+            }
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
 
     /**
      * @Route("/enviar-datos-contacto", name="enviar-datos-contacto", methods={"POST", "OPTIONS"} )

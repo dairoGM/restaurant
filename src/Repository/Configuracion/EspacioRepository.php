@@ -51,7 +51,7 @@ class EspacioRepository extends ServiceEntityRepository
 
 
 
-    public function listarEspaciosPublicos($filters = [], $orderBy = [], $limit = null)
+    public function listarEspacios($filters = [], $orderBy = [], $limit = null)
     {
         $query = $this->createQueryBuilder('qb')
             ->select(
