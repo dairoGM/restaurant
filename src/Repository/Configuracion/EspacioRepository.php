@@ -49,10 +49,13 @@ class EspacioRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarEspaciosPublicos()
+
+
+    public function listarEspaciosPublicos($filters = [], $orderBy = [], $limit = null)
     {
-        $qb = $this->createQueryBuilder('qb')
-            ->select('qb.id, 
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "qb.id, 
                         qb.nombreCorto, 
                         qb.nombreLargo, 
                         qb.orden,                                           
@@ -60,11 +63,26 @@ class EspacioRepository extends ServiceEntityRepository
                         qb.publico,                                           
                         qb.descripcion,
                          qb.imagenPortada, 
-                         qb.imagenDetallada
-                         ')
-            ->where("qb.publico = true");
-        $qb->orderBy('qb.orden');
-        $resul = $qb->getQuery()->getResult();
-        return $resul;
+                         qb.imagenDetallada"
+            );
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("qb.$key = '$value'");
+            }
+        }
+        if (count($orderBy) == 0) {
+            $query->orderBy('qb.orden', 'ASC');
+        } else {
+            foreach ($orderBy as $key => $value) {
+                $query->addOrderBy("qb.$key", $value);
+            }
+        }
+//        echo '<pre>';
+//        print_r($query->getQuery()->getSQL());
+//        die;
+        return $query->getQuery()->getResult(1);
     }
 }

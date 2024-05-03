@@ -9,6 +9,8 @@ use App\Form\Restaurant\PerfilApiType;
 use App\Form\Restaurant\PerfilType;
 use App\Repository\Configuracion\CateringRepository;
 use App\Repository\Configuracion\DatosContactoRepository;
+use App\Repository\Configuracion\EspacioRedesSocialesRepository;
+use App\Repository\Configuracion\EspacioRepository;
 use App\Repository\Configuracion\EventoRepository;
 use App\Repository\Configuracion\ExperienciaCulinariaRepository;
 use App\Repository\Configuracion\ExperienciaGastronomicaRepository;
@@ -266,7 +268,7 @@ class ApiServicesController extends AbstractController
                     $form->submit($jsonParams);
                     $em->persist($perfil);
                     $em->flush();
-                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->getNotes(['usuario' => $jsonParams['usuario']], ['id' => 'desc'], 1)[0]]);
+                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['usuario' => $jsonParams['usuario']], ['id' => 'desc'], 1)[0]]);
                 }
                 return $this->json(['messaje' => 'Item no found', 'data' => []], Response::HTTP_NOT_FOUND);
             }
@@ -383,6 +385,29 @@ class ApiServicesController extends AbstractController
         try {
             return $this->json(['messaje' => 'OK', 'data' => $sobreRepository->findAll()]);
         } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+    /**
+     * @Route("/espacio/listar", name="api_espacio_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param EspacioRepository $espacioRepository
+     * @param EspacioRedesSocialesRepository $espacioRedesSocialesRepository
+     * @return JsonResponse
+     */
+    public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository)
+    {
+        try {
+            $result = $espacioRepository->listarEspaciosPublicos(['publico' => true]);
+            $response = [];
+            if (is_array($result)) {
+                foreach ($result as $value) {
+                    $value['redes_sociales'] = $espacioRedesSocialesRepository->listarRedesSocialesEspacios(['e.id' => $value['id']]);
+                    $response[] = $value;
+                }
+            }
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }

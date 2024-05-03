@@ -49,24 +49,35 @@ class EspacioRedesSocialesRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarEspacioRedesSociales()
+
+    public function listarRedesSocialesEspacios($filters = [], $orderBy = [], $limit = null)
     {
-        $qb = $this->createQueryBuilder('qb')
-            ->select('qb.id, 
-                        qb.nombre, 
-                        qb.activo, 
-                        qb.fecha,                        
-                        qb.cantidadPlantosPersonas,                         
-                        qb.cantidadTragosPersonas,                         
-                        qb.cantidadParticipantes,                       
-                        qb.descripcion, 
-                        tc.nombre as nombreTipoEspacioRedesSociales, 
-                        tc.id as idTipoEspacioRedesSociales')
-            ->innerJoin('qb.tipoEspacioRedesSociales', 'tc');
-
-        $qb->orderBy('qb.nombre');
-        $resul = $qb->getQuery()->getResult();
-
-        return $resul;
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "rs.nombre, 
+                        qb.enlace 
+                        "
+            )
+        ->join('qb.espacio', 'e')
+        ->join('qb.redSocial', 'rs');
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("$key = '$value'");
+            }
+        }
+        if (count($orderBy) == 0) {
+            $query->orderBy('rs.nombre', 'ASC');
+        } else {
+            foreach ($orderBy as $key => $value) {
+                $query->addOrderBy("qb.$key", $value);
+            }
+        }
+//        echo '<pre>';
+//        print_r($query->getQuery()->getSQL());
+//        die;
+        return $query->getQuery()->getResult(1);
     }
 }
