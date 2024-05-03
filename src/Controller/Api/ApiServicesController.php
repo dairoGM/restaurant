@@ -6,7 +6,6 @@ use App\Entity\Restaurant\Contactenos;
 use App\Entity\Restaurant\Perfil;
 use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
-use App\Form\Restaurant\PerfilType;
 use App\Repository\Configuracion\CateringRepository;
 use App\Repository\Configuracion\DatosContactoRepository;
 use App\Repository\Configuracion\EspacioRedesSocialesRepository;
@@ -20,14 +19,8 @@ use App\Repository\Configuracion\PortadaRepository;
 use App\Repository\Configuracion\ReservaRepository;
 use App\Repository\Configuracion\ServicioRepository;
 use App\Repository\Configuracion\SobreRepository;
-use App\Repository\Estructura\CategoriaEstructuraRepository;
-use App\Repository\Estructura\EstructuraRepository;
-use App\Repository\Institucion\InstitucionEditorialRepository;
-use App\Repository\Institucion\InstitucionRepository;
-use App\Repository\Institucion\InstitucionRevistaCientificaRepository;
 use App\Repository\Restaurant\ContactenosRepository;
 use App\Repository\Restaurant\PerfilRepository;
-use App\Services\Utils;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +28,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportException;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -62,7 +60,7 @@ class ApiServicesController extends AbstractController
     public function listarEventos(EventoRepository $eventoRepository)
     {
         try {
-            $result = $eventoRepository->listarEventos(['activo'=>true]);
+            $result = $eventoRepository->listarEventos(['activo' => true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -77,7 +75,7 @@ class ApiServicesController extends AbstractController
     public function listarMaridajes(MaridajeRepository $maridajeRepository)
     {
         try {
-            $result = $maridajeRepository->listarMaridajes(['activo'=>true]);
+            $result = $maridajeRepository->listarMaridajes(['activo' => true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -92,7 +90,7 @@ class ApiServicesController extends AbstractController
     public function listarCatering(CateringRepository $cateringRepository)
     {
         try {
-            $result = $cateringRepository->listarCatering(['activo'=>true]);
+            $result = $cateringRepository->listarCatering(['activo' => true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -107,7 +105,7 @@ class ApiServicesController extends AbstractController
     public function listarServiciosPublicos(ServicioRepository $servicioRepository)
     {
         try {
-            $result = $servicioRepository->listarServicios(['publico'=>true, 'activo'=>true]);
+            $result = $servicioRepository->listarServicios(['publico' => true, 'activo' => true]);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
@@ -130,7 +128,7 @@ class ApiServicesController extends AbstractController
     public function listarPortadas(PortadaRepository $portadaRepository)
     {
         try {
-            $result = $portadaRepository->listarPortadas(['publico'=>true, 'activo'=>true]);
+            $result = $portadaRepository->listarPortadas(['publico' => true, 'activo' => true]);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
@@ -153,7 +151,7 @@ class ApiServicesController extends AbstractController
     public function listarExperienciaGastronomica(ExperienciaGastronomicaRepository $experienciaGastronomicaRepository)
     {
         try {
-            $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica(['publico'=>true]);
+            $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica(['publico' => true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -168,7 +166,7 @@ class ApiServicesController extends AbstractController
     public function listarExperienciaCulinaria(ExperienciaCulinariaRepository $experienciaCulinariaRepository)
     {
         try {
-            $result = $experienciaCulinariaRepository->listarExperienciaCulinaria(['publico'=>true]);
+            $result = $experienciaCulinariaRepository->listarExperienciaCulinaria(['publico' => true]);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => null], Response::HTTP_BAD_GATEWAY);
@@ -427,6 +425,40 @@ class ApiServicesController extends AbstractController
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/enviar-datos-contacto", name="enviar-datos-contacto", methods={"POST", "OPTIONS"} )
+     * @param Request $request
+     * @param MailerInterface $mailer
+     * @return JsonResponse
+     * @throws GuzzleException
+     * @throws TransportExceptionInterface
+     */
+    public function enviarDatosContacto(Request $request, MailerInterface $mailer)
+    {
+        try {
+            $body = '<p>Se esta solicitando comunicación con BIPAY desde el sitio con los siguientes datos de contacto: <br>
+                         
+                          <b>Correo: </b>' . "asdasdasd" . '<br>
+                        </p><br>';
+
+
+            $email = (new Email())
+                ->from(new Address('dairoroberto2014@gmail.com'))
+                ->to(new Address('restaurat.reserva@gmail.com'))
+                ->subject('Holaaa')
+                ->html($body);
+            $mailer->send($email);
+
+            return $this->json('Datos enviados y guardados satisfactoriamente.');
+
+
+        }  catch (Exception $exc) {
+            pr($exc->getMessage());
+            return $this->json($exc->getMessage());
         }
     }
 }

@@ -44,7 +44,7 @@ class ReservaController extends AbstractController
      */
     public function registrar(Request $request, ReservaRepository $reservaRepository)
     {
-//        try {
+        try {
             $entidad = new Reserva();
             $form = $this->createForm(ReservaType::class, $entidad, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class ReservaController extends AbstractController
             return $this->render('modules/configuracion/reserva/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_reserva_index', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_reserva_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 

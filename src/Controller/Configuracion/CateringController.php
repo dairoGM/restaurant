@@ -44,7 +44,7 @@ class CateringController extends AbstractController
      */
     public function registrar(Request $request, CateringRepository $cateringRepository)
     {
-//        try {
+        try {
             $entidad = new Catering();
             $form = $this->createForm(CateringType::class, $entidad, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -57,10 +57,10 @@ class CateringController extends AbstractController
             return $this->render('modules/configuracion/catering/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_catering_index', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_catering_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 

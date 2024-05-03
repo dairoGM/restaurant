@@ -24,6 +24,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre</th>
+                    <th>Espacio</th>
                     <th>Publicado</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
@@ -34,6 +35,7 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ item.nombre }}</td>
+                        <td>{{ item.espacio.nombreCorto |default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.publico %}
                                 <span class="ms-status -active">Sí</span>

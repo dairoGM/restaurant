@@ -17,6 +17,12 @@ class Menu extends BaseNomenclator
     private ?bool $publico = false;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Espacio")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?Espacio $espacio;
+
+    /**
      * @return bool|null
      */
     public function getPublico(): ?bool
@@ -30,6 +36,22 @@ class Menu extends BaseNomenclator
     public function setPublico(?bool $publico): void
     {
         $this->publico = $publico;
+    }
+
+    /**
+     * @return Espacio|null
+     */
+    public function getEspacio(): ?Espacio
+    {
+        return $this->espacio;
+    }
+
+    /**
+     * @param Espacio|null $espacio
+     */
+    public function setEspacio(?Espacio $espacio): void
+    {
+        $this->espacio = $espacio;
     }
 
 

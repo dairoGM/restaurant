@@ -55,7 +55,7 @@ class MenuController extends AbstractController
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_menu_registrar', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_menu_index', [], Response::HTTP_SEE_OTHER);
         }
     }
 

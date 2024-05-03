@@ -2,10 +2,14 @@
 
 namespace App\Form\Configuracion;
 
+use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\Menu;
 use App\Entity\Configuracion\TipoEvento;
+use App\Entity\Configuracion\TipoExperienciaGastronomica;
 use App\Entity\Estructura\Provincia;
 use App\Entity\Personal\CategoriaDocente;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -33,6 +37,15 @@ class MenuType extends AbstractType
             ->add('activo', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Habilitado'
+            ])
+            ->add('espacio', EntityType::class, [
+                'class' => Espacio::class,
+                'choice_label' => 'nombreCorto',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombreCorto', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null
             ]);
     }
 

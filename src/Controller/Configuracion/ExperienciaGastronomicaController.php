@@ -55,7 +55,7 @@ class ExperienciaGastronomicaController extends AbstractController
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_experiencia_gastronomica_registrar', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_experiencia_gastronomica_index', [], Response::HTTP_SEE_OTHER);
         }
     }
 
