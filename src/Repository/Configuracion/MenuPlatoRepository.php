@@ -49,30 +49,28 @@ class MenuPlatoRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarMenuPlato($filters = [], $orderBy = [], $limit = null)
+    public function listarPlatos($filters = [], $orderBy = [], $limit = null)
     {
         $query = $this->createQueryBuilder('qb')
-            ->select('qb.id, 
-                        qb.nombre, 
-                        qb.activo, 
-                        qb.fecha,                        
-                        qb.cantidadPlantosPersonas,                         
-                        qb.cantidadTragosPersonas,                         
-                        qb.cantidadParticipantes,                       
-                        qb.descripcion, 
-                        tc.nombre as nombreTipoMenuPlato, 
-                        tc.id as idTipoMenuPlato')
-            ->innerJoin('qb.tipoMenuPlato', 'tc');
+            ->select('p.id, 
+                        p.nombre, 
+                        p.precio,                                                  
+                        p.activo,                                           
+                        p.publico,                                           
+                        p.descripcion,
+                         p.imagen')
+            ->innerJoin('qb.menu', 'm')
+            ->innerJoin('qb.plato', 'p');
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }
         if (is_array($filters)) {
             foreach ($filters as $key => $value) {
-                $query->andWhere("qb.$key = '$value'");
+                $query->andWhere("$key = '$value'");
             }
         }
         if (count($orderBy) == 0) {
-            $query->orderBy('qb.nombre', 'ASC');
+            $query->orderBy('p.nombre', 'ASC');
         } else {
             foreach ($orderBy as $key => $value) {
                 $query->addOrderBy("qb.$key", $value);

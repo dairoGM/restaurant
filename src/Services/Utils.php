@@ -69,6 +69,7 @@ class Utils
         ];
         return $meses;
     }
+
     public function procesarRolesUsuarioAutenticado($idUsuario)
     {
         $usuario = $this->em->getRepository(User::class)->find($idUsuario);
@@ -445,5 +446,18 @@ class Utils
         return $fonts;
     }
 
+
+    public function listarPlatos($platoRepository, $baseUrl)
+    {
+        $result = $platoRepository->listarPlatos(['publico' => true, 'activo' => true]);
+        $response = [];
+        if (is_array($result)) {
+            foreach ($result as $value) {
+                $value['imagen'] = $baseUrl . "/uploads/images/plato/imagen/" . $value['imagen'];
+                $response[] = $value;
+            }
+        }
+        return $response;
+    }
 
 }

@@ -14,6 +14,7 @@ use App\Repository\Configuracion\EventoRepository;
 use App\Repository\Configuracion\ExperienciaCulinariaRepository;
 use App\Repository\Configuracion\ExperienciaGastronomicaRepository;
 use App\Repository\Configuracion\MaridajeRepository;
+use App\Repository\Configuracion\MenuPlatoRepository;
 use App\Repository\Configuracion\MenuRepository;
 use App\Repository\Configuracion\PlatoRepository;
 use App\Repository\Configuracion\PortadaRepository;
@@ -35,6 +36,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Services\Utils;
 
 /**
  * @Route("/api")
@@ -180,11 +182,18 @@ class ApiServicesController extends AbstractController
      * @param MenuRepository $menuRepository
      * @return JsonResponse
      */
-    public function listarMenu(MenuRepository $menuRepository)
+    public function listarMenu(MenuRepository $menuRepository, PlatoRepository $platoRepository, Utils $utils)
     {
         try {
+            $response = [];
             $result = $menuRepository->listarMenus(['publico' => true]);
-            return $this->json(['messaje' => 'OK', 'data' => $result]);
+            if (is_array($result)) {
+                foreach ($result as $value) {
+                    $value['platos'] = $utils->listarPlatos($platoRepository, $this->baseUrl);
+                    $response[] = $value;
+                }
+            }
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
@@ -434,17 +443,10 @@ class ApiServicesController extends AbstractController
      * @param PlatoRepository $platoRepository
      * @return JsonResponse
      */
-    public function listarPlatos(PlatoRepository $platoRepository)
+    public function listarPlatos(PlatoRepository $platoRepository, Utils $utils)
     {
         try {
-            $result = $platoRepository->listarPlatos(['publico' => true, 'activo' => true]);
-            $response = [];
-            if (is_array($result)) {
-                foreach ($result as $value) {
-                    $value['imagen'] = $this->baseUrl . "/uploads/images/plato/imagen/" . $value['imagen'];
-                    $response[] = $value;
-                }
-            }
+            $response = $utils->listarPlatos($platoRepository, $this->baseUrl);
             return $this->json(['messaje' => 'OK', 'data' => $response]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -478,7 +480,7 @@ class ApiServicesController extends AbstractController
             return $this->json('Datos enviados y guardados satisfactoriamente.');
 
 
-        }  catch (Exception $exc) {
+        } catch (Exception $exc) {
             pr($exc->getMessage());
             return $this->json($exc->getMessage());
         }

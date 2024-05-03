@@ -69,7 +69,7 @@ class PlatoRepository extends ServiceEntityRepository
             }
         }
         if (count($orderBy) == 0) {
-            $query->orderBy('qb.orden', 'DESC');
+            $query->orderBy('qb.nombre', 'DESC');
         } else {
             foreach ($orderBy as $key => $value) {
                 $query->addOrderBy("qb.$key", $value);
