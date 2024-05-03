@@ -27,6 +27,11 @@
                     {{ form_errors(form.espacio) }}
                 </div>
                 <div class="col-4 form-group">
+                    {{ form_label(form.plato) }}
+                    {{ form_widget(form.plato) }}
+                    {{ form_errors(form.plato) }}
+                </div>
+                <div class="col-4 form-group">
                     {{ form_label(form.activo) }}
                     {{ form_widget(form.activo) }}
                     {{ form_errors(form.activo) }}
@@ -52,6 +57,7 @@
 
 {% block javascripts %}
     <script>
+        var platosAsignados = '{{ platosAsociados }}';
         ClassicEditor.create(document.getElementById('menu_descripcion'), {
             licenseKey: '',
             image: {
@@ -78,5 +84,7 @@
             .catch(error => {
 
             });
+
+        $('#menu_plato').val(platosAsignados.split(',')).change();
     </script>
 {% endblock %}

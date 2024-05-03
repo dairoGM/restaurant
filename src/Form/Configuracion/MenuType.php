@@ -4,6 +4,7 @@ namespace App\Form\Configuracion;
 
 use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\Menu;
+use App\Entity\Configuracion\Plato;
 use App\Entity\Configuracion\TipoEvento;
 use App\Entity\Configuracion\TipoExperienciaGastronomica;
 use App\Entity\Estructura\Provincia;
@@ -46,6 +47,18 @@ class MenuType extends AbstractType
                 },
                 'placeholder' => 'Seleccione',
                 'empty_data' => null
+            ])
+            ->add('plato', EntityType::class, [
+                'class' => Plato::class,
+                'label' => 'Platos',
+                'choice_label' => 'nombre',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null,
+                'multiple' => true,
+                'mapped' => false
             ]);
     }
 
