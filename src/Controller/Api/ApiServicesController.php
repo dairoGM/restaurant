@@ -8,6 +8,7 @@ use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
 use App\Form\Restaurant\PerfilType;
 use App\Repository\Configuracion\CateringRepository;
+use App\Repository\Configuracion\DatosContactoRepository;
 use App\Repository\Configuracion\EventoRepository;
 use App\Repository\Configuracion\ExperienciaCulinariaRepository;
 use App\Repository\Configuracion\ExperienciaGastronomicaRepository;
@@ -351,6 +352,21 @@ class ApiServicesController extends AbstractController
                 return $this->json(['messaje' => $form->getErrors(), 'data' => []], Response::HTTP_BAD_REQUEST);
             }
             return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/datos_contacto/listar", name="api_datos_contacto_crear", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param DatosContactoRepository $datosContactoRepository
+     * @return JsonResponse
+     */
+    public function listarDatosContacto(DatosContactoRepository $datosContactoRepository)
+    {
+        try {
+            return $this->json(['messaje' => 'OK', 'data' => $datosContactoRepository->findAll()]);
         } catch (\Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
