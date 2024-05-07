@@ -23,6 +23,7 @@ use App\Repository\Configuracion\PortadaRepository;
 use App\Repository\Configuracion\ReservaRepository;
 use App\Repository\Configuracion\ServicioRepository;
 use App\Repository\Configuracion\SobreRepository;
+use App\Repository\Configuracion\TerminosCondicionesRepository;
 use App\Repository\Restaurant\ContactenosRepository;
 use App\Repository\Restaurant\PerfilRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -400,6 +401,20 @@ class ApiServicesController extends AbstractController
         }
     }
 
+
+    /**
+     * @Route("/terminos_condiciones/listar", name="api_terminos_condiciones_crear", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param TerminosCondicionesRepository $terminosCondicionesRepository
+     * @return JsonResponse
+     */
+    public function listarTerminosCondiciones(TerminosCondicionesRepository $terminosCondicionesRepository)
+    {
+        try {
+            return $this->json(['messaje' => 'OK', 'data' => $terminosCondicionesRepository->findAll()]);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
     /**
      * @Route("/espacio/listar", name="api_espacio_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param EspacioRepository $espacioRepository

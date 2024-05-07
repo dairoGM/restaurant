@@ -7,6 +7,7 @@ use App\Entity\Configuracion\DatosContacto;
 use App\Entity\Configuracion\Sobre;
 
 use App\Entity\Configuracion\RedSocial;
+use App\Entity\Configuracion\TerminosCondiciones;
 use App\Entity\Security\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,6 +51,10 @@ class AppFixtures extends Fixture
         $sobre->setNombre('Sobre');
         $sobre->setDescripcion('');
         $manager->persist($sobre);
+
+        $terCond = new TerminosCondiciones();
+        $terCond->setDescripcion('Inicial');
+        $manager->persist($terCond);
 
         $user = new User();
         $user->setEmail('admin@admin.com');

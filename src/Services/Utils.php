@@ -460,4 +460,30 @@ class Utils
         return $response;
     }
 
+    public function sendMailer2($params=[])
+    {
+        $params = [
+            'name_from' => 'pruebaa',
+            'email_from' => "no-reply@test.com",
+            'name_to' => 'pepe',
+            'email_to' => 'dairo@dgtalliance.com',
+            'subject' => 'hi!',
+            'content' => '<b>hola</b>',
+            'date' => date('Y-m-d H:i:s'),
+        ];
+        try {
+            $httpClient = new \GuzzleHttp\Client();
+            $response = $httpClient->request('POST', "https://notifications.idxboost.com/tail/dinamic/send/mails", [
+                'form_params' => $params,
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded'
+                ]
+            ]);
+            $result = json_decode($response->getBody()->getContents(true), true);
+
+            return $result;
+        } catch (\Exception  $exception) {
+            return $exception->getMessage();
+        }
+    }
 }
