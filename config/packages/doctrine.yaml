@@ -22,12 +22,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity/Security'
                 prefix: 'App\Entity\Security'
                 alias: Security  
-            Estructura:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity/Estructura'
-                prefix: 'App\Entity\Estructura'
-                alias: Estructura            
+#            Estructura:
+#                is_bundle: false
+#                type: annotation
+#                dir: '%kernel.project_dir%/src/Entity/Estructura'
+#                prefix: 'App\Entity\Estructura'
+#                alias: Estructura
         dql:
             datetime_functions:
                 dateFormat:  App\Functions\DateFormat

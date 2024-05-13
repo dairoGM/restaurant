@@ -4,11 +4,11 @@ namespace App\Entity\Configuracion;
 
 use App\Entity\BaseEntity;
 use App\Entity\BaseNomenclator;
-use App\Entity\Estructura\Provincia;
-use App\Entity\Estructura\Municipio;
-use App\Entity\Estructura\CategoriaEstructura;
-use App\Entity\Estructura\Estructura;
-use App\Entity\Estructura\Responsabilidad;
+//use App\Entity\Estructura\Provincia;
+//use App\Entity\Estructura\Municipio;
+//use App\Entity\Estructura\CategoriaEstructura;
+//use App\Entity\Estructura\Estructura;
+//use App\Entity\Estructura\Responsabilidad;
 //use App\Entity\Personal\Carrera;
 //use App\Entity\Personal\CategoriaDocente;
 //use App\Entity\Personal\CategoriaInvestigativa;

@@ -24,9 +24,9 @@ class InstallConfig
         //Administración
         $modules[] = Module::createModule("MODULE_ADMIN", "Módulo de Administración", "Módulo de administración");
         $modules[] = Module::createModule("MODULE_PERSON", "Módulo de Personal", "Módulo de personal");
-        $modules[] = Module::createModule("MODULE_STRUCT", "Módulo de Estructura", "Módulo de estrucutra y composición");
-        $modules[] = Module::createModule("MODULE_REPORT", "Módulo de Reportes", "Módulo de reportes");
-        $modules[] = Module::createModule("MODULE_TRACE", "Módulo de Trazas", "Módulo de trazas");
+//        $modules[] = Module::createModule("MODULE_STRUCT", "Módulo de Estructura", "Módulo de estrucutra y composición");
+//        $modules[] = Module::createModule("MODULE_REPORT", "Módulo de Reportes", "Módulo de reportes");
+//        $modules[] = Module::createModule("MODULE_TRACE", "Módulo de Trazas", "Módulo de trazas");
         $modules[] = Module::createModule("MODULE_CATALOGO", "Módulo de Catalogos", "Módulo de Catalogos");
 
         return $modules;

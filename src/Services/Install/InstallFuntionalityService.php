@@ -42,13 +42,13 @@ class InstallFuntionalityService implements InstallFunctionalityInterface
         $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForPersonal());
 
         //Estructura
-        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForEstructura());
+//        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForEstructura());
 
         //Rerporte
-        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForReporte());
+//        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForReporte());
 
         //Trazas
-        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForTrazas());
+//        $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForTrazas());
 
         //Catalogos
         $functionalities = array_merge($functionalities, InstallConfig::defineFunctionalitiesForCatalogo());

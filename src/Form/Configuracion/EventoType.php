@@ -4,7 +4,7 @@ namespace App\Form\Configuracion;
 
 use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\TipoEvento;
-use App\Entity\Estructura\Provincia;
+//use App\Entity\Estructura\Provincia;
 //use App\Entity\Personal\Carrera;
 //use App\Entity\Personal\NivelEscolar;
 use Doctrine\ORM\EntityRepository;

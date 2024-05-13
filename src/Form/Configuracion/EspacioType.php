@@ -6,7 +6,7 @@ use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\Servicio;
 use App\Entity\Configuracion\TipoEvento;
-use App\Entity\Estructura\Provincia;
+//use App\Entity\Estructura\Provincia;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

@@ -6,7 +6,7 @@ use App\Entity\Configuracion\TipoCatering;
 use App\Entity\Configuracion\TipoEvento;
 use App\Entity\Configuracion\TipoExperienciaCulinaria;
 use App\Entity\Configuracion\TipoExperienciaGastronomica;
-use App\Entity\Estructura\Provincia;
+//use App\Entity\Estructura\Provincia;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

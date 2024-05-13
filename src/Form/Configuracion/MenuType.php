@@ -7,7 +7,7 @@ use App\Entity\Configuracion\Menu;
 use App\Entity\Configuracion\Plato;
 use App\Entity\Configuracion\TipoEvento;
 use App\Entity\Configuracion\TipoExperienciaGastronomica;
-use App\Entity\Estructura\Provincia;
+//use App\Entity\Estructura\Provincia;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

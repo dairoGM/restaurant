@@ -3,7 +3,7 @@
 namespace App\Form\Admin;
 
 
-use App\Entity\Estructura\Estructura;
+//use App\Entity\Estructura\Estructura;
 use App\Entity\Security\Funcionalidad;
 use App\Entity\Security\Rol;
 use Doctrine\ORM\EntityRepository;
@@ -46,19 +46,20 @@ class RolType extends AbstractType
                 'multiple' => true
 
             ])
-            ->add('estructuras', EntityType::class, [
-                'label' => 'Estructuras',
-                'class' => Estructura::class,
-                'choice_label' => 'nombre',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
-                },
-                'placeholder' => 'Seleccione',
-                'empty_data' => null,
-                'mapped' => false,
-                'required' => false,
-                'multiple' => true
-            ]);
+//            ->add('estructuras', EntityType::class, [
+//                'label' => 'Estructuras',
+//                'class' => Estructura::class,
+//                'choice_label' => 'nombre',
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
+//                },
+//                'placeholder' => 'Seleccione',
+//                'empty_data' => null,
+//                'mapped' => false,
+//                'required' => false,
+//                'multiple' => true
+//            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

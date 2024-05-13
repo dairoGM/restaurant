@@ -2,7 +2,7 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\Estructura\Provincia;
+//use App\Entity\Estructura\Provincia;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
