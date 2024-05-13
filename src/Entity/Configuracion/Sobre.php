@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_configuracion.tbd_sobre")
+ * @ORM\Table(name="tbd_sobre")
  */
 class Sobre
 {

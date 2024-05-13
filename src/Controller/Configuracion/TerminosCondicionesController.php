@@ -25,13 +25,16 @@ class TerminosCondicionesController extends AbstractController
      */
     public function index(TerminosCondicionesRepository $terminosCondicionesRepository)
     {
+        $registros = $terminosCondicionesRepository->findAll();
+
         return $this->render('modules/configuracion/terminos_condiciones/index.html.twig', [
-            'registros' => $terminosCondicionesRepository->findAll()
+            'registros' => $registros,
+            'descripcion' => $registros[0]->getId() ?? null
         ]);
     }
 
     /**
-     * @Route("/terminos_condiciones/guardar", name="app_terminos_condiciones_guardar", methods={"GET", "POST"})
+     * @Route("/guardar", name="app_terminos_condiciones_guardar", methods={"GET", "POST"})
      * @param Request $request
      * @param TerminosCondicionesRepository $terminosCondicionesRepository
      * @return Response
@@ -41,10 +44,9 @@ class TerminosCondicionesController extends AbstractController
         try {
             $allPost = $request->request->All();
             $fieldToUpdate = 'set' . ucwords($allPost['campo']);
-
-            $datosContacto = $terminosCondicionesRepository->find($allPost['id']);
-            $datosContacto->$fieldToUpdate($allPost['valor']);
-            $terminosCondicionesRepository->edit($datosContacto, true);
+            $entidad = $terminosCondicionesRepository->find($allPost['id']);
+            $entidad->$fieldToUpdate($allPost['valor']);
+            $terminosCondicionesRepository->edit($entidad, true);
             return $this->json('OK');
         } catch (\Exception $exception) {
             return $this->json(null);

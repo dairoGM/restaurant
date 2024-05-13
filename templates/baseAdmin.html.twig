@@ -642,22 +642,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
         function loadNotifications() {
 
             //Load Notificaciones
-            $.ajax({
-                type: "POST",
-                cache: false,
-                url: "{{ path('app_notificaciones_usuario') }}",
-                dataType: "html",
-                success: function (res) {
+            {#$.ajax({#}
+            {#    type: "POST",#}
+            {#    cache: false,#}
+            {#    url: "{{ path('app_notificaciones_usuario') }}",#}
+            {#    dataType: "html",#}
+            {#    success: function (res) {#}
 
-                    $('#notificacionesContainer').html(res)
-                    $('.cantidadNotificacionesBadge').text($('.cantidadContainer').text())
+            {#        $('#notificacionesContainer').html(res)#}
+            {#        $('.cantidadNotificacionesBadge').text($('.cantidadContainer').text())#}
 
-                },
-                error: function (err) {
+            {#    },#}
+            {#    error: function (err) {#}
 
-                    toastr.error(err);
-                }
-            });
+            {#        toastr.error(err);#}
+            {#    }#}
+            {#});#}
 
         }
 

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_configuracion.tbr_menu_plato")
+ * @ORM\Table(name="tbr_menu_plato")
  */
 class MenuPlato extends BaseEntity
 {

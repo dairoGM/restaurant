@@ -2,12 +2,6 @@
 
 namespace App\Services;
 
-use App\Entity\Personal\Persona;
-use App\Entity\Traza\Accion;
-use App\Entity\Traza\ConfiguracionTraza;
-use App\Entity\Traza\Objeto;
-use App\Entity\Traza\TipoTraza;
-use App\Entity\Traza\Traza;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;

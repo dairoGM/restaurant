@@ -4,7 +4,7 @@
 namespace App\EventListener;
 
 use App\Entity\BaseEntity;
-use App\Entity\Personal\ClasificacionPersona;
+//use App\Entity\Personal\ClasificacionPersona;
 use App\Services\TraceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;

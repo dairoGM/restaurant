@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_configuracion.tbd_red_social")
+ * @ORM\Table(name="tbd_red_social")
  */
 class RedSocial
 {

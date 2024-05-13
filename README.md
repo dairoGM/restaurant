@@ -183,7 +183,7 @@ curl -X POST https://127.0.0.1:8000/api/login_check \
      -H "Content-Type: application/json" \
      -d '
       {
-        "email":"admin@aotronivel.com",
+        "email":"admin@admin.com",
         "password":"123"
       }
      '

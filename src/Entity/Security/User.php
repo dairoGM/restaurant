@@ -3,7 +3,6 @@
 namespace App\Entity\Security;
 
 use App\Entity\BaseEntity;
-use App\Entity\Personal\Persona;
 use App\ExtendSys\Chat\Model\ChatUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Usuario Local del Sistema
  * @ORM\Entity
  * @UniqueEntity(fields="email", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
- * @ORM\Table(name="sq_seguridad.tbd_usuario")
+ * @ORM\Table(name="tbd_usuario")
  */
 class User extends BaseEntity implements UserInterface, AuthorityInterface
 {

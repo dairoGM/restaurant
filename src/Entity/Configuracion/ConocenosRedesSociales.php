@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_configuracion.tbr_conocenos_redes_sociales")
+ * @ORM\Table(name="tbr_conocenos_redes_sociales")
  */
 class ConocenosRedesSociales extends BaseEntity
 {

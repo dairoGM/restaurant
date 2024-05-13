@@ -7,8 +7,7 @@ use App\Entity\Configuracion\Maridaje;
 use App\Entity\Configuracion\TipoEvento;
 use App\Entity\Configuracion\TipoMaridaje;
 use App\Entity\Estructura\Provincia;
-use App\Entity\Personal\Carrera;
-use App\Entity\Personal\NivelEscolar;
+
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

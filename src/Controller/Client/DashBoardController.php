@@ -2,11 +2,11 @@
 
 namespace App\Controller\Client;
 
-use App\Entity\NotificacionesUsuario;
+//use App\Entity\NotificacionesUsuario;
 use App\ExtendSys\Filter\FilterImpl;
 use App\Repository\Estructura\EstructuraRepository;
 use App\Repository\Estructura\MunicipioRepository;
-use App\Repository\Personal\PersonaRepository;
+//use App\Repository\Personal\PersonaRepository;
 use App\Services\AutoEvalService;
 use App\Services\Utils;
 use Doctrine\ORM\EntityManagerInterface;

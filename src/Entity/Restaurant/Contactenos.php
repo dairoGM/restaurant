@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_restaurant.tbd_contactenos")
+ * @ORM\Table(name="tbd_contactenos")
  */
 class Contactenos extends BaseEntity
 {

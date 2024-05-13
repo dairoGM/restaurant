@@ -8,14 +8,14 @@ use App\Entity\Estructura\Municipio;
 use App\Entity\Estructura\CategoriaEstructura;
 use App\Entity\Estructura\Estructura;
 use App\Entity\Estructura\Responsabilidad;
-use App\Entity\Personal\Carrera;
-use App\Entity\Personal\CategoriaDocente;
-use App\Entity\Personal\CategoriaInvestigativa;
-use App\Entity\Personal\ClasificacionPersona;
-use App\Entity\Personal\GradoAcademico;
-use App\Entity\Personal\NivelEscolar;
-use App\Entity\Personal\Profesion;
-use App\Entity\Personal\Sexo;
+//use App\Entity\Personal\Carrera;
+//use App\Entity\Personal\CategoriaDocente;
+//use App\Entity\Personal\CategoriaInvestigativa;
+//use App\Entity\Personal\ClasificacionPersona;
+//use App\Entity\Personal\GradoAcademico;
+//use App\Entity\Personal\NivelEscolar;
+//use App\Entity\Personal\Profesion;
+//use App\Entity\Personal\Sexo;
 use App\Entity\Security\User;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_configuracion.tbd_servicio")
+ * @ORM\Table(name="tbd_servicio")
  */
 class Servicio extends BaseEntity
 {

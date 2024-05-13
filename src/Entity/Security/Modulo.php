@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Un módulo tiene varias funcionalidades.
  *
  * @ORM\Entity
- * @ORM\Table(name="sq_seguridad.tbd_modulo")
+ * @ORM\Table(name="tbd_modulo")
  * @UniqueEntity(fields="nombre", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
  */
 class Modulo extends BaseEntity

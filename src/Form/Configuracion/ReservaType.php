@@ -8,8 +8,6 @@ use App\Entity\Configuracion\Reserva;
 use App\Entity\Configuracion\TipoCatering;
 use App\Entity\Configuracion\TipoEvento;
 use App\Entity\Estructura\Provincia;
-use App\Entity\Personal\Carrera;
-use App\Entity\Personal\NivelEscolar;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

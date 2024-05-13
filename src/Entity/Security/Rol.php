@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Un Rol puede ser asignado a varios usuarios. Un rol tiene permiso a varias Funcionalidades
  * @ORM\Entity
  * @UniqueEntity(fields="nombre", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
- * @ORM\Table(name="sq_seguridad.tbd_rol")
+ * @ORM\Table(name="tbd_rol")
  */
 class Rol extends BaseEntity implements AuthorityInterface
 {

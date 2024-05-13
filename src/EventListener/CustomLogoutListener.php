@@ -2,8 +2,8 @@
 
 namespace App\EventListener;
 
-use App\Entity\NotificacionesUsuario;
-use App\Repository\Personal\ResponsableRepository;
+//use App\Entity\NotificacionesUsuario;
+//use App\Repository\Personal\ResponsableRepository;
 use App\Services\TraceService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;

@@ -28,19 +28,19 @@ class UserFormType extends AbstractType
                 'constraints' => [
                     new NotBlank()
                 ]
-            ])              
-            ->add('userRoles', EntityType::class, [
-                'class' => Rol::class,
-                'label' => 'Roles',
-                'choice_label' => 'nombre',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('r')->orderBy('r.nombre', 'ASC');
-                },
-                'placeholder' => 'Seleccione',
-                'empty_data' => null,
-                'multiple' => true,
-                'required' => false
             ]);
+//            ->add('userRoles', EntityType::class, [
+//                'class' => Rol::class,
+//                'label' => 'Roles',
+//                'choice_label' => 'nombre',
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('r')->orderBy('r.nombre', 'ASC');
+//                },
+//                'placeholder' => 'Seleccione',
+//                'empty_data' => null,
+//                'multiple' => true,
+//                'required' => false
+//            ]);
 
         if ($options['action'] == 'registrar') {
             $builder->add('passwordPlainText', RepeatedType::class, [
@@ -50,20 +50,19 @@ class UserFormType extends AbstractType
                     new NotBlank()
                 ],
                 'required' => true,
-                'first_options'  => ['label' => 'Contraseña'],
+                'first_options' => ['label' => 'Contraseña'],
                 'second_options' => ['label' => 'Confirmar contraseña'],
             ]);
-        }
-        else if ($options['action'] == 'modificar') {
+        } else if ($options['action'] == 'modificar') {
             $builder->add('passwordPlainText', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Contraseña no coincide.',
-                'options' => ['attr' => ['class' => 'password-field']],                
+                'options' => ['attr' => ['class' => 'password-field']],
                 'required' => false,
-                'first_options'  => ['label' => 'Contraseña'],
+                'first_options' => ['label' => 'Contraseña'],
                 'second_options' => ['label' => 'Confirmar contraseña'],
             ]);
-        }        
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

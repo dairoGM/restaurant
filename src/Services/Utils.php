@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Entity\Personal\Persona;
-use App\Entity\Planificacion\PlanIndicador;
 use App\Entity\Security\Rol;
 use App\Entity\Security\RolEstructura;
 use App\Entity\Security\User;

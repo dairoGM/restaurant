@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Repository\Personal\PersonaRepository;
+//use App\Repository\Personal\PersonaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,32 +20,32 @@ class AdminHomeController extends AbstractController
     public function index(PersonaRepository $personaRepository): Response
     {
 
-        $personas = $personaRepository->findAll();
-
-
-        $municipios = [];
-        $categorias = [];
-
-        foreach ($personas as $persona){
-            $municipios[$persona->getMunicipio()->getNombre()][] = $persona->getId();
-
-            $categorias[$persona->getClasificacionPersona()->getNombre()][] = $persona->getId();
-        }
-
-        $categoriasChat = [];
-
-        foreach ($categorias as $clave => $valor){
-            $aux = [];
-            $aux['name'] = $clave;
-            $aux['y'] = count($valor);
-            $categoriasChat[] = $aux;
-        }
+//        $personas = $personaRepository->findAll();
+//
+//
+//        $municipios = [];
+//        $categorias = [];
+//
+//        foreach ($personas as $persona){
+//            $municipios[$persona->getMunicipio()->getNombre()][] = $persona->getId();
+//
+//            $categorias[$persona->getClasificacionPersona()->getNombre()][] = $persona->getId();
+//        }
+//
+//        $categoriasChat = [];
+//
+//        foreach ($categorias as $clave => $valor){
+//            $aux = [];
+//            $aux['name'] = $clave;
+//            $aux['y'] = count($valor);
+//            $categoriasChat[] = $aux;
+//        }
 
 
         return $this->render('modules/admin/index.html.twig', [
-            'data' => $municipios,
-            'clasificacion' => json_encode($categoriasChat),
-            'lista' => [],
+//            'data' => $municipios,
+//            'clasificacion' => json_encode($categoriasChat),
+//            'lista' => [],
         ]);
     }
 

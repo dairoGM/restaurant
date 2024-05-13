@@ -5,8 +5,6 @@ namespace App\Form\Restaurant;
 use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\TipoEvento;
 use App\Entity\Estructura\Provincia;
-use App\Entity\Personal\Carrera;
-use App\Entity\Personal\NivelEscolar;
 use App\Entity\Restaurant\Perfil;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

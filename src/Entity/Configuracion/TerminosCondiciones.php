@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_configuracion.tbd_terminos_condiciones")
+ * @ORM\Table(name="tbd_terminos_condiciones")
  */
 class TerminosCondiciones
 {

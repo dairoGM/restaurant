@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_restaurant.tbd_perfil")
+ * @ORM\Table(name="tbd_perfil")
  */
 class Perfil extends BaseNomenclator
 {

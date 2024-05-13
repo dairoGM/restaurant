@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="sq_configuracion.tbd_experiencia_gastronomica")
+ * @ORM\Table(name="tbd_experiencia_gastronomica")
  */
 class ExperienciaGastronomica extends BaseNomenclator
 {

@@ -22,7 +22,7 @@
                 {% for item in registros %}
                     <tr>
                         <td width="1%">{{ loop.index }}</td>
-                        <td><textarea style="width: 90%" class="form-control"  id="dc_descripcion_{{ item.id }}"
+                        <td><textarea style="width: 90%" class="form-control" id="dc_descripcion_{{ item.id }}"
                                       name="dc_descripcion_{{ item.id }}" value="{{ item.descripcion }}"></textarea>
                         </td>
                     </tr>
@@ -36,6 +36,8 @@
 
 {% block javascripts %}
     <script>
+
+
         ClassicEditor.create(document.getElementById('dc_descripcion_1'), {
             licenseKey: '',
             image: {
@@ -58,33 +60,39 @@
         })
             .then(editor => {
                 window.editor = editor;
+                editor.editing.view.document.on('blur', (e) => {
+                    var valor = $('div[class*="ck ck-editor__main"]').children().children()[0].innerHTML;
+                    console.log(valor)
+                    var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];
+                    var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];
+                    HoldOn.open({
+                        theme: "sk-cube-grid",
+                        message: 'Por favor espere...',
+                        textColor: "white"
+                    });
+                    $.post("{{ path('app_terminos_condiciones_guardar') }}",
+                        {
+                            id: id,
+                            campo: campo,
+                            valor: valor,
+                        },
+                        function (data) {
+                            toastr.success("El elemento ha sido modificado correctamente.");
+                            setTimeout(function () {
+                                 $(window).attr('location', window.location)
+                            }, 500);
+                            HoldOn.close()
+                        });
+                });
             })
             .catch(error => {
 
             });
 
-        $('textarea[id*="dc_"]').on('blur', function (e) {
-            var valor = $(this).val();
-            var campo = e.currentTarget.id.split('_')[1];
-            var id = e.currentTarget.id.split('_')[2];
-            HoldOn.open({
-                theme: "sk-cube-grid",
-                message: 'Por favor espere...',
-                textColor: "white"
-            });
-            $.post("{{ path('app_terminos_condiciones_guardar') }}",
-                {
-                    id: id,
-                    campo: campo,
-                    valor: valor,
-                },
-                function (data) {
-                    toastr.success("El elemento ha sido modificado correctamente.");
-                    setTimeout(function () {
-                        $(window).attr('location', window.location)
-                    }, 500);
-                    HoldOn.close()
-                });
-        })
+
+        var descripcion = '{{ descripcion }}';
+        console.log(descripcion);
+
+        $('div[class*="ck ck-editor__main"]').children().children()[0].innerHTML = descripcion
     </script>
 {% endblock %}
