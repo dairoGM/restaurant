@@ -25,8 +25,10 @@ class SobreController extends AbstractController
      */
     public function index(SobreRepository $sobreRepository)
     {
+        $registros = $sobreRepository->findAll();
         return $this->render('modules/configuracion/sobre/index.html.twig', [
-            'registros' => $sobreRepository->findAll()
+            'registros' => $sobreRepository->findAll(),
+            'descripcion' => $registros[0]->getDescripcion() ?? null
         ]);
     }
 

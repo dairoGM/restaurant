@@ -29,7 +29,7 @@ class TerminosCondicionesController extends AbstractController
 
         return $this->render('modules/configuracion/terminos_condiciones/index.html.twig', [
             'registros' => $registros,
-            'descripcion' => $registros[0]->getId() ?? null
+            'descripcion' => $registros[0]->getDescripcion() ?? null
         ]);
     }
 

@@ -36,32 +36,13 @@
 
 {% block javascripts %}
     <script>
-
-
-        ClassicEditor.create(document.getElementById('dc_descripcion_1'), {
-            licenseKey: '',
-            image: {
-                toolbar: [
-                    'imageStyle:inline',
-                    'imageStyle:alignLeft',
-                    'imageStyle:alignRight',
-                    'imageStyle:alignCenter',
-                    'imageStyle:alignBlockLeft',
-                    'imageStyle:alignBlockRight',
-                    'imageStyle:block',
-                    'imageStyle:side',
-                    '|',
-                    'toggleImageCaption',
-                    'imageTextAlternative',
-                    '|',
-                    'linkImage']
-            },
-            readOnly: true
-        })
+        ClassicEditor
+            .create(document.querySelector('#dc_descripcion_1'))
             .then(editor => {
-                window.editor = editor;
+                // Asignar un valor al editor
+                editor.setData('{{ descripcion | raw }}');
                 editor.editing.view.document.on('blur', (e) => {
-                    var valor = $('div[class*="ck ck-editor__main"]').children().children()[0].innerHTML;
+                    var valor = $('div[class*="ck ck-editor__main"]').children().children()[0].outerHTML;
                     console.log(valor)
                     var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];
                     var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];
@@ -79,20 +60,15 @@
                         function (data) {
                             toastr.success("El elemento ha sido modificado correctamente.");
                             setTimeout(function () {
-                                 $(window).attr('location', window.location)
+                                $(window).attr('location', window.location)
                             }, 500);
                             HoldOn.close()
                         });
                 });
             })
             .catch(error => {
-
+                console.error(error);
             });
 
-
-        var descripcion = '{{ descripcion }}';
-        console.log(descripcion);
-
-        $('div[class*="ck ck-editor__main"]').children().children()[0].innerHTML = descripcion
     </script>
 {% endblock %}
