@@ -150,7 +150,7 @@ class ApiServicesController extends AbstractController
 
 
     /**
-     * @Route("/experiencia_gastronomica/publicos/listar", name="api_experiencia_gastronomica_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/experiencia_gastronomica/listar", name="api_experiencia_gastronomica_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param ExperienciaGastronomicaRepository $experienciaGastronomicaRepository
      * @return JsonResponse
      */
@@ -165,7 +165,7 @@ class ApiServicesController extends AbstractController
     }
 
     /**
-     * @Route("/experiencia_culinaria/publicos/listar", name="api_experiencia_culinaria_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/experiencia_culinaria/listar", name="api_experiencia_culinaria_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param ExperienciaCulinariaRepository $experienciaCulinariaRepository
      * @return JsonResponse
      */
