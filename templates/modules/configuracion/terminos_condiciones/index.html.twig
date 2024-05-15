@@ -68,6 +68,7 @@
                 // Asignar un valor al editor
                 var content = '{{ descripcion | raw }}';
                 content= content.replace("'",'');
+                console.log(content);
                 editor.setData(content);
                 {#editor.editing.view.document.on('blur', (e) => {#}
                 {#    setTimeout(function () {#}
