@@ -66,8 +66,7 @@
             .create(document.querySelector('#dc_descripcion_1'))
             .then(editor => {
                 // Asignar un valor al editor
-                var content = '{{ descripcion | raw }}';
-                editor.setData(content);
+                {#editor.setData('{{ descripcion | raw }}');#}
                 {#editor.editing.view.document.on('blur', (e) => {#}
                 {#    setTimeout(function () {#}
                 {#        var valor = $('div[class*="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred"]')[0].innerHTML;#}
