@@ -35,8 +35,8 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ item.usuario }}</td>
-                        <td>{{ item.creado | date('d/m/Y H:i:s') }}</td>
-                        <td>{{ item.actualizado | date('d/m/Y H:i:s') }}</td>
+                        <td>{{ item.creado | date('d/m/Y H:i:s A') }}</td>
+                        <td>{{ item.actualizado | date('d/m/Y H:i:s A') }}</td>
 
                         <td class="-text-center">
                             {% if '1' == item.activo %}
