@@ -35,6 +35,7 @@ class PerfilType extends AbstractType
             ])
             ->add('clave', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'required' => false,
                 'invalid_message' => 'Contraseña no coincide.',
                 'constraints' => [
                     new NotBlank()
