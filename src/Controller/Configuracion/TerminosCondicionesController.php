@@ -45,7 +45,7 @@ class TerminosCondicionesController extends AbstractController
             $allPost = $request->request->All();
             $fieldToUpdate = 'set' . ucwords($allPost['campo']);
             $entidad = $terminosCondicionesRepository->find($allPost['id']);
-            $entidad->$fieldToUpdate($allPost['valor']);
+            $entidad->$fieldToUpdate(str_replace("'", '', $allPost['valor']));
             $terminosCondicionesRepository->edit($entidad, true);
             return $this->json('OK');
         } catch (\Exception $exception) {
