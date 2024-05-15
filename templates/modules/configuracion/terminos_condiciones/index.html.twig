@@ -14,14 +14,14 @@
             <table class="table table-bordered table-striped dataTable">
                 <thead class="table-custom-header">
                 <tr>
-                    <th>No.</th>
+{#                    <th>No.</th>#}
                     <th>Descripción</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for item in registros %}
                     <tr>
-                        <td width="1%">{{ loop.index }}</td>
+{#                        <td width="1%">{{ loop.index }}</td>#}
                         <td><textarea style="width: 90%" class="form-control" id="dc_descripcion_{{ item.id }}"
                                       name="dc_descripcion_{{ item.id }}" value="{{ item.descripcion }}"></textarea>
                         </td>
@@ -30,50 +30,83 @@
                 </tbody>
 
             </table>
+            <div class="card-footer" style="display: flex; justify-content: flex-end; align-items: center; ">
+                <button id="btn_guardar" class="btn btn-primary">Guardar</button>
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
+        $('#btn_guardar').click(function (e){
+            var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];
+            var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];
+            var valor = $('div[class*="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred"]')[0].innerHTML;
+            HoldOn.open({
+                theme: "sk-cube-grid",
+                message: 'Por favor espere...',
+                textColor: "white"
+            });
+            $.post("{{ path('app_terminos_condiciones_guardar') }}",
+                {
+                    id: id,
+                    campo: campo,
+                    valor: valor
+                },
+                function (data) {
+                    toastr.success("El elemento ha sido modificado correctamente.");
+                    setTimeout(function () {
+                        $(window).attr('location', window.location)
+                    }, 500);
+                    HoldOn.close()
+                });
+        })
         ClassicEditor
             .create(document.querySelector('#dc_descripcion_1'))
             .then(editor => {
                 // Asignar un valor al editor
                 editor.setData('{{ descripcion | raw }}');
-                editor.editing.view.document.on('blur', (e) => {
-                    setTimeout(function () {
-                        var valor = $('div[class*="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred"]')[0].innerHTML;
+                {#editor.editing.view.document.on('blur', (e) => {#}
+                {#    setTimeout(function () {#}
+                {#        var valor = $('div[class*="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred"]')[0].innerHTML;#}
 
-                        var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];
-                        var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];
-                        HoldOn.open({
-                            theme: "sk-cube-grid",
-                            message: 'Por favor espere...',
-                            textColor: "white"
-                        });
-                        $.post("{{ path('app_terminos_condiciones_guardar') }}",
-                            {
-                                id: id,
-                                campo: campo,
-                                valor: valor
-                            },
-                            function (data) {
-                                toastr.success("El elemento ha sido modificado correctamente.");
-                                setTimeout(function () {
-                                    $(window).attr('location', window.location)
-                                }, 500);
-                                HoldOn.close()
-                            });
+                {#        var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];#}
+                {#        var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];#}
+                {#        HoldOn.open({#}
+                {#            theme: "sk-cube-grid",#}
+                {#            message: 'Por favor espere...',#}
+                {#            textColor: "white"#}
+                {#        });#}
+                {#        $.post("{{ path('app_terminos_condiciones_guardar') }}",#}
+                {#            {#}
+                {#                id: id,#}
+                {#                campo: campo,#}
+                {#                valor: valor#}
+                {#            },#}
+                {#            function (data) {#}
+                {#                toastr.success("El elemento ha sido modificado correctamente.");#}
+                {#                setTimeout(function () {#}
+                {#                    $(window).attr('location', window.location)#}
+                {#                }, 500);#}
+                {#                HoldOn.close()#}
+                {#            });#}
 
-                    }, 500);
+                {#    }, 500);#}
 
 
-                });
+                {#});#}
             })
             .catch(error => {
                 console.error(error);
             });
+
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('#DataTables_Table_0_wrapper').children()[2].remove()
+                $('#DataTables_Table_0_wrapper').children()[0].remove()
+            }, 100);
+        });
 
     </script>
 {% endblock %}

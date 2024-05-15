@@ -64,5 +64,12 @@
                     HoldOn.close()
                 });
         })
+
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('#DataTables_Table_0_wrapper').children()[2].remove()
+                $('#DataTables_Table_0_wrapper').children()[0].remove()
+            }, 100);
+        });
     </script>
 {% endblock %}
