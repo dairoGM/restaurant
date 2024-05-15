@@ -40,7 +40,7 @@
                                 <img src="{% if item.imagen != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/conocenos/imagen/{{ item.imagen }}{% else %} /assets/images/usuario.png {% endif %}"
                                      class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
                             </a></td>
-                        <td>{{ item.descripcion | raw }}</td>
+                        <td>{{ (item.descripcion | raw) | slice(1,50) }}</td>
                         <td class="-text-center">
                             {% if '1' == item.publico %}
                                 <span class="ms-status -active">Sí</span>
