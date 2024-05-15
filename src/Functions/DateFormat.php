@@ -25,7 +25,7 @@ class DateFormat extends FunctionNode
     // devuelve el sql nativo
     public function getSql(\Doctrine\ORM\Query\SqlWalker $sqlWalker)
     {
-        return "to_char(" . $this->date->dispatch($sqlWalker) . "," .
+        return "date_format(" . $this->date->dispatch($sqlWalker) . "," .
             $this->format->dispatch($sqlWalker) . ")";
     }
 

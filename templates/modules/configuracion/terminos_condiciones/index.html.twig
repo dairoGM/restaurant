@@ -42,28 +42,33 @@
                 // Asignar un valor al editor
                 editor.setData('{{ descripcion | raw }}');
                 editor.editing.view.document.on('blur', (e) => {
-                    var valor = $('div[class*="ck ck-editor__main"]').children().children()[0].outerHTML;
-                    console.log(valor)
-                    var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];
-                    var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];
-                    HoldOn.open({
-                        theme: "sk-cube-grid",
-                        message: 'Por favor espere...',
-                        textColor: "white"
-                    });
-                    $.post("{{ path('app_terminos_condiciones_guardar') }}",
-                        {
-                            id: id,
-                            campo: campo,
-                            valor: valor,
-                        },
-                        function (data) {
-                            toastr.success("El elemento ha sido modificado correctamente.");
-                            setTimeout(function () {
-                                $(window).attr('location', window.location)
-                            }, 500);
-                            HoldOn.close()
+                    setTimeout(function () {
+                        var valor = $('div[class*="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred"]')[0].innerHTML;
+
+                        var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];
+                        var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];
+                        HoldOn.open({
+                            theme: "sk-cube-grid",
+                            message: 'Por favor espere...',
+                            textColor: "white"
                         });
+                        $.post("{{ path('app_terminos_condiciones_guardar') }}",
+                            {
+                                id: id,
+                                campo: campo,
+                                valor: valor
+                            },
+                            function (data) {
+                                toastr.success("El elemento ha sido modificado correctamente.");
+                                setTimeout(function () {
+                                    $(window).attr('location', window.location)
+                                }, 500);
+                                HoldOn.close()
+                            });
+
+                    }, 500);
+
+
                 });
             })
             .catch(error => {
