@@ -44,7 +44,7 @@ class PlatoController extends AbstractController
      */
     public function registrar(Request $request, PlatoRepository $platoRepository)
     {
-//        try {
+        try {
             $entidad = new Plato();
             $form = $this->createForm(PlatoType::class, $entidad, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -66,10 +66,10 @@ class PlatoController extends AbstractController
             return $this->render('modules/configuracion/plato/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_plato_index', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_plato_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 
@@ -88,8 +88,8 @@ class PlatoController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                if (!empty($form['imagenPortada']->getData())) {
-                    if ($plato->getImagenPortada() != null) {
+                if (!empty($form['imagen']->getData())) {
+                    if ($plato->getImagen() != null) {
                         if (file_exists('uploads/images/plato/imagen/' . $plato->getImagen())) {
                             unlink('uploads/images/plato/imagen/' . $plato->getImagen());
                         }
@@ -113,7 +113,7 @@ class PlatoController extends AbstractController
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_plato_modificar', ['id' => $plato], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_plato_modificar', ['id' => $plato->getId()], Response::HTTP_SEE_OTHER);
         }
     }
 
