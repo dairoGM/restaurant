@@ -185,13 +185,15 @@ class ApiServicesController extends AbstractController
      * @param MenuRepository $menuRepository
      * @return JsonResponse
      */
-    public function listarMenu(MenuRepository $menuRepository, PlatoRepository $platoRepository, Utils $utils)
+    public function listarMenu(MenuRepository $menuRepository, MenuPlatoRepository $menuPlatoRepository)
     {
         try {
             $response = [];
             $result = $menuRepository->listarMenus(['publico' => true]);
             if (is_array($result)) {
                 foreach ($result as $value) {
+                    $precio = $menuPlatoRepository->getPrecioMenu($value['id']);
+                    $value['precio'] = $precio[0]['precio'] ?? 0;
                     $value['imagenEspacio'] = $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenEspacio'];
                     $response[] = $value;
                 }

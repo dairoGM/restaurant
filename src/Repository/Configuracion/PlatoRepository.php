@@ -59,7 +59,7 @@ class PlatoRepository extends ServiceEntityRepository
                         qb.publico,                                           
                         qb.descripcion,
                          qb.imagen
-                         ') ;
+                         ');
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }

@@ -82,4 +82,13 @@ class MenuPlatoRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult(1);
     }
 
+    public function getPrecioMenu($idMenu)
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select('sum(p.precio) as precio')
+            ->innerJoin('qb.plato', 'p')
+            ->innerJoin('qb.menu', 'm')
+            ->where("m.id = $idMenu");
+        return $query->getQuery()->getResult();
+    }
 }
