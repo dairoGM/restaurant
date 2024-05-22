@@ -415,19 +415,22 @@ class ApiServicesController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
     /**
      * @Route("/espacio/listar", name="api_espacio_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param EspacioRepository $espacioRepository
      * @param EspacioRedesSocialesRepository $espacioRedesSocialesRepository
      * @return JsonResponse
      */
-    public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository)
+    public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository, Request $request)
     {
         try {
             $result = $espacioRepository->listarEspacios(['publico' => true, 'activo' => true]);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
+                    $value['imagenPortada'] = $request->getSchemeAndHttpHost() . '/uploads/images/espacio/imagenPortada/' . $value['imagenPortada'];
+                    $value['imagenDetallada'] = $request->getSchemeAndHttpHost() . '/uploads/images/espacio/imagenDetallada/' . $value['imagenDetallada'];
                     $value['redes_sociales'] = $espacioRedesSocialesRepository->listarRedesSocialesEspacios(['e.id' => $value['id']]);
                     $response[] = $value;
                 }
