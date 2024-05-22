@@ -138,7 +138,7 @@ class ApiServicesController extends AbstractController
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
-                    $value['imagen'] = $this->baseUrl . "/uploads/images/portada?web/imagen/" . $value['imagen'];
+                    $value['imagen'] = $this->baseUrl . "/uploads/images/portada_web/imagen/" . $value['imagen'];
                     $response[] = $value;
                 }
             }
@@ -192,7 +192,7 @@ class ApiServicesController extends AbstractController
             $result = $menuRepository->listarMenus(['publico' => true]);
             if (is_array($result)) {
                 foreach ($result as $value) {
-                    $value['platos'] = $utils->listarPlatos($platoRepository, $this->baseUrl);
+                    $value['imagenEspacio'] = $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenEspacio'];
                     $response[] = $value;
                 }
             }
@@ -422,15 +422,15 @@ class ApiServicesController extends AbstractController
      * @param EspacioRedesSocialesRepository $espacioRedesSocialesRepository
      * @return JsonResponse
      */
-    public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository, Request $request)
+    public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository)
     {
         try {
             $result = $espacioRepository->listarEspacios(['publico' => true, 'activo' => true]);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
-                    $value['imagenPortada'] = $request->getSchemeAndHttpHost() . '/uploads/images/espacio/imagenPortada/' . $value['imagenPortada'];
-                    $value['imagenDetallada'] = $request->getSchemeAndHttpHost() . '/uploads/images/espacio/imagenDetallada/' . $value['imagenDetallada'];
+                    $value['imagenPortada'] = $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenPortada'];
+                    $value['imagenDetallada'] = $this->baseUrl . '/uploads/images/espacio/imagenDetallada/' . $value['imagenDetallada'];
                     $value['redes_sociales'] = $espacioRedesSocialesRepository->listarRedesSocialesEspacios(['e.id' => $value['id']]);
                     $response[] = $value;
                 }
