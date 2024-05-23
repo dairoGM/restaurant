@@ -44,7 +44,7 @@
                             </a></td>
 
                         <td>{{ item.nombre | default('') }}</td>
-                        <td>{{ item.precio | default('') }}</td>
+                        <td>{{ item.precio | localizedcurrency('USD') }}</td>
 
                         <td class="-text-center">
                             {% if '1' == item.publico %}
