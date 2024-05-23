@@ -65,6 +65,10 @@ class Espacio extends BaseEntity
     private ?int $orden;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $cantidadMesa;
+    /**
      * @return string|null
      */
     public function getNombreCorto(): ?string
@@ -190,6 +194,22 @@ class Espacio extends BaseEntity
     public function setOrden(?int $orden): void
     {
         $this->orden = $orden;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCantidadMesa(): ?int
+    {
+        return $this->cantidadMesa;
+    }
+
+    /**
+     * @param int|null $cantidadMesa
+     */
+    public function setCantidadMesa(?int $cantidadMesa): void
+    {
+        $this->cantidadMesa = $cantidadMesa;
     }
 
 

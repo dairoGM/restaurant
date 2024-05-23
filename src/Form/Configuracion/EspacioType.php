@@ -6,6 +6,7 @@ use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\Servicio;
 use App\Entity\Configuracion\TipoEvento;
+
 //use App\Entity\Estructura\Provincia;
 
 use Doctrine\ORM\EntityRepository;
@@ -38,6 +39,13 @@ class EspacioType extends AbstractType
                 'required' => false
             ])
             ->add('orden', IntegerType::class, [
+                'required' => false,
+                'attr' => [
+                    'min' => 1
+                ]
+            ])
+            ->add('cantidadMesa', IntegerType::class, [
+                'label' => 'Cantidad de mesas',
                 'required' => false,
                 'attr' => [
                     'min' => 1

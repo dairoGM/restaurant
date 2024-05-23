@@ -71,6 +71,11 @@
                     {{ form_errors(form.orden) }}
                 </div>
                 <div class="col-4 form-group">
+                    {{ form_label(form.cantidadMesa) }}
+                    {{ form_widget(form.cantidadMesa) }}
+                    {{ form_errors(form.cantidadMesa) }}
+                </div>
+                <div class="col-4 form-group">
                     {{ form_label(form.activo) }}
                     {{ form_widget(form.activo) }}
                     {{ form_errors(form.activo) }}
@@ -150,7 +155,7 @@
 
             });
 
-        $('#espacio_orden').bind("keypress", function (event) {
+        $('#espacio_orden, #espacio_cantidadMesa').bind("keypress", function (event) {
             if (event.charCode != 0) {
                 var regex = new RegExp("^[0-9-]*$");
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
