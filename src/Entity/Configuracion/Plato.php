@@ -45,6 +45,11 @@ class Plato extends BaseNomenclator
     private ?bool $publico = false;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $sugerenciaChef = false;
+
+    /**
      * @return null
      */
     public function getImagen()
@@ -90,6 +95,22 @@ class Plato extends BaseNomenclator
     public function setPublico(?bool $publico): void
     {
         $this->publico = $publico;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getSugerenciaChef(): ?bool
+    {
+        return $this->sugerenciaChef;
+    }
+
+    /**
+     * @param bool|null $sugerenciaChef
+     */
+    public function setSugerenciaChef(?bool $sugerenciaChef): void
+    {
+        $this->sugerenciaChef = $sugerenciaChef;
     }
 
 

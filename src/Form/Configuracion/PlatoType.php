@@ -27,6 +27,10 @@ class PlatoType extends AbstractType
             ->add('activo', CheckboxType::class, [
                 'required' => false
             ])
+            ->add('sugerenciaChef', CheckboxType::class, [
+                'label' => 'Sugerencia del Chef',
+                'required' => false
+            ])
             ->add('descripcion', TextareaType::class, [
                 'label' => 'Descripción',
                 'required' => false,

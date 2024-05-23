@@ -57,6 +57,7 @@ class PlatoRepository extends ServiceEntityRepository
                         qb.precio,                                                  
                         qb.activo,                                           
                         qb.publico,                                           
+                        qb.sugerenciaChef,                                           
                         qb.descripcion,
                          qb.imagen
                          ');
