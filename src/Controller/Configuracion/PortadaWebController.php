@@ -56,7 +56,27 @@ class PortadaWebController extends AbstractController
                     $entidad->setImagen($file_name);
                     $file->move("uploads/images/portada_web/imagen", $file_name);
                 }
-
+                if (!empty($form['imagen2']->getData())) {
+                    $file = $form['imagen2']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setImagen2($file_name);
+                    $file->move("uploads/images/portada_web/imagen2", $file_name);
+                }
+                if (!empty($form['imagen3']->getData())) {
+                    $file = $form['imagen3']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setImagen3($file_name);
+                    $file->move("uploads/images/portada_web/imagen3", $file_name);
+                }
+                if (!empty($form['imagen4']->getData())) {
+                    $file = $form['imagen4']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setImagen4($file_name);
+                    $file->move("uploads/images/portada_web/imagen4", $file_name);
+                }
                 $portadaRepository->add($entidad, true);
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
                 return $this->redirectToRoute('app_portada_web_index', [], Response::HTTP_SEE_OTHER);
@@ -100,6 +120,43 @@ class PortadaWebController extends AbstractController
                     $portada->setImagen($file_name);
                     $file->move("uploads/images/portada_web/imagen", $file_name);
                 }
+                if (!empty($form['imagen2']->getData())) {
+                    if ($portada->getImagen() != null) {
+                        if (file_exists('uploads/images/portada_web/imagen2/' . $portada->getImagen2())) {
+                            unlink('uploads/images/portada_web/imagen2/' . $portada->getImagen2());
+                        }
+                    }
+                    $file = $form['imagen2']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $portada->setImagen2($file_name);
+                    $file->move("uploads/images/portada_web/imagen2", $file_name);
+                }
+                if (!empty($form['imagen3']->getData())) {
+                    if ($portada->getImagen() != null) {
+                        if (file_exists('uploads/images/portada_web/imagen3/' . $portada->getImagen3())) {
+                            unlink('uploads/images/portada_web/imagen3/' . $portada->getImagen3());
+                        }
+                    }
+                    $file = $form['imagen3']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $portada->setImagen3($file_name);
+                    $file->move("uploads/images/portada_web/imagen3", $file_name);
+                }
+                if (!empty($form['imagen4']->getData())) {
+                    if ($portada->getImagen() != null) {
+                        if (file_exists('uploads/images/portada_web/imagen4/' . $portada->getImagen4())) {
+                            unlink('uploads/images/portada_web/imagen4/' . $portada->getImagen4());
+                        }
+                    }
+                    $file = $form['imagen4']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $portada->setImagen4($file_name);
+                    $file->move("uploads/images/portada_web/imagen4", $file_name);
+                }
+
 
                 $portadaRepository->edit($portada);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');

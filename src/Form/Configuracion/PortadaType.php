@@ -6,6 +6,7 @@ use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\Portada;
 use App\Entity\Configuracion\Servicio;
 use App\Entity\Configuracion\TipoEvento;
+
 //use App\Entity\Estructura\Provincia;
 
 use Doctrine\ORM\EntityRepository;
@@ -26,7 +27,6 @@ class PortadaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
             ->add('activo', CheckboxType::class, [
                 'required' => false
             ])
@@ -35,6 +35,24 @@ class PortadaType extends AbstractType
                 'required' => false,
             ])
             ->add('imagen', FileType::class, array(
+                "attr" => array("type" => "file"),
+                "required" => false,
+                "mapped" => false,
+
+            ))
+            ->add('imagen2', FileType::class, array(
+                "attr" => array("type" => "file"),
+                "required" => false,
+                "mapped" => false,
+
+            ))
+            ->add('imagen3', FileType::class, array(
+                "attr" => array("type" => "file"),
+                "required" => false,
+                "mapped" => false,
+
+            ))
+            ->add('imagen4', FileType::class, array(
                 "attr" => array("type" => "file"),
                 "required" => false,
                 "mapped" => false,

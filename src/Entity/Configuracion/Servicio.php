@@ -3,6 +3,7 @@
 namespace App\Entity\Configuracion;
 
 use App\Entity\BaseEntity;
+
 //use App\Entity\Estructura\Provincia;
 //use App\Entity\Estructura\Municipio;
 //use App\Entity\Estructura\CategoriaEstructura;
@@ -64,10 +65,45 @@ class Servicio extends BaseEntity
     private ?bool $publico = false;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $fecha;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $locacion = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $telefonoAuspiciador = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $cantidadParticipantes;
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $orden;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $cantidadPlantosPersonas;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $cantidadTragosPersonas;
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $gestionarBuffet = false;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $ambientacion = false;
     /**
      * @return string|null
      */
@@ -181,6 +217,70 @@ class Servicio extends BaseEntity
     }
 
     /**
+     * @return mixed
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * @param mixed $fecha
+     */
+    public function setFecha($fecha): void
+    {
+        $this->fecha = $fecha;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocacion(): ?string
+    {
+        return $this->locacion;
+    }
+
+    /**
+     * @param string|null $locacion
+     */
+    public function setLocacion(?string $locacion): void
+    {
+        $this->locacion = $locacion;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTelefonoAuspiciador(): ?string
+    {
+        return $this->telefonoAuspiciador;
+    }
+
+    /**
+     * @param string|null $telefonoAuspiciador
+     */
+    public function setTelefonoAuspiciador(?string $telefonoAuspiciador): void
+    {
+        $this->telefonoAuspiciador = $telefonoAuspiciador;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCantidadParticipantes(): ?int
+    {
+        return $this->cantidadParticipantes;
+    }
+
+    /**
+     * @param int|null $cantidadParticipantes
+     */
+    public function setCantidadParticipantes(?int $cantidadParticipantes): void
+    {
+        $this->cantidadParticipantes = $cantidadParticipantes;
+    }
+
+    /**
      * @return int|null
      */
     public function getOrden(): ?int
@@ -196,6 +296,69 @@ class Servicio extends BaseEntity
         $this->orden = $orden;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getCantidadPlantosPersonas(): ?int
+    {
+        return $this->cantidadPlantosPersonas;
+    }
+
+    /**
+     * @param int|null $cantidadPlantosPersonas
+     */
+    public function setCantidadPlantosPersonas(?int $cantidadPlantosPersonas): void
+    {
+        $this->cantidadPlantosPersonas = $cantidadPlantosPersonas;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCantidadTragosPersonas(): ?int
+    {
+        return $this->cantidadTragosPersonas;
+    }
+
+    /**
+     * @param int|null $cantidadTragosPersonas
+     */
+    public function setCantidadTragosPersonas(?int $cantidadTragosPersonas): void
+    {
+        $this->cantidadTragosPersonas = $cantidadTragosPersonas;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getGestionarBuffet(): ?bool
+    {
+        return $this->gestionarBuffet;
+    }
+
+    /**
+     * @param bool|null $gestionarBuffet
+     */
+    public function setGestionarBuffet(?bool $gestionarBuffet): void
+    {
+        $this->gestionarBuffet = $gestionarBuffet;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getAmbientacion(): ?bool
+    {
+        return $this->ambientacion;
+    }
+
+    /**
+     * @param bool|null $ambientacion
+     */
+    public function setAmbientacion(?bool $ambientacion): void
+    {
+        $this->ambientacion = $ambientacion;
+    }
 
 
 }

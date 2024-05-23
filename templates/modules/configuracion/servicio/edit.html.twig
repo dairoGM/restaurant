@@ -66,15 +66,52 @@
                     {{ form_errors(form.nombreLargo) }}
                 </div>
                 <div class="col-4 form-group">
+                    {{ form_label(form.cantidadParticipantes) }}
+                    {{ form_widget(form.cantidadParticipantes) }}
+                    {{ form_errors(form.cantidadParticipantes) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.locacion) }}
+                    {{ form_widget(form.locacion) }}
+                    {{ form_errors(form.locacion) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.telefonoAuspiciador) }}
+                    {{ form_widget(form.telefonoAuspiciador) }}
+                    {{ form_errors(form.telefonoAuspiciador) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.cantidadPlantosPersonas) }}
+                    {{ form_widget(form.cantidadPlantosPersonas) }}
+                    {{ form_errors(form.cantidadPlantosPersonas) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.cantidadTragosPersonas) }}
+                    {{ form_widget(form.cantidadTragosPersonas) }}
+                    {{ form_errors(form.cantidadTragosPersonas) }}
+                </div>
+                <div class="col-4 form-group">
                     {{ form_label(form.orden) }}
                     {{ form_widget(form.orden) }}
                     {{ form_errors(form.orden) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.gestionarBuffet) }}
+                    {{ form_widget(form.gestionarBuffet) }}
+                    {{ form_errors(form.gestionarBuffet) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.ambientacion) }}
+                    {{ form_widget(form.ambientacion) }}
+                    {{ form_errors(form.ambientacion) }}
                 </div>
                 <div class="col-4 form-group">
                     {{ form_label(form.activo) }}
                     {{ form_widget(form.activo) }}
                     {{ form_errors(form.activo) }}
                 </div>
+
+            </div>
 
             </div>
             <div class="row">
@@ -150,7 +187,7 @@
 
             });
 
-        $('#servicio_orden').bind("keypress", function (event) {
+        $('#servicio_orden, #servicio_cantidadTragosPersonas').bind("keypress", function (event) {
             if (event.charCode != 0) {
                 var regex = new RegExp("^[0-9-]*$");
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);

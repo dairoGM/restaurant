@@ -35,6 +35,60 @@
                     </div>
                 </div>
                 <div class="col-4 form-group">
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_label(form.imagen2) }}
+                            {{ form_widget(form.imagen2) }}
+                            {{ form_errors(form.imagen2) }}
+                        </div>
+                        <div class="col-2">
+                            <div id="image-holder2"></div>
+
+                            {% if portada.imagen2 != null %}
+                                <img src="{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen2/{{ portada.imagen2 }}"
+                                     class="img-circle imgp" alt="Imagen de portada"
+                                     style="width: 40px; height: 40px; position: absolute; bottom: 0;">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 form-group">
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_label(form.imagen3) }}
+                            {{ form_widget(form.imagen3) }}
+                            {{ form_errors(form.imagen3) }}
+                        </div>
+                        <div class="col-2">
+                            <div id="image-holder3"></div>
+
+                            {% if portada.imagen3 != null %}
+                                <img src="{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen3/{{ portada.imagen3 }}"
+                                     class="img-circle imgp" alt="Imagen de portada"
+                                     style="width: 40px; height: 40px; position: absolute; bottom: 0;">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 form-group">
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_label(form.imagen4) }}
+                            {{ form_widget(form.imagen4) }}
+                            {{ form_errors(form.imagen4) }}
+                        </div>
+                        <div class="col-2">
+                            <div id="image-holder4"></div>
+
+                            {% if portada.imagen4 != null %}
+                                <img src="{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen4/{{ portada.imagen4 }}"
+                                     class="img-circle imgp" alt="Imagen de portada"
+                                     style="width: 40px; height: 40px; position: absolute; bottom: 0;">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 form-group">
                     {{ form_label(form.activo) }}
                     {{ form_widget(form.activo) }}
                     {{ form_errors(form.activo) }}
@@ -118,6 +172,95 @@
                 alert("Pls select only images");
             }
         });
+        $("#portada_imagen2").on('change', function () {
+            //Get count of selected files
+            var countFiles = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
 
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder = $("#image-holder2");
+            image_holder.empty();
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < countFiles; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "thumb-image   img-circle",
+                                "style": 'width: 40px; height: 40px; position: absolute; bottom: 0;'
+                            }).appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                    }
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            } else {
+                alert("Pls select only images");
+            }
+        });
+        $("#portada_imagen3").on('change', function () {
+            //Get count of selected files
+            var countFiles = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
+
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder = $("#image-holder3");
+            image_holder.empty();
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < countFiles; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "thumb-image   img-circle",
+                                "style": 'width: 40px; height: 40px; position: absolute; bottom: 0;'
+                            }).appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                    }
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            } else {
+                alert("Pls select only images");
+            }
+        });
+        $("#portada_imagen4").on('change', function () {
+            //Get count of selected files
+            var countFiles = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
+
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder = $("#image-holder4");
+            image_holder.empty();
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < countFiles; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "thumb-image   img-circle",
+                                "style": 'width: 40px; height: 40px; position: absolute; bottom: 0;'
+                            }).appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                    }
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            } else {
+                alert("Pls select only images");
+            }
+        });
     </script>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Form\Configuracion;
 use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\Servicio;
 use App\Entity\Configuracion\TipoEvento;
+
 //use App\Entity\Estructura\Provincia;
 //use App\Entity\Personal\Carrera;
 //use App\Entity\Personal\NivelEscolar;
@@ -57,7 +58,57 @@ class ServicioType extends AbstractType
                 "required" => false,
                 "mapped" => false,
 
-            ));
+            ))
+            ->add('telefonoAuspiciador', TextType::class, [
+                'label' => 'Teléfono del auspiciador',
+                'required' => false,
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
+            ->add('cantidadParticipantes', IntegerType::class, [
+                'label' => 'Cantidad de patricipantes',
+                'required' => false,
+                'attr' => [
+                    'min' => 1
+                ]
+            ])
+            ->add('locacion', TextType::class, [
+                'label' => 'Locación',
+                'required' => false,
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
+            ->add('gestionarBuffet', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Gestionar Buffet'
+            ])
+            ->add('ambientacion', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Ambientación'
+            ])
+            ->add('cantidadPlantosPersonas', IntegerType::class, [
+                'label' => 'Cantidad de platos por persona',
+                'required' => false,
+                'attr' => [
+                    'min' => 1
+                ]
+            ])
+            ->add('cantidadTragosPersonas', IntegerType::class, [
+                'label' => 'Cantidad de tragos por persona',
+                'required' => false,
+                'attr' => [
+                    'min' => 1
+                ]
+            ])
+
+
+
+
+
+
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

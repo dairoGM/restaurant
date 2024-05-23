@@ -65,12 +65,12 @@ class ApiWithoutAuthorizationController extends AbstractController
      */
     public function listarEventos(EventoRepository $eventoRepository)
     {
-        try {
-            $result = $eventoRepository->listarEventos(['activo' => true]);
-            return $this->json(['messaje' => 'OK', 'data' => $result]);
-        } catch (Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-        }
+//        try {
+//            $result = $eventoRepository->listarEventos(['activo' => true]);
+//            return $this->json(['messaje' => 'OK', 'data' => $result]);
+//        } catch (Exception $exc) {
+//            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+//        }
     }
 
     /**
@@ -80,12 +80,12 @@ class ApiWithoutAuthorizationController extends AbstractController
      */
     public function listarMaridajes(MaridajeRepository $maridajeRepository)
     {
-        try {
-            $result = $maridajeRepository->listarMaridajes(['activo' => true]);
-            return $this->json(['messaje' => 'OK', 'data' => $result]);
-        } catch (Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-        }
+//        try {
+//            $result = $maridajeRepository->listarMaridajes(['activo' => true]);
+//            return $this->json(['messaje' => 'OK', 'data' => $result]);
+//        } catch (Exception $exc) {
+//            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+//        }
     }
 
     /**
@@ -95,12 +95,12 @@ class ApiWithoutAuthorizationController extends AbstractController
      */
     public function listarCatering(CateringRepository $cateringRepository)
     {
-        try {
-            $result = $cateringRepository->listarCatering(['activo' => true]);
-            return $this->json(['messaje' => 'OK', 'data' => $result]);
-        } catch (Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-        }
+//        try {
+//            $result = $cateringRepository->listarCatering(['activo' => true]);
+//            return $this->json(['messaje' => 'OK', 'data' => $result]);
+//        } catch (Exception $exc) {
+//            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+//        }
     }
 
     /**
@@ -139,6 +139,9 @@ class ApiWithoutAuthorizationController extends AbstractController
             if (is_array($result)) {
                 foreach ($result as $value) {
                     $value['imagen'] = $this->baseUrl . "/uploads/images/portada_web/imagen/" . $value['imagen'];
+                    $value['imagen2'] = $this->baseUrl . "/uploads/images/portada_web/imagen2/" . $value['imagen2'];
+                    $value['imagen3'] = $this->baseUrl . "/uploads/images/portada_web/imagen3/" . $value['imagen3'];
+                    $value['imagen4'] = $this->baseUrl . "/uploads/images/portada_web/imagen4/" . $value['imagen4'];
                     $response[] = $value;
                 }
             }
@@ -156,12 +159,12 @@ class ApiWithoutAuthorizationController extends AbstractController
      */
     public function listarExperienciaGastronomica(ExperienciaGastronomicaRepository $experienciaGastronomicaRepository)
     {
-        try {
-            $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica(['publico' => true]);
-            return $this->json(['messaje' => 'OK', 'data' => $result]);
-        } catch (Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-        }
+//        try {
+//            $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica(['publico' => true]);
+//            return $this->json(['messaje' => 'OK', 'data' => $result]);
+//        } catch (Exception $exc) {
+//            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+//        }
     }
 
     /**
@@ -171,12 +174,12 @@ class ApiWithoutAuthorizationController extends AbstractController
      */
     public function listarExperienciaCulinaria(ExperienciaCulinariaRepository $experienciaCulinariaRepository)
     {
-        try {
-            $result = $experienciaCulinariaRepository->listarExperienciaCulinaria(['publico' => true]);
-            return $this->json(['messaje' => 'OK', 'data' => $result]);
-        } catch (Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => null], Response::HTTP_BAD_GATEWAY);
-        }
+//        try {
+//            $result = $experienciaCulinariaRepository->listarExperienciaCulinaria(['publico' => true]);
+//            return $this->json(['messaje' => 'OK', 'data' => $result]);
+//        } catch (Exception $exc) {
+//            return $this->json(['messaje' => $exc->getMessage(), 'data' => null], Response::HTTP_BAD_GATEWAY);
+//        }
     }
 
 
