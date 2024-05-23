@@ -7,7 +7,13 @@
                 <img src="{% if item.imagen != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen/{{ item.imagen }}{% else %} /assets/images/usuario.png {% endif %}"
                      class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
             </a></h5>
-
+        <h5 class="mb-0"><b>Imagen 3:</b></h5>
+        <h5 class="mb-0"><a
+                    href="{% if item.imagen3 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen3/{{ item.imagen3 }} {% else %} /assets/images/usuario.png {% endif %}"
+                    target="_blank">
+                <img src="{% if item.imagen3 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen3/{{ item.imagen3 }}{% else %} /assets/images/usuario.png {% endif %}"
+                     class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
+            </a></h5>
     </div>
     <div class="col-6">
 
@@ -23,6 +29,20 @@
         {% else %}
             <h5 class="mb-0"><b>Estado:</b> Deshabilitado</h5>
         {% endif %}
+        <h5 class="mb-0"><b>Imagen 2:</b></h5>
+        <h5 class="mb-0"><a
+                    href="{% if item.imagen2 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen2/{{ item.imagen2 }} {% else %} /assets/images/usuario.png {% endif %}"
+                    target="_blank">
+                <img src="{% if item.imagen2 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen2/{{ item.imagen2 }}{% else %} /assets/images/usuario.png {% endif %}"
+                     class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
+            </a></h5>
+        <h5 class="mb-0"><b>Imagen 4:</b></h5>
+        <h5 class="mb-0"><a
+                    href="{% if item.imagen4 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen4/{{ item.imagen4 }} {% else %} /assets/images/usuario.png {% endif %}"
+                    target="_blank">
+                <img src="{% if item.imagen4 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen4/{{ item.imagen4 }}{% else %} /assets/images/usuario.png {% endif %}"
+                     class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
+            </a></h5>
     </div>
 
 </div>
