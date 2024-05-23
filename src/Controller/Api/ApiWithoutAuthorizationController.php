@@ -440,6 +440,20 @@ class ApiWithoutAuthorizationController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+    /**
+     * @Route("/plato/listar-sugerencia-chef", name="api_plato_listar-sugerencia-chef", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param PlatoRepository $platoRepository
+     * @return JsonResponse
+     */
+    public function listarPlatosSugerenciaChef(PlatoRepository $platoRepository, Utils $utils)
+    {
+        try {
+            $response = $utils->listarPlatos($platoRepository, $this->baseUrl, true);
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 
 
     /**

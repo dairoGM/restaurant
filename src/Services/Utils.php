@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entity\Security\Rol;
+
 //use App\Entity\Security\RolEstructura;
 use App\Entity\Security\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -445,9 +446,15 @@ class Utils
     }
 
 
-    public function listarPlatos($platoRepository, $baseUrl)
+    public function listarPlatos($platoRepository, $baseUrl, $sugerenciaChef = false)
     {
-        $result = $platoRepository->listarPlatos(['publico' => true, 'activo' => true]);
+        $filtros['publico'] = true;
+        $filtros['activo'] = true;
+
+        if ($sugerenciaChef) {
+            $filtros['sugerenciaChef'] = true;
+        }
+        $result = $platoRepository->listarPlatos($filtros);
         $response = [];
         if (is_array($result)) {
             foreach ($result as $value) {
@@ -458,7 +465,7 @@ class Utils
         return $response;
     }
 
-    public function sendMailer2($params=[])
+    public function sendMailer2($params = [])
     {
         $params = [
             'name_from' => 'pruebaa',
