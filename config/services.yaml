@@ -27,7 +27,7 @@ parameters:
     objeto_plan: '%env(objeto_plan)%'
     objeto_autenticacion: '%env(objeto_autenticacion)%'
     objeto_indicador: '%env(objeto_indicador)%'
-
+    MC_VALIDATION_VERIFY: '%env(MC_VALIDATION_VERIFY)%'
 
 services:
     # default configuration for services in *this* file
@@ -90,3 +90,6 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
 
+    App\EventListener\ApiKeyListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
