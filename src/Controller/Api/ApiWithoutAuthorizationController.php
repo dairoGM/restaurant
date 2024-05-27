@@ -115,8 +115,8 @@ class ApiWithoutAuthorizationController extends AbstractController
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
-                    $value['imagenPortada'] = $this->baseUrl . "/uploads/images/servicio/imagenPortada/" . $value['imagenPortada'];
-                    $value['imagenDetallada'] = $this->baseUrl . "/uploads/images/servicio/imagenDetallada/" . $value['imagenDetallada'];
+                    $value['imagenPortada'] = !empty($value['imagenPortada']) ? $this->baseUrl . "/uploads/images/servicio/imagenPortada/" . $value['imagenPortada'] : null;
+                    $value['imagenDetallada'] = !empty($value['imagenDetallada']) ? $this->baseUrl . "/uploads/images/servicio/imagenDetallada/" . $value['imagenDetallada'] : null;
                     $response[] = $value;
                 }
             }
@@ -197,7 +197,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                 foreach ($result as $value) {
                     $precio = $menuPlatoRepository->getPrecioMenu($value['id']);
                     $value['precio'] = $precio[0]['precio'] ?? 0;
-                    $value['imagenEspacio'] = $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenEspacio'];
+                    $value['imagenEspacio'] = !empty($value['imagenEspacio']) ? $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenEspacio'] : null;
                     $response[] = $value;
                 }
             }
@@ -397,8 +397,8 @@ class ApiWithoutAuthorizationController extends AbstractController
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
-                    $value['imagenPortada'] = $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenPortada'];
-                    $value['imagenDetallada'] = $this->baseUrl . '/uploads/images/espacio/imagenDetallada/' . $value['imagenDetallada'];
+                    $value['imagenPortada'] = !empty($value['imagenPortada']) ? $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenPortada'] : null;
+                    $value['imagenDetallada'] = !empty($value['imagenDetallada']) ? $this->baseUrl . '/uploads/images/espacio/imagenDetallada/' . $value['imagenDetallada'] : null;
                     $value['redes_sociales'] = $espacioRedesSocialesRepository->listarRedesSocialesEspacios(['e.id' => $value['id']]);
                     $response[] = $value;
                 }
