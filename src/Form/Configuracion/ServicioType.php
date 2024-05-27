@@ -61,10 +61,7 @@ class ServicioType extends AbstractType
             ))
             ->add('telefonoAuspiciador', TextType::class, [
                 'label' => 'Teléfono del auspiciador',
-                'required' => false,
-                'constraints' => [
-                    new NotBlank()
-                ]
+                'required' => false
             ])
             ->add('cantidadParticipantes', IntegerType::class, [
                 'label' => 'Cantidad de patricipantes',
@@ -75,10 +72,7 @@ class ServicioType extends AbstractType
             ])
             ->add('locacion', TextType::class, [
                 'label' => 'Locación',
-                'required' => false,
-                'constraints' => [
-                    new NotBlank()
-                ]
+                'required' => false
             ])
             ->add('gestionarBuffet', CheckboxType::class, [
                 'required' => false,
