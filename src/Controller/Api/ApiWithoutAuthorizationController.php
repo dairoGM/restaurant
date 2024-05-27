@@ -138,10 +138,10 @@ class ApiWithoutAuthorizationController extends AbstractController
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
-                    $value['imagen'] = $this->baseUrl . "/uploads/images/portada_web/imagen/" . $value['imagen'];
-                    $value['imagen2'] = $this->baseUrl . "/uploads/images/portada_web/imagen2/" . $value['imagen2'];
-                    $value['imagen3'] = $this->baseUrl . "/uploads/images/portada_web/imagen3/" . $value['imagen3'];
-                    $value['imagen4'] = $this->baseUrl . "/uploads/images/portada_web/imagen4/" . $value['imagen4'];
+                    $value['imagen'] = !empty($value['imagen']) ? $this->baseUrl . "/uploads/images/portada_web/imagen/" . $value['imagen'] : null;
+                    $value['imagen2'] = !empty($value['imagen2']) ? $this->baseUrl . "/uploads/images/portada_web/imagen2/" . $value['imagen2'] : null;
+                    $value['imagen3'] = !empty($value['imagen3']) ? $this->baseUrl . "/uploads/images/portada_web/imagen3/" . $value['imagen3'] : null;
+                    $value['imagen4'] = !empty($value['imagen4']) ? $this->baseUrl . "/uploads/images/portada_web/imagen4/" . $value['imagen4'] : null;
                     $response[] = $value;
                 }
             }
@@ -440,6 +440,7 @@ class ApiWithoutAuthorizationController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
     /**
      * @Route("/plato/listar-sugerencia-chef", name="api_plato_listar-sugerencia-chef", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param PlatoRepository $platoRepository
