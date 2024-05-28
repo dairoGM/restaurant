@@ -30,7 +30,7 @@ class ApiKeyListener
         // Define la API Key permitida
         $allowedApiKey = $this->container->getParameter('MC_VALIDATION_VERIFY');
 
-        if (str_contains($this->baseUrl, 'service')) {
+        if (str_contains($this->baseUrl, 'api')) {
             if ($apiKey !== $allowedApiKey) {
                 $response = new Response('ACCESS_DENIED', Response::HTTP_NOT_FOUND);
                 $event->setResponse($response);
