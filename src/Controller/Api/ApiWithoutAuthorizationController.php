@@ -184,7 +184,7 @@ class ApiWithoutAuthorizationController extends AbstractController
 
 
     /**
-     * @Route("/menu/listar", name="api_menu_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/menu/listar", name="api_menu_listar", methods={"POST"}, defaults={"_format":"json"})
      * @param MenuRepository $menuRepository
      * @return JsonResponse
      */
