@@ -14,17 +14,13 @@ if ($_SERVER['APP_DEBUG']) {
 
     Debug::enable();
 }
-
-//if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
-header("Access-Control-Allow-Origin: '*'");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Mc-Validation-Verify");
-header("Allow: GET, POST, OPTIONS, PUT, DELETE");
-//}
 
-$method = $_SERVER['REQUEST_METHOD'];
-if ($method == "OPTIONS") {
-    die();
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
 }
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
