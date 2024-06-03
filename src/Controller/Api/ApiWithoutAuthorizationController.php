@@ -201,9 +201,9 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $response[] = $value;
                 }
             }
-            return $this->json(['messaje' => 'OK', 'data' => $response]);
+            return $this->json(['messaje' => 'OK', 'data' => $response], Response::HTTP_OK, ['Access-Control-Allow-Origin' => '*', 'Content-Type' => 'application/json']);
         } catch (Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY, ['Access-Control-Allow-Origin' => '*', 'Content-Type' => 'application/json']);
         }
     }
 
