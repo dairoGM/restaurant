@@ -20,6 +20,10 @@
         <!-- Gmail SHOULD NOT be used on production, use it in development only. -->
         <!-- MAILER_DSN=gmail://USERNAME:PASSWORD@default -->
         <!-- ###- symfony/google-mailer ### -->
+
+        <!-- ###+ nelmio/cors-bundle ### -->
+        <env name="CORS_ALLOW_ORIGIN" value="'^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$'"/>
+        <!-- ###- nelmio/cors-bundle ### -->
     </php>
 
     <testsuites>
