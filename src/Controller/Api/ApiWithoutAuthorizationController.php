@@ -42,7 +42,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Services\Utils;
 
 /**
- * @Route("/services1")
+ * @Route("/pro")
  */
 class ApiWithoutAuthorizationController extends AbstractController
 {
