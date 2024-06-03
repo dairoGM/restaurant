@@ -58,50 +58,6 @@ class ApiWithoutAuthorizationController extends AbstractController
         $this->baseUrl = $request->getSchemeAndHttpHost() . $request->getBasePath();
     }
 
-    /**
-     * @Route("/eventos/listar", name="api_eventos_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param EventoRepository $eventoRepository
-     * @return JsonResponse
-     */
-    public function listarEventos(EventoRepository $eventoRepository)
-    {
-//        try {
-//            $result = $eventoRepository->listarEventos(['activo' => true]);
-//            return $this->json(['messaje' => 'OK', 'data' => $result]);
-//        } catch (Exception $exc) {
-//            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-//        }
-    }
-
-    /**
-     * @Route("/maridaje/listar", name="api_maridajes_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param MaridajeRepository $maridajeRepository
-     * @return JsonResponse
-     */
-    public function listarMaridajes(MaridajeRepository $maridajeRepository)
-    {
-//        try {
-//            $result = $maridajeRepository->listarMaridajes(['activo' => true]);
-//            return $this->json(['messaje' => 'OK', 'data' => $result]);
-//        } catch (Exception $exc) {
-//            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-//        }
-    }
-
-    /**
-     * @Route("/catering/listar", name="api_catering_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param CateringRepository $cateringRepository
-     * @return JsonResponse
-     */
-    public function listarCatering(CateringRepository $cateringRepository)
-    {
-//        try {
-//            $result = $cateringRepository->listarCatering(['activo' => true]);
-//            return $this->json(['messaje' => 'OK', 'data' => $result]);
-//        } catch (Exception $exc) {
-//            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-//        }
-    }
 
     /**
      * @Route("/servicio/listar", name="api_servicio_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
@@ -151,36 +107,6 @@ class ApiWithoutAuthorizationController extends AbstractController
         }
     }
 
-
-    /**
-     * @Route("/experiencia_gastronomica/listar", name="api_experiencia_gastronomica_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param ExperienciaGastronomicaRepository $experienciaGastronomicaRepository
-     * @return JsonResponse
-     */
-    public function listarExperienciaGastronomica(ExperienciaGastronomicaRepository $experienciaGastronomicaRepository)
-    {
-//        try {
-//            $result = $experienciaGastronomicaRepository->listarExperienciaGastronomica(['publico' => true]);
-//            return $this->json(['messaje' => 'OK', 'data' => $result]);
-//        } catch (Exception $exc) {
-//            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-//        }
-    }
-
-    /**
-     * @Route("/experiencia_culinaria/listar", name="api_experiencia_culinaria_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param ExperienciaCulinariaRepository $experienciaCulinariaRepository
-     * @return JsonResponse
-     */
-    public function listarExperienciaCulinaria(ExperienciaCulinariaRepository $experienciaCulinariaRepository)
-    {
-//        try {
-//            $result = $experienciaCulinariaRepository->listarExperienciaCulinaria(['publico' => true]);
-//            return $this->json(['messaje' => 'OK', 'data' => $result]);
-//        } catch (Exception $exc) {
-//            return $this->json(['messaje' => $exc->getMessage(), 'data' => null], Response::HTTP_BAD_GATEWAY);
-//        }
-    }
 
 
     /**
