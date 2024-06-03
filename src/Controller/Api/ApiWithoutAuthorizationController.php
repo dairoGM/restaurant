@@ -42,7 +42,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Services\Utils;
 
 /**
- * @Route("/pro")
+ * @Route("/public")
  */
 class ApiWithoutAuthorizationController extends AbstractController
 {
@@ -53,6 +53,7 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         $this->requestStack = $requestStack;
         $request = $this->requestStack->getCurrentRequest();
+
         // Obtener la URL base
         $this->baseUrl = $request->getSchemeAndHttpHost() . $request->getBasePath();
     }
