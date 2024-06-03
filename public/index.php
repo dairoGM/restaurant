@@ -16,7 +16,7 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 //if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: '*'");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Mc-Validation-Verify");
 header("Allow: GET, POST, OPTIONS, PUT, DELETE");
