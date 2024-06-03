@@ -14,14 +14,7 @@ if ($_SERVER['APP_DEBUG']) {
 
     Debug::enable();
 }
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Mc-Validation-Verify");
 
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 $request = Request::createFromGlobals();
