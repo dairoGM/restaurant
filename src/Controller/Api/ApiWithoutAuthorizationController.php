@@ -53,7 +53,6 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         $this->requestStack = $requestStack;
         $request = $this->requestStack->getCurrentRequest();
-
         // Obtener la URL base
         $this->baseUrl = $request->getSchemeAndHttpHost() . $request->getBasePath();
     }
