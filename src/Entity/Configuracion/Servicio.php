@@ -44,6 +44,11 @@ class Servicio extends BaseEntity
      */
     private ?string $descripcion;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="TipoServicio")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     */
+    private ?TipoServicio $tipoServicio;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -104,6 +109,7 @@ class Servicio extends BaseEntity
      * @ORM\Column(type="boolean", nullable=true)
      */
     private ?bool $ambientacion = false;
+
     /**
      * @return string|null
      */
@@ -358,6 +364,22 @@ class Servicio extends BaseEntity
     public function setAmbientacion(?bool $ambientacion): void
     {
         $this->ambientacion = $ambientacion;
+    }
+
+    /**
+     * @return TipoServicio|null
+     */
+    public function getTipoServicio(): ?TipoServicio
+    {
+        return $this->tipoServicio;
+    }
+
+    /**
+     * @param TipoServicio|null $tipoServicio
+     */
+    public function setTipoServicio(?TipoServicio $tipoServicio): void
+    {
+        $this->tipoServicio = $tipoServicio;
     }
 
 

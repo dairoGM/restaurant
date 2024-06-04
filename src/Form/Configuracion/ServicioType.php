@@ -2,6 +2,7 @@
 
 namespace App\Form\Configuracion;
 
+use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\Servicio;
 use App\Entity\Configuracion\TipoEvento;
@@ -9,6 +10,7 @@ use App\Entity\Configuracion\TipoEvento;
 //use App\Entity\Estructura\Provincia;
 //use App\Entity\Personal\Carrera;
 //use App\Entity\Personal\NivelEscolar;
+use App\Entity\Configuracion\TipoServicio;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -69,6 +71,15 @@ class ServicioType extends AbstractType
                 'attr' => [
                     'min' => 1
                 ]
+            ])
+            ->add('tipoServicio', EntityType::class, [
+                'class' => TipoServicio::class,
+                'choice_label' => 'nombre',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null
             ])
             ->add('locacion', TextType::class, [
                 'label' => 'Locación',
