@@ -64,10 +64,17 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param ServicioRepository $servicioRepository
      * @return JsonResponse
      */
-    public function listarServiciosPublicos(ServicioRepository $servicioRepository)
+    public function listarServiciosPublicos(Request $request, ServicioRepository $servicioRepository)
     {
         try {
-            $result = $servicioRepository->listarServicios(['publico' => true, 'activo' => true]);
+            $jsonParams = json_decode($request->getContent(), true);
+            $idTipoServicio = $jsonParams['idTipoServicio'] ?? null;
+            $filtros['publico'] = true;
+            $filtros['activo'] = true;
+            if (!empty($idTipoServicio)) {
+                $filtros['tipoServicio'] = $idTipoServicio;
+            }
+            $result = $servicioRepository->listarServicios($filtros);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {
