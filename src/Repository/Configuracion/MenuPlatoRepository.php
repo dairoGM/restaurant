@@ -54,12 +54,16 @@ class MenuPlatoRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('qb')
             ->select('p.id, 
                         p.nombre, 
+                        e.nombreCorto as nombreCortoEspacio, 
+                        e.id as idEspacio, 
                         p.precio,                                                  
                         p.activo,                                           
                         p.publico,                                           
+                        p.sugerenciaChef,                                           
                         p.descripcion,
                          p.imagen')
             ->innerJoin('qb.menu', 'm')
+            ->innerJoin('m.espacio', 'e')
             ->innerJoin('qb.plato', 'p');
         if (!is_null($limit)) {
             $query->setMaxResults($limit);

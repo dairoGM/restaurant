@@ -446,15 +446,18 @@ class Utils
     }
 
 
-    public function listarPlatos($platoRepository, $baseUrl, $sugerenciaChef = false)
+    public function listarPlatos($menuPlatoRepository, $baseUrl, $sugerenciaChef = false, $idEspacio)
     {
-        $filtros['publico'] = true;
-        $filtros['activo'] = true;
+        $filtros['p.publico'] = true;
+        $filtros['p.activo'] = true;
 
         if ($sugerenciaChef) {
-            $filtros['sugerenciaChef'] = true;
+            $filtros['p.sugerenciaChef'] = true;
         }
-        $result = $platoRepository->listarPlatos($filtros);
+        if (-1 != $idEspacio) {
+            $filtros['e.id'] = $idEspacio;
+        }
+        $result = $menuPlatoRepository->listarPlatos($filtros);
         $response = [];
         if (is_array($result)) {
             foreach ($result as $value) {

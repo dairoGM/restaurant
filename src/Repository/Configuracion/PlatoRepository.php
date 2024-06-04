@@ -60,7 +60,10 @@ class PlatoRepository extends ServiceEntityRepository
                         qb.sugerenciaChef,                                           
                         qb.descripcion,
                          qb.imagen
-                         ');
+                         ')
+            ->leftJoin('App\Entity\Configuracion\MenuPlato', 'mp', 'WITH', 'mp.plato = qb.id')
+            ->join('App\Entity\Configuracion\Menu', 'm', 'WITH', 'm.id = mp.menu')
+            ->join('App\Entity\Configuracion\Espacio', 'e', 'WITH', 'e.id = m.espacio');
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }

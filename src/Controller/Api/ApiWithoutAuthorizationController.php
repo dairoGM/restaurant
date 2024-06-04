@@ -108,7 +108,6 @@ class ApiWithoutAuthorizationController extends AbstractController
     }
 
 
-
     /**
      * @Route("/menu/listar", name="api_menu_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param MenuRepository $menuRepository
@@ -353,13 +352,18 @@ class ApiWithoutAuthorizationController extends AbstractController
 
     /**
      * @Route("/plato/listar", name="api_plato_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param PlatoRepository $platoRepository
+     * @param Request $request
+     * @param MenuPlatoRepository $menuPlatoRepository
+     * @param Utils $utils
      * @return JsonResponse
      */
-    public function listarPlatos(PlatoRepository $platoRepository, Utils $utils)
+    public function listarPlatos(Request $request, MenuPlatoRepository $menuPlatoRepository, Utils $utils)
     {
         try {
-            $response = $utils->listarPlatos($platoRepository, $this->baseUrl);
+            $jsonParams = json_decode($request->getContent(), true);
+            $idEspacio = $jsonParams['id_espacio'] ?? -1;
+
+            $response = $utils->listarPlatos($menuPlatoRepository, $this->baseUrl, false, $idEspacio);
             return $this->json(['messaje' => 'OK', 'data' => $response]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -368,13 +372,14 @@ class ApiWithoutAuthorizationController extends AbstractController
 
     /**
      * @Route("/plato/listar-sugerencia-chef", name="api_plato_listar-sugerencia-chef", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param PlatoRepository $platoRepository
+     * @param MenuPlatoRepository $menuPlatoRepository
+     * @param Utils $utils
      * @return JsonResponse
      */
-    public function listarPlatosSugerenciaChef(PlatoRepository $platoRepository, Utils $utils)
+    public function listarPlatosSugerenciaChef(MenuPlatoRepository $menuPlatoRepository, Utils $utils)
     {
         try {
-            $response = $utils->listarPlatos($platoRepository, $this->baseUrl, true);
+            $response = $utils->listarPlatos($menuPlatoRepository, $this->baseUrl, true, -1);
             return $this->json(['messaje' => 'OK', 'data' => $response]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -396,6 +401,7 @@ class ApiWithoutAuthorizationController extends AbstractController
             if (is_array($result)) {
                 foreach ($result as $value) {
                     $value['redes_sociales'] = $conocenosRedesSocialesRepository->listarRedesSocialesEspacios(['c.id' => $value['id']]);
+                    $value['imagen'] = !empty($value['imagenPortada']) ? $this->baseUrl . '/uploads/images/conocenos/imagen/' . $value['imagen'] : null;
                     $response[] = $value;
                 }
             }
