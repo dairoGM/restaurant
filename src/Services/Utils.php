@@ -462,6 +462,7 @@ class Utils
         if (is_array($result)) {
             foreach ($result as $value) {
                 $value['imagen'] = $baseUrl . "/uploads/images/plato/imagen/" . $value['imagen'];
+                $value['precio'] = '$' . number_format($value['precio'], 2, '.', ',');
                 $response[] = $value;
             }
         }

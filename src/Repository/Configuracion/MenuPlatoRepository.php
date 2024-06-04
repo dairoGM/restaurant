@@ -52,16 +52,16 @@ class MenuPlatoRepository extends ServiceEntityRepository
     public function listarPlatos($filters = [], $orderBy = [], $limit = null)
     {
         $query = $this->createQueryBuilder('qb')
-            ->select('p.id, 
+            ->select("p.id, 
                         p.nombre, 
                         e.nombreCorto as nombreCortoEspacio, 
                         e.id as idEspacio, 
-                        p.precio,                                                  
+                        p.precio,    
                         p.activo,                                           
                         p.publico,                                           
                         p.sugerenciaChef,                                           
                         p.descripcion,
-                         p.imagen')
+                         p.imagen")
             ->innerJoin('qb.menu', 'm')
             ->innerJoin('m.espacio', 'e')
             ->innerJoin('qb.plato', 'p');
@@ -73,13 +73,9 @@ class MenuPlatoRepository extends ServiceEntityRepository
                 $query->andWhere("$key = '$value'");
             }
         }
-        if (count($orderBy) == 0) {
-            $query->orderBy('p.nombre', 'ASC');
-        } else {
-            foreach ($orderBy as $key => $value) {
-                $query->addOrderBy("qb.$key", $value);
-            }
-        }
+
+        $query->orderBy('p.nombre', 'ASC');
+
 //        echo '<pre>';
 //        print_r($query->getQuery()->getSQL());
 //        die;
