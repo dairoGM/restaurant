@@ -133,7 +133,6 @@ class ApiWithoutAuthorizationController extends AbstractController
         }
     }
 
-
     /**
      * @Route("/perfil/listar", name="api_perfil_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param PerfilRepository $perfilRepository
