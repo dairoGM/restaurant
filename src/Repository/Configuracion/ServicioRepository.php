@@ -66,8 +66,11 @@ class ServicioRepository extends ServiceEntityRepository
                         qb.publico,                                           
                         qb.descripcion,
                          qb.imagenPortada, 
-                         qb.imagenDetallada
-                         ') ;
+                         qb.imagenDetallada,
+                         ts.id as idTipoServicio,
+                         ts.nombre as nombreTipoServicio
+                         ')
+        ->leftJoin('qb.tipoServicio','ts');
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }
