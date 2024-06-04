@@ -48,6 +48,7 @@ class ServicioRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
     public function listarServicios($filters = [], $orderBy = [], $limit = null)
     {
         $query = $this->createQueryBuilder('qb')
@@ -70,7 +71,7 @@ class ServicioRepository extends ServiceEntityRepository
                          ts.id as idTipoServicio,
                          ts.nombre as nombreTipoServicio
                          ')
-        ->leftJoin('qb.tipoServicio','ts');
+            ->leftJoin('qb.tipoServicio', 'ts');
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }
@@ -79,13 +80,8 @@ class ServicioRepository extends ServiceEntityRepository
                 $query->andWhere("qb.$key = '$value'");
             }
         }
-        if (count($orderBy) == 0) {
-            $query->orderBy('qb.orden', 'DESC');
-        } else {
-            foreach ($orderBy as $key => $value) {
-                $query->addOrderBy("qb.$key", $value);
-            }
-        }
+        $query->orderBy('qb.orden', 'DESC');
+
 //        echo '<pre>';
 //        print_r($query->getQuery()->getSQL());
 //        die;
