@@ -3,9 +3,12 @@
 namespace App\Controller\Configuracion;
 
 
+use App\Entity\Configuracion\ComentarioEspacio;
 use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\EspacioRedesSociales;
+use App\Form\Configuracion\ComentarioEspacioType;
 use App\Form\Configuracion\EspacioType;
+use App\Repository\Configuracion\ComentarioEspacioRepository;
 use App\Repository\Configuracion\EspacioRedesSocialesRepository;
 use App\Repository\Configuracion\EspacioRepository;
 use App\Repository\Configuracion\RedSocialRepository;
@@ -207,6 +210,73 @@ class EspacioController extends AbstractController
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
             return $this->redirectToRoute('app_espacio_modificar', ['id' => $espacio], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/asociar_comentarios", name="app_espacio_asociar_comentario", methods={"GET", "POST"})
+     * @param Request $request
+     * @param Espacio $espacio
+     * @param ComentarioEspacioRepository $comentarioEspacioRepository
+     * @return Response
+     */
+    public function asiciarComentarios(Request $request, Espacio $espacio, ComentarioEspacioRepository $comentarioEspacioRepository)
+    {
+        try {
+            $comentarioEspacio = new ComentarioEspacio();
+            $form = $this->createForm(ComentarioEspacioType::class, $comentarioEspacio, ['action' => 'modificar']);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!empty($form['imagen']->getData())) {
+                    if ($comentarioEspacio->getImagen() != null) {
+                        if (file_exists('uploads/images/espacio/comentario/imagen/' . $comentarioEspacio->getImagen())) {
+                            unlink('uploads/images/espacio/comentario/imagen/' . $comentarioEspacio->getImagen());
+                        }
+                    }
+
+                    $file = $form['imagen']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $comentarioEspacio->setImagen($file_name);
+                    $file->move("uploads/images/espacio/comentario/imagen", $file_name);
+                }
+                $comentarioEspacio->setEspacio($espacio);
+                $comentarioEspacioRepository->add($comentarioEspacio, true);
+                $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
+                return $this->redirectToRoute('app_espacio_asociar_comentario', ['id' => $espacio->getId()], Response::HTTP_SEE_OTHER);
+            }
+            $comentarios = $comentarioEspacioRepository->findBy(['espacio' => $espacio->getId()]);
+            return $this->render('modules/configuracion/espacio/comentario.html.twig', [
+                'form' => $form->createView(),
+                'comentarioEspacio' => $comentarioEspacio,
+                'espacio' => $espacio,
+                'comentarios' => $comentarios
+            ]);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_espacio_asociar_comentario', ['id' => $espacio->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/eliminar_comentario", name="app_espacio_eliminar_comentario", methods={"GET"})
+     * @param ComentarioEspacio $comentarioEspacio
+     * @param ComentarioEspacioRepository $comentarioEspacioRepository
+     * @return Response
+     */
+    public function eliminarComentario(ComentarioEspacio $comentarioEspacio, ComentarioEspacioRepository $comentarioEspacioRepository)
+    {
+        try {
+            if ($comentarioEspacioRepository->find($comentarioEspacio) instanceof ComentarioEspacio) {
+                $comentarioEspacioRepository->remove($comentarioEspacio, true);
+                $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
+                return $this->redirectToRoute('app_espacio_asociar_comentario', ['id' => $comentarioEspacio->getEspacio()->getId()], Response::HTTP_SEE_OTHER);
+            }
+            $this->addFlash('error', 'Error en la entrada de datos');
+            return $this->redirectToRoute('app_espacio_asociar_comentario', ['id' => $comentarioEspacio->getEspacio()->getId()], Response::HTTP_SEE_OTHER);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_espacio_asociar_comentario', ['id' => $comentarioEspacio->getEspacio()->getId()], Response::HTTP_SEE_OTHER);
         }
     }
 

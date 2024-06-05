@@ -7,6 +7,7 @@ use App\Entity\Restaurant\Perfil;
 use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
 use App\Repository\Configuracion\CateringRepository;
+use App\Repository\Configuracion\ComentarioEspacioRepository;
 use App\Repository\Configuracion\ConocenosRedesSocialesRepository;
 use App\Repository\Configuracion\ConocenosRepository;
 use App\Repository\Configuracion\DatosContactoRepository;
@@ -321,7 +322,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param EspacioRedesSocialesRepository $espacioRedesSocialesRepository
      * @return JsonResponse
      */
-    public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository)
+    public function listarEspacios(EspacioRepository $espacioRepository, EspacioRedesSocialesRepository $espacioRedesSocialesRepository, ComentarioEspacioRepository $comentarioEspacioRepository)
     {
         try {
             $result = $espacioRepository->listarEspacios(['publico' => true, 'activo' => true]);
@@ -333,6 +334,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $value['imagenBanner'] = !empty($value['imagenBanner']) ? $this->baseUrl . '/uploads/images/espacio/imagenBanner/' . $value['imagenBanner'] : null;
                     $value['imagenMovil'] = !empty($value['imagenMovil']) ? $this->baseUrl . '/uploads/images/espacio/imagenMovil/' . $value['imagenMovil'] : null;
                     $value['redesSociales'] = $espacioRedesSocialesRepository->listarRedesSocialesEspacios(['e.id' => $value['id']]);
+                    $value['comentarios'] = $comentarioEspacioRepository->listarComentariosEspacios(['e.id' => $value['id']]);
                     $response[] = $value;
                 }
             }

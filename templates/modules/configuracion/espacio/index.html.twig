@@ -87,6 +87,10 @@
                                href="{{ path('app_espacio_configurar', {'id': item.id}) }}"><i
                                         class="fas fa-cog"></i>
                             </a>
+                            <a title="Asociar comentarios" class="btn btn-outline-primary"
+                               href="{{ path('app_espacio_asociar_comentario', {'id': item.id}) }}"><i
+                                        class="fas fa-address-card"></i>
+                            </a>
                             <button title="Eliminar" class="btn btn-outline-danger elementRemove"
                                     data-url="{{ path('app_espacio_eliminar', {'id': item.id}) }}">
                                 <i class="fa fa-trash"></i>
