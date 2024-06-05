@@ -43,6 +43,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\Utils;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @Route("/api")
@@ -152,4 +153,29 @@ class ApiServicesController extends AbstractController
     }
 
 
+    /**
+     * @Route("/reservaciones/mesa/listar", name="api_reservaciones_mesa_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @return JsonResponse
+     */
+    public function listarReservacionesMesa(Request $request, ReservacionMesaRepository $reservacionMesaRepository)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            $usuario = $jsonParams['usuario'] ?? null;
+            if (!empty($usuario)) {
+                $reservaciones = $reservacionMesaRepository->getReservaciones($usuario);
+                $response = [];
+                foreach ($reservaciones as $value) {
+                    $value['fechaReservacion'] = date_format($value['fechaReservacion'], 'Y-m-d H:i:s');
+                    $response[] = $value;
+                }
+                return $this->json(['messaje' => 'OK', 'data' => $response]);
+            }
+            return $this->json(['messaje' => "Usuario requerido", 'data' => []], Response::HTTP_BAD_GATEWAY);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 }
