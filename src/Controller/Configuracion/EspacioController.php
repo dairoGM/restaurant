@@ -67,7 +67,20 @@ class EspacioController extends AbstractController
                     $entidad->setImagenDetallada($file_name);
                     $file->move("uploads/images/espacio/imagenDetallada", $file_name);
                 }
-
+                if (!empty($form['imagenBanner']->getData())) {
+                    $file = $form['imagenBanner']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setImagenBanner($file_name);
+                    $file->move("uploads/images/espacio/imagenBanner", $file_name);
+                }
+                if (!empty($form['imagenMovil']->getData())) {
+                    $file = $form['imagenMovil']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setImagenMovil($file_name);
+                    $file->move("uploads/images/espacio/imagenMovil", $file_name);
+                }
                 $espacioRepository->add($entidad, true);
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
                 return $this->redirectToRoute('app_espacio_index', [], Response::HTTP_SEE_OTHER);
@@ -126,6 +139,34 @@ class EspacioController extends AbstractController
                     $file->move("uploads/images/espacio/imagenDetallada", $file_name);
                 }
 
+
+                if (!empty($form['imagenMovil']->getData())) {
+                    if ($espacio->getImagenMovil() != null) {
+                        if (file_exists('uploads/images/espacio/imagenMovil/' . $espacio->getImagenMovil())) {
+                            unlink('uploads/images/espacio/imagenMovil/' . $espacio->getImagenMovil());
+                        }
+                    }
+
+                    $file = $form['imagenMovil']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagenMovil($file_name);
+                    $file->move("uploads/images/espacio/imagenMovil", $file_name);
+                }
+
+                if (!empty($form['imagenBanner']->getData())) {
+                    if ($espacio->getImagenBanner() != null) {
+                        if (file_exists('uploads/images/espacio/imagenBanner/' . $espacio->getImagenBanner())) {
+                            unlink('uploads/images/espacio/imagenBanner/' . $espacio->getImagenBanner());
+                        }
+                    }
+
+                    $file = $form['imagenBanner']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagenBanner($file_name);
+                    $file->move("uploads/images/espacio/imagenBanner", $file_name);
+                }
                 $espacioRepository->edit($espacio);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
                 return $this->redirectToRoute('app_espacio_index', [], Response::HTTP_SEE_OTHER);

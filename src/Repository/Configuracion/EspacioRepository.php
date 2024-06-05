@@ -65,6 +65,8 @@ class EspacioRepository extends ServiceEntityRepository
                         qb.cantidadMesa,                                           
                         qb.descripcion,
                          qb.imagenPortada, 
+                         qb.imagenMovil, 
+                         qb.imagenBanner, 
                          qb.imagenDetallada"
             );
         if (!is_null($limit)) {

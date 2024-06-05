@@ -10,9 +10,16 @@
         {% endif %}
         <h5 class="mb-0"><b>Imagen de portada:</b></h5>
         <h5 class="mb-0"><a
-                    href="{% if item.imagenPortada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/servicio/imagenPortada/{{ item.imagenPortada }} {% else %} /assets/images/usuario.png {% endif %}"
+                    href="{% if item.imagenPortada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenPortada/{{ item.imagenPortada }} {% else %} /assets/images/usuario.png {% endif %}"
                     target="_blank">
-                <img src="{% if item.imagenPortada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/servicio/imagenPortada/{{ item.imagenPortada }}{% else %} /assets/images/usuario.png {% endif %}"
+                <img src="{% if item.imagenPortada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenPortada/{{ item.imagenPortada }}{% else %} /assets/images/usuario.png {% endif %}"
+                     class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
+            </a></h5>
+        <h5 class="mb-0"><b>Imagen de banner:</b></h5>
+        <h5 class="mb-0"><a
+                    href="{% if item.imagenBanner != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenBanner/{{ item.imagenBanner }} {% else %} /assets/images/usuario.png {% endif %}"
+                    target="_blank">
+                <img src="{% if item.imagenBanner != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenBanner/{{ item.imagenBanner }}{% else %} /assets/images/usuario.png {% endif %}"
                      class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
             </a></h5>
 
@@ -27,12 +34,18 @@
 
         <h5 class="mb-0"><b>Imagen detallada:</b></h5>
         <h5 class="mb-0"><a
-                    href="{% if item.imagenDetallada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/servicio/imagenDetallada/{{ item.imagenDetallada }} {% else %} /assets/images/usuario.png {% endif %}"
+                    href="{% if item.imagenDetallada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenDetallada/{{ item.imagenDetallada }} {% else %} /assets/images/usuario.png {% endif %}"
                     target="_blank">
-                <img src="{% if item.imagenDetallada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/servicio/imagenDetallada/{{ item.imagenDetallada }}{% else %} /assets/images/usuario.png {% endif %}"
+                <img src="{% if item.imagenDetallada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenDetallada/{{ item.imagenDetallada }}{% else %} /assets/images/usuario.png {% endif %}"
                      class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
             </a></h5>
-
+        <h5 class="mb-0"><b>Imagen móvil:</b></h5>
+        <h5 class="mb-0"><a
+                    href="{% if item.imagenMovil != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenMovil/{{ item.imagenMovil }} {% else %} /assets/images/usuario.png {% endif %}"
+                    target="_blank">
+                <img src="{% if item.imagenMovil != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenMovil/{{ item.imagenMovil }}{% else %} /assets/images/usuario.png {% endif %}"
+                     class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
+            </a></h5>
     </div>
 </div>
 <div class="row">

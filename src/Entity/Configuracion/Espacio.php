@@ -53,7 +53,14 @@ class Espacio extends BaseEntity
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagenDetallada = null;
-
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagenMovil = null;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagenBanner = null;
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -73,6 +80,7 @@ class Espacio extends BaseEntity
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $cantidadMesa;
+
     /**
      * @return string|null
      */
@@ -233,6 +241,37 @@ class Espacio extends BaseEntity
         $this->categoria = $categoria;
     }
 
+    /**
+     * @return null
+     */
+    public function getImagenMovil()
+    {
+        return $this->imagenMovil;
+    }
+
+    /**
+     * @param null $imagenMovil
+     */
+    public function setImagenMovil($imagenMovil): void
+    {
+        $this->imagenMovil = $imagenMovil;
+    }
+
+    /**
+     * @return null
+     */
+    public function getImagenBanner()
+    {
+        return $this->imagenBanner;
+    }
+
+    /**
+     * @param null $imagenBanner
+     */
+    public function setImagenBanner($imagenBanner): void
+    {
+        $this->imagenBanner = $imagenBanner;
+    }
 
 
 }

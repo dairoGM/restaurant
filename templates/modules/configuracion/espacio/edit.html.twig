@@ -65,6 +65,48 @@
                     </div>
 
                 </div>
+
+
+                <div class="col-4 form-group">
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_label(form.imagenBanner) }}
+                            {{ form_widget(form.imagenBanner) }}
+                            {{ form_errors(form.imagenBanner) }}
+                        </div>
+                        <div class="col-2">
+                            <div id="image-holder2"></div>
+
+                            {% if espacio.imagenBanner != null %}
+                                <img src="{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenBanner/{{ espacio.imagenBanner }}"
+                                     class="img-circle imgp" alt="Imagen banner"
+                                     style="width: 40px; height: 40px; position: absolute; bottom: 0;">
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-4 form-group">
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_label(form.imagenMovil) }}
+                            {{ form_widget(form.imagenMovil) }}
+                            {{ form_errors(form.imagenMovil) }}
+                        </div>
+                        <div class="col-2">
+                            <div id="image-holder3"></div>
+
+                            {% if espacio.imagenMovil != null %}
+                                <img src="{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenMovil/{{ espacio.imagenMovil }}"
+                                     class="img-circle imgp" alt="Imagen móvil"
+                                     style="width: 40px; height: 40px; position: absolute; bottom: 0;">
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">
                     {{ form_label(form.nombreLargo) }}
                     {{ form_widget(form.nombreLargo) }}
@@ -247,5 +289,65 @@
             }
         });
 
+        $("#espacio_imagenBanner").on('change', function () {
+            //Get count of selected files
+            var countFiles = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
+
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder1 = $("#image-holder2");
+            image_holder1.empty();
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < countFiles; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "thumb-image   img-circle",
+                                "style": 'width: 40px; height: 40px; position: absolute; bottom: 0;'
+                            }).appendTo(image_holder1);
+                        }
+                        image_holder1.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                    }
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            } else {
+                alert("Pls select only images");
+            }
+        });
+        $("#espacio_imagenMovil").on('change', function () {
+            //Get count of selected files
+            var countFiles = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
+
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder1 = $("#image-holder3");
+            image_holder1.empty();
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < countFiles; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "thumb-image   img-circle",
+                                "style": 'width: 40px; height: 40px; position: absolute; bottom: 0;'
+                            }).appendTo(image_holder1);
+                        }
+                        image_holder1.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                    }
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            } else {
+                alert("Pls select only images");
+            }
+        });
     </script>
 {% endblock %}
