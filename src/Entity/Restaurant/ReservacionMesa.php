@@ -6,6 +6,7 @@ use App\Entity\BaseEntity;
 use App\Entity\Configuracion\Espacio;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="tbd_reservacion_mesa")
@@ -28,7 +29,7 @@ class ReservacionMesa extends BaseEntity
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $cantidadPersona;
+    private ?int $cantidadMesa;
 
 
     /**
@@ -72,17 +73,17 @@ class ReservacionMesa extends BaseEntity
     /**
      * @return int|null
      */
-    public function getCantidadPersona(): ?int
+    public function getCantidadMesa(): ?int
     {
-        return $this->cantidadPersona;
+        return $this->cantidadMesa;
     }
 
     /**
-     * @param int|null $cantidadPersona
+     * @param int|null $cantidadMesa
      */
-    public function setCantidadPersona(?int $cantidadPersona): void
+    public function setCantidadMesa(?int $cantidadMesa): void
     {
-        $this->cantidadPersona = $cantidadPersona;
+        $this->cantidadMesa = $cantidadMesa;
     }
 
     /**

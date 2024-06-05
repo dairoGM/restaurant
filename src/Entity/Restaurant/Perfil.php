@@ -4,10 +4,12 @@ namespace App\Entity\Restaurant;
 
 use App\Entity\BaseNomenclator;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="tbd_perfil")
+ * @UniqueEntity(fields="usuario", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
  */
 class Perfil extends BaseNomenclator
 {
@@ -53,7 +55,6 @@ class Perfil extends BaseNomenclator
     {
         $this->clave = $clave;
     }
-
 
 
 }

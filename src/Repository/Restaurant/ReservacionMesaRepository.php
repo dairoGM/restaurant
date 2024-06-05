@@ -50,5 +50,17 @@ class ReservacionMesaRepository extends ServiceEntityRepository
     }
 
 
+    public function getCantidadReservaciones($fecha)
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "sum(qb.cantidadMesa) as total"
+            );
+        $query->andWhere('qb.fechaReservacion LIKE :val');
+        $query->setParameter('val', '%' . $fecha . '%');
+        $result = $query->getQuery()->getResult(1);
+        return $result[0]['total'] ?? 0;
+    }
+
 
 }
