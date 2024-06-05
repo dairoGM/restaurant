@@ -7,6 +7,7 @@ use App\Entity\Restaurant\ReservacionMesa;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,6 +31,10 @@ class ReservacionMesaType extends AbstractType
                 'attr' => [
                     'class' => 'date-time-picker'
                 ]
+            ])
+            ->add('descripcion', TextareaType::class, [
+                'label' => 'Descripción',
+                'required' => false,
             ])
             ->add('cantidadMesa', TextType::class, [
                 'label' => 'Cantidad de mesas',

@@ -102,8 +102,10 @@ class ApiServicesController extends AbstractController
     /**
      * @Route("/reservar/mesa/crear", name="api_reservar_mesa_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
-     * @param ContactenosRepository $contactenosRepository
+     * @param EspacioRepository $espacioRepository
+     * @param PerfilRepository $perfilRepository
      * @param EntityManagerInterface $em
+     * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return JsonResponse
      */
     public function reservarMesa(Request $request, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
@@ -130,6 +132,7 @@ class ApiServicesController extends AbstractController
                             if (isset($perfil[0])) {
                                 $reservacionMesa->setPerfil($perfil[0]);
                                 $reservacionMesa->setEspacio($espacio);
+                                $reservacionMesa->setDescripcion($jsonParams['descripcion'] ?? null);
                                 $reservacionMesa->setCantidadMesa($jsonParams['cantidadMesa']);
                                 $reservacionMesa->setFechaReservacion(\DateTime::createFromFormat('Y-m-d H:i:s', $jsonParams['fechaReservacion']));
 

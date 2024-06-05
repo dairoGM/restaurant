@@ -39,6 +39,11 @@ class ReservacionMesa extends BaseEntity
     protected $fechaReservacion;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $descripcion = null;
+
+    /**
      * @return Perfil|null
      */
     public function getPerfil(): ?Perfil
@@ -100,6 +105,22 @@ class ReservacionMesa extends BaseEntity
     public function setFechaReservacion($fechaReservacion): void
     {
         $this->fechaReservacion = $fechaReservacion;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    /**
+     * @param string|null $descripcion
+     */
+    public function setDescripcion(?string $descripcion): void
+    {
+        $this->descripcion = $descripcion;
     }
 
 
