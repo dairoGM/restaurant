@@ -342,7 +342,15 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $value['imagenBanner'] = !empty($value['imagenBanner']) ? $this->baseUrl . '/uploads/images/espacio/imagenBanner/' . $value['imagenBanner'] : null;
                     $value['imagenMovil'] = !empty($value['imagenMovil']) ? $this->baseUrl . '/uploads/images/espacio/imagenMovil/' . $value['imagenMovil'] : null;
                     $value['redesSociales'] = $espacioRedesSocialesRepository->listarRedesSocialesEspacios(['e.id' => $value['id']]);
-                    $value['comentarios'] = $comentarioEspacioRepository->listarComentariosEspacios(['e.id' => $value['id']]);
+
+                    $comentarios = $comentarioEspacioRepository->listarComentariosEspacios(['e.id' => $value['id']]);
+                    $comentariosAsignados = [];
+                    foreach ($comentarios as $v) {
+                        $v['imagen'] = !empty($v['imagen']) ? $this->baseUrl . "/uploads/images/espacio/comentario/imagen/" . $v['imagen'] : null;
+                        $comentariosAsignados[] = $v;
+                    }
+
+                    $value['comentarios'] = $comentariosAsignados;
                     $response[] = $value;
                 }
             }
