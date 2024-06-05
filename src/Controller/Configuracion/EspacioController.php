@@ -220,7 +220,7 @@ class EspacioController extends AbstractController
      * @param ComentarioEspacioRepository $comentarioEspacioRepository
      * @return Response
      */
-    public function asiciarComentarios(Request $request, Espacio $espacio, ComentarioEspacioRepository $comentarioEspacioRepository)
+    public function asociarComentarios(Request $request, Espacio $espacio, ComentarioEspacioRepository $comentarioEspacioRepository)
     {
         try {
             $comentarioEspacio = new ComentarioEspacio();

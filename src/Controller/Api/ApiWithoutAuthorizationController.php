@@ -22,6 +22,7 @@ use App\Repository\Configuracion\MenuRepository;
 use App\Repository\Configuracion\PlatoRepository;
 use App\Repository\Configuracion\PortadaRepository;
 use App\Repository\Configuracion\ReservaRepository;
+use App\Repository\Configuracion\SeccionServicioRepository;
 use App\Repository\Configuracion\ServicioRepository;
 use App\Repository\Configuracion\SobreRepository;
 use App\Repository\Configuracion\TerminosCondicionesRepository;
@@ -65,7 +66,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param ServicioRepository $servicioRepository
      * @return JsonResponse
      */
-    public function listarServiciosPublicos(Request $request, ServicioRepository $servicioRepository)
+    public function listarServiciosPublicos(Request $request, ServicioRepository $servicioRepository, SeccionServicioRepository $seccionServicioRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -81,6 +82,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                 foreach ($result as $value) {
                     $value['imagenPortada'] = !empty($value['imagenPortada']) ? $this->baseUrl . "/uploads/images/servicio/imagenPortada/" . $value['imagenPortada'] : null;
                     $value['imagenDetallada'] = !empty($value['imagenDetallada']) ? $this->baseUrl . "/uploads/images/servicio/imagenDetallada/" . $value['imagenDetallada'] : null;
+                    $value['secciones'] = $seccionServicioRepository->listarSeccionServicio(['s.id' => $value['id']]);
                     $response[] = $value;
                 }
             }

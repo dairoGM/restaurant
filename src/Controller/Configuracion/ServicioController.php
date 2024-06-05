@@ -3,8 +3,15 @@
 namespace App\Controller\Configuracion;
 
 use App\Controller\Configuracion\CategoriaDocenteRepository;
+use App\Entity\Configuracion\ComentarioEspacio;
+use App\Entity\Configuracion\Espacio;
+use App\Entity\Configuracion\SeccionServicio;
 use App\Entity\Configuracion\Servicio;
+use App\Form\Configuracion\ComentarioEspacioType;
+use App\Form\Configuracion\SeccionServicioType;
 use App\Form\Configuracion\ServicioType;
+use App\Repository\Configuracion\ComentarioEspacioRepository;
+use App\Repository\Configuracion\SeccionServicioRepository;
 use App\Repository\Configuracion\ServicioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -195,4 +202,73 @@ class ServicioController extends AbstractController
             'item' => $servicio,
         ]);
     }
+
+
+    /**
+     * @Route("/{id}/asociar_seccion", name="app_servicio_asociar_seccion", methods={"GET", "POST"})
+     * @param Request $request
+     * @param Servicio $servicio
+     * @param SeccionServicioRepository $seccionServicioRepository
+     * @return Response
+     */
+    public function asociarSeccion(Request $request, Servicio $servicio, SeccionServicioRepository $seccionServicioRepository)
+    {
+        try {
+            $seccionServicio = new SeccionServicio();
+            $form = $this->createForm(SeccionServicioType::class, $seccionServicio, ['action' => 'modificar']);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!empty($form['imagen']->getData())) {
+                    if ($seccionServicio->getImagen() != null) {
+                        if (file_exists('uploads/images/servicio/seccion/imagen/' . $seccionServicio->getImagen())) {
+                            unlink('uploads/images/servicio/seccion/imagen/' . $seccionServicio->getImagen());
+                        }
+                    }
+
+                    $file = $form['imagen']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $seccionServicio->setImagen($file_name);
+                    $file->move("uploads/images/servicio/seccion/imagen", $file_name);
+                }
+                $seccionServicio->setServicio($servicio);
+                $seccionServicioRepository->add($seccionServicio, true);
+                $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
+                return $this->redirectToRoute('app_servicio_asociar_seccion', ['id' => $servicio->getId()], Response::HTTP_SEE_OTHER);
+            }
+            $seccion = $seccionServicioRepository->findBy(['servicio' => $servicio->getId()]);
+            return $this->render('modules/configuracion/servicio/seccion.html.twig', [
+                'form' => $form->createView(),
+                'seccionServicio' => $seccionServicio,
+                'servicio' => $servicio,
+                'seccion' => $seccion
+            ]);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_servicio_asociar_seccion', ['id' => $servicio->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/eliminar_seccion", name="app_servicio_eliminar_seccion", methods={"GET"})
+     * @param ComentarioEspacio $seccionServicio
+     * @param ComentarioEspacioRepository $seccionServicioRepository
+     * @return Response
+     */
+    public function eliminarSeccion(SeccionServicio $seccionServicio, SeccionServicioRepository $seccionServicioRepository)
+    {
+        try {
+            if ($seccionServicioRepository->find($seccionServicio) instanceof SeccionServicio) {
+                $seccionServicioRepository->remove($seccionServicio, true);
+                $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
+                return $this->redirectToRoute('app_servicio_asociar_seccion', ['id' => $seccionServicio->getServicio()->getId()], Response::HTTP_SEE_OTHER);
+            }
+            $this->addFlash('error', 'Error en la entrada de datos');
+            return $this->redirectToRoute('app_servicio_asociar_seccion', ['id' => $seccionServicio->getServicio()->getId()], Response::HTTP_SEE_OTHER);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_servicio_asociar_seccion', ['id' => $seccionServicio->getServicio()->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
+
 }
