@@ -1,5 +1,6 @@
 <div class="row">
     <div class="col-6">
+        <h5 class="mb-0"><b>Categoría:</b> {{ item.categoria | default('') }}</h5>
         <h5 class="mb-0"><b>Nombre corto:</b> {{ item.nombreCorto | default('') }}</h5>
         <h5 class="mb-0"><b>Cantidad de mesas:</b> {{ item.cantidadMesa | default('0') }}</h5>
         {% if '1' == item.publico %}

@@ -58,6 +58,7 @@ class EspacioRepository extends ServiceEntityRepository
                 "qb.id, 
                         qb.nombreCorto, 
                         qb.nombreLargo, 
+                        qb.categoria, 
                         qb.orden,                                           
                         qb.activo,                                           
                         qb.publico,                                           

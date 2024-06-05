@@ -27,6 +27,10 @@ class EspacioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('categoria', TextType::class, [
+                'label' => 'Categoría',
+                'required' => false,
+            ])
             ->add('nombreCorto', TextType::class, [
                 'constraints' => [
                     new NotBlank()

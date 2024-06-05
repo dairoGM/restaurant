@@ -27,6 +27,11 @@ class Espacio extends BaseEntity
     /**
      * @ORM\Column(type="string", nullable=true)
      */
+    private ?string $categoria;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private ?string $nombreCorto;
 
     /**
@@ -210,6 +215,22 @@ class Espacio extends BaseEntity
     public function setCantidadMesa(?int $cantidadMesa): void
     {
         $this->cantidadMesa = $cantidadMesa;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCategoria(): ?string
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * @param string|null $categoria
+     */
+    public function setCategoria(?string $categoria): void
+    {
+        $this->categoria = $categoria;
     }
 
 
