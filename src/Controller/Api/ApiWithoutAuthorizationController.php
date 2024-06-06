@@ -270,8 +270,8 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
-            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario']) && isset($jsonParams['clave']) && !empty($jsonParams['clave'])) {
-                $perfil = $perfilRepository->listarPerfiles(['usuario' => $jsonParams['usuario'], 'clave' => $jsonParams['clave']]);
+            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
+                $perfil = $perfilRepository->listarPerfiles(['usuario' => $jsonParams['email'], 'clave' => $jsonParams['password']]);
                 return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'data' => $perfil[0] ?? []]);
             }
             return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
