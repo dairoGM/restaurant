@@ -8,6 +8,8 @@ use App\Entity\Security\Rol;
 use App\Entity\Security\User;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
+use Pimple\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -18,25 +20,31 @@ class Utils
 
     private $baseUrl;
     private $em;
+    private $container;
 
-    public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $em, ContainerInterface $container)
     {
         $this->baseUrl = $requestStack->getCurrentRequest()->getSchemeAndHttpHost();
         $this->em = $em;
+        $this->container = $container;
     }
 
     public function getToken($email, $password)
     {
-        $httpClient = new Client();
-        $response = $httpClient->request('POST', $this->baseUrl . "/api/login_check", [
-            'body' => json_encode(['email' => $email, 'password' => $password]),
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Mc-Validation-Verify' => '811aee8a7996eb12a7e600a489b7b27f'
-            ]
-        ]);
-        $result = json_decode($response->getBody()->getContents(), true);
-        return $result['token'] ?? null;;
+        try {
+            $httpClient = new Client();
+            $response = $httpClient->request('POST', $this->baseUrl . "/api/login_check", [
+                'body' => json_encode(['email' => $email, 'password' => $password]),
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Mc-Validation-Verify' => $this->container->getParameter('MC_VALIDATION_VERIFY')
+                ]
+            ]);
+            $result = json_decode($response->getBody()->getContents(), true);
+            return $result['token'] ?? null;;
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        }
     }
 
     public function procesarRutaCliente($rutaClienteRepository)
