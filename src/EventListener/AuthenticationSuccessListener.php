@@ -19,11 +19,11 @@ class AuthenticationSuccessListener
         if (!$user instanceof User) {
             return;
         }
-        $data['userData'] = array(
-            'id' => $user->getId(),
-            'roles' => $user->getRoles(),
-            'email' => $user->getEmail()
-        );
+//        $data['userData'] = array(
+//            'id' => $user->getId(),
+//            'roles' => $user->getRoles(),
+//            'email' => $user->getEmail()
+//        );
 
         $event->setData($data);
     }

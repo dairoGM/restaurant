@@ -63,43 +63,6 @@ class ApiServicesController extends AbstractController
     }
 
     /**
-     * @Route("/contactenos/crear", name="api_contactenos_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param Request $request
-     * @param ContactenosRepository $contactenosRepository
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
-     */
-    public function crearContactenos(Request $request, ContactenosRepository $contactenosRepository, EntityManagerInterface $em)
-    {
-        try {
-            $jsonParams = json_decode($request->getContent(), true);
-
-            if (isset($jsonParams['correo']) && !empty($jsonParams['correo']) && isset($jsonParams['nombre']) && !empty($jsonParams['nombre'])
-                && isset($jsonParams['mensaje']) && !empty($jsonParams['mensaje'])) {
-
-                $contactenos = new Contactenos();
-                $form = $this->createForm(ContactenosApiType::class, $contactenos);
-                $form->submit($jsonParams);
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $contactenos->setNombre($jsonParams['nombre']);
-                    $contactenos->setCorreo($jsonParams['correo']);
-                    $contactenos->setMensaje($jsonParams['mensaje']);
-
-                    $em->persist($contactenos);
-                    $em->flush();
-
-                    return $this->json(['messaje' => 'OK', 'data' => $contactenosRepository->listarContactenos(['id' => $contactenos->getId()], ['id' => 'desc'], 1)]);
-                }
-                return $this->json(['messaje' => $form->getErrors(), 'data' => []], Response::HTTP_BAD_REQUEST);
-            }
-            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
-        } catch (\Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-        }
-    }
-
-
-    /**
      * @Route("/reservar/mesa/crear", name="api_reservar_mesa_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
      * @param EspacioRepository $espacioRepository

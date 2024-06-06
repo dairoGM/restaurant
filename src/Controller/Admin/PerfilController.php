@@ -4,11 +4,15 @@ namespace App\Controller\Admin;
 
 
 use App\Entity\Restaurant\Perfil;
+use App\Entity\Security\User;
 use App\Form\Restaurant\PerfilType;
 use App\Repository\Restaurant\PerfilRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -18,6 +22,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class PerfilController extends AbstractController
 {
+    private UserPasswordHasherInterface $hasher;
+
+    public function __construct(UserPasswordHasherInterface $hasher)
+    {
+        $this->hasher = $hasher;
+    }
 
     /**
      * @Route("/", name="app_perfil_index", methods={"GET"})
@@ -42,7 +52,7 @@ class PerfilController extends AbstractController
      * @param PerfilRepository $perfilRepository
      * @return Response
      */
-    public function registrar(Request $request, PerfilRepository $perfilRepository)
+    public function registrar(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
     {
         try {
             $entidad = new Perfil();
@@ -51,6 +61,15 @@ class PerfilController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $entidad->setNombre($entidad->getEmail());
                 $perfilRepository->add($entidad, true);
+                $user = new User();
+
+                $user->setEmail($entidad->getEmail());
+                $user->setRole('ROLE_CLIENT');
+                $password = $this->hasher->hashPassword($user, $entidad->getPassword());
+                $user->setPassword($password);
+                $em->persist($user);
+                $em->flush();
+
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
                 return $this->redirectToRoute('app_perfil_index', [], Response::HTTP_SEE_OTHER);
             }

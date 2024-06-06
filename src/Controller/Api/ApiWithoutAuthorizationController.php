@@ -65,6 +65,42 @@ class ApiWithoutAuthorizationController extends AbstractController
         $this->hasher = $hasher;
     }
 
+    /**
+     * @Route("/contactenos/crear", name="api_contactenos_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param ContactenosRepository $contactenosRepository
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    public function crearContactenos(Request $request, ContactenosRepository $contactenosRepository, EntityManagerInterface $em)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+
+            if (isset($jsonParams['correo']) && !empty($jsonParams['correo']) && isset($jsonParams['nombre']) && !empty($jsonParams['nombre'])
+                && isset($jsonParams['mensaje']) && !empty($jsonParams['mensaje'])) {
+
+                $contactenos = new Contactenos();
+                $form = $this->createForm(ContactenosApiType::class, $contactenos);
+                $form->submit($jsonParams);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $contactenos->setNombre($jsonParams['nombre']);
+                    $contactenos->setCorreo($jsonParams['correo']);
+                    $contactenos->setMensaje($jsonParams['mensaje']);
+
+                    $em->persist($contactenos);
+                    $em->flush();
+
+                    return $this->json(['messaje' => 'OK', 'data' => $contactenosRepository->listarContactenos(['id' => $contactenos->getId()], ['id' => 'desc'], 1)]);
+                }
+                return $this->json(['messaje' => $form->getErrors(), 'data' => []], Response::HTTP_BAD_REQUEST);
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
 
     /**
      * @Route("/servicio/listar", name="api_servicio_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
@@ -181,7 +217,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function crearPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    public function crearPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em, Utils $utils)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -202,20 +238,20 @@ class ApiWithoutAuthorizationController extends AbstractController
 
                     $user = new User();
                     $user->setEmail($jsonParams['email']);
-                    $user->setRole('ROLE_ADMIN');
+                    $user->setRole('ROLE_CLIENT');
                     $password = $this->hasher->hashPassword($user, $jsonParams['password']);
                     $user->setPassword($password);
                     $em->persist($user);
-
                     $em->flush();
 
-                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)]);
+                    $token = $utils->getToken($jsonParams['email'], $jsonParams['password']);
+                    return $this->json(['messaje' => 'OK', 'token' => $token, 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)]);
                 }
-                return $this->json(['messaje' => $form->getErrors(), 'data' => []], Response::HTTP_BAD_REQUEST);
+                return $this->json(['messaje' => $form->getErrors(), 'token' => null, 'data' => []], Response::HTTP_BAD_REQUEST);
             }
-            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+            return $this->json(['messaje' => 'Incorrect Parameter', 'token' => null, 'data' => []], Response::HTTP_BAD_REQUEST);
         } catch (\Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+            return $this->json(['messaje' => $exc->getMessage(), 'token' => null, 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
 

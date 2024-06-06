@@ -7,6 +7,7 @@ use App\Entity\Security\Rol;
 //use App\Entity\Security\RolEstructura;
 use App\Entity\Security\User;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -26,15 +27,16 @@ class Utils
 
     public function getToken($email, $password)
     {
-        $httpClient = new \GuzzleHttp\Client();
+        $httpClient = new Client();
         $response = $httpClient->request('POST', $this->baseUrl . "/api/login_check", [
             'body' => json_encode(['email' => $email, 'password' => $password]),
             'headers' => [
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
+                'Mc-Validation-Verify' => '811aee8a7996eb12a7e600a489b7b27f'
             ]
         ]);
         $result = json_decode($response->getBody()->getContents(), true);
-        return isset($result['token']) ? $result['token'] : null;;
+        return $result['token'] ?? null;;
     }
 
     public function procesarRutaCliente($rutaClienteRepository)
@@ -481,7 +483,7 @@ class Utils
             'date' => date('Y-m-d H:i:s'),
         ];
         try {
-            $httpClient = new \GuzzleHttp\Client();
+            $httpClient = new Client();
             $response = $httpClient->request('POST', "https://notifications.idxboost.com/tail/dinamic/send/mails", [
                 'form_params' => $params,
                 'headers' => [
