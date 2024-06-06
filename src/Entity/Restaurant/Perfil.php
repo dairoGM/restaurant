@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="tbd_perfil")
- * @UniqueEntity(fields="usuario", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
+ * @UniqueEntity(fields="email", message="EL valor {{ value }} ya existe. Por favor inserte otro valor.")
  */
 class Perfil extends BaseNomenclator
 {
@@ -17,44 +17,45 @@ class Perfil extends BaseNomenclator
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $usuario = null;
+    private ?string $email = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $clave = null;
+    private ?string $password = null;
 
     /**
      * @return string|null
      */
-    public function getUsuario(): ?string
+    public function getEmail(): ?string
     {
-        return $this->usuario;
+        return $this->email;
     }
 
     /**
-     * @param string|null $usuario
+     * @param string|null $email
      */
-    public function setUsuario(?string $usuario): void
+    public function setEmail(?string $email): void
     {
-        $this->usuario = $usuario;
+        $this->email = $email;
     }
 
     /**
      * @return string|null
      */
-    public function getClave(): ?string
+    public function getPassword(): ?string
     {
-        return $this->clave;
+        return $this->password;
     }
 
     /**
-     * @param string|null $clave
+     * @param string|null $password
      */
-    public function setClave(?string $clave): void
+    public function setPassword(?string $password): void
     {
-        $this->clave = $clave;
+        $this->password = $password;
     }
+
 
 
 }

@@ -23,7 +23,7 @@
                 <thead class="table-custom-header">
                 <tr>
                     <th>No.</th>
-                    <th>Usuario</th>
+                    <th>Email</th>
                     <th>Fecha de registro</th>
                     <th>Fecha de actualización</th>
                     <th>Estado</th>
@@ -34,7 +34,7 @@
                 {% for item in registros %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ item.usuario }}</td>
+                        <td>{{ item.email }}</td>
                         <td>{{ item.creado | date('d/m/Y H:i:s A') }}</td>
                         <td>{{ item.actualizado | date('d/m/Y H:i:s A') }}</td>
 

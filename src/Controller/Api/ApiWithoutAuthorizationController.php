@@ -181,8 +181,8 @@ class ApiWithoutAuthorizationController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
 
-            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario']) && isset($jsonParams['clave']) && !empty($jsonParams['clave'])) {
-                $perfil = $perfilRepository->findOneBy(['usuario' => $jsonParams['usuario']]);
+            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
+                $perfil = $perfilRepository->findOneBy(['email' => $jsonParams['email']]);
 
                 if (!$perfil instanceof Perfil) {
                     $perfil = new Perfil();
@@ -190,12 +190,12 @@ class ApiWithoutAuthorizationController extends AbstractController
                 $form = $this->createForm(PerfilApiType::class, $perfil);
                 $form->submit($jsonParams);
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $perfil->setNombre($perfil->getUsuario());
+                    $perfil->setNombre($perfil->getEmail());
                     $perfil->setActivo(true);
                     $em->persist($perfil);
                     $em->flush();
 
-                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['usuario' => $jsonParams['usuario']], ['id' => 'desc'], 1)]);
+                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)]);
                 }
                 return $this->json(['messaje' => $form->getErrors(), 'data' => []], Response::HTTP_BAD_REQUEST);
             }
@@ -218,14 +218,14 @@ class ApiWithoutAuthorizationController extends AbstractController
 
         try {
             $jsonParams = json_decode($request->getContent(), true);
-            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario']) && isset($jsonParams['clave']) && !empty($jsonParams['clave'])) {
-                $perfil = $perfilRepository->findOneBy(['usuario' => $jsonParams['registrationKey']]);
+            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
+                $perfil = $perfilRepository->findOneBy(['email' => $jsonParams['email']]);
                 if ($perfil instanceof Perfil) {
                     $form = $this->createForm(PerfilApiType::class, $perfil);
                     $form->submit($jsonParams);
                     $em->persist($perfil);
                     $em->flush();
-                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['usuario' => $jsonParams['usuario']], ['id' => 'desc'], 1)[0]]);
+                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)[0]]);
                 }
                 return $this->json(['messaje' => 'Item no found', 'data' => []], Response::HTTP_NOT_FOUND);
             }
@@ -246,8 +246,8 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
-            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario'])) {
-                $perfil = $perfilRepository->findBy(['usuario' => $jsonParams['usuario']]);
+            if (isset($jsonParams['email']) && !empty($jsonParams['email'])) {
+                $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
                 if (isset($perfil[0])) {
                     $em->remove($perfil[0]);
                     $em->flush();
@@ -271,7 +271,7 @@ class ApiWithoutAuthorizationController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
             if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
-                $perfil = $perfilRepository->listarPerfiles(['usuario' => $jsonParams['email'], 'clave' => $jsonParams['password']]);
+                $perfil = $perfilRepository->listarPerfiles(['email' => $jsonParams['email'], 'password' => $jsonParams['password']]);
                 return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'data' => $perfil[0] ?? []]);
             }
             return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);

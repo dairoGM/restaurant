@@ -57,7 +57,7 @@ class PerfilRepository extends ServiceEntityRepository
                 "qb.id,  
                 DateFormat(qb.creado, 'DD/MM/YYYY HH24:mi:ss') as creado,
                 DateFormat(qb.creado, 'DD/MM/YYYY HH24:mi:ss') as actualizado,
-                qb.usuario,
+                qb.email,
                 qb.activo"
             );
         if (!is_null($limit)) {

@@ -49,7 +49,7 @@ class PerfilController extends AbstractController
             $form = $this->createForm(PerfilType::class, $entidad, ['action' => 'registrar']);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $entidad->setNombre($entidad->getUsuario());
+                $entidad->setNombre($entidad->getEmail());
                 $perfilRepository->add($entidad, true);
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
                 return $this->redirectToRoute('app_perfil_index', [], Response::HTTP_SEE_OTHER);
@@ -79,7 +79,7 @@ class PerfilController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $perfil->setNombre($perfil->getUsuario());
+                $perfil->setNombre($perfil->getEmail());
 
                 $perfilRepository->edit($perfil);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');

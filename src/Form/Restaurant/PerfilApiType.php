@@ -25,12 +25,12 @@ class PerfilApiType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('usuario', TextType::class, [
+            ->add('email', TextType::class, [
                 'constraints' => [
                     new NotBlank()
                 ]
             ])
-            ->add('clave', TextType::class, [
+            ->add('password', TextType::class, [
                 'constraints' => [
                     new NotBlank()
                 ]
