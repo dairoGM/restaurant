@@ -132,7 +132,7 @@ class ApiServicesController extends AbstractController
                             if (isset($perfil[0])) {
                                 $reservacionMesa->setPerfil($perfil[0]);
                                 $reservacionMesa->setEspacio($espacio);
-                                $reservacionMesa->setEstado('Activa');
+                                $reservacionMesa->setEstado('Activo');
                                 $reservacionMesa->setDescripcion($jsonParams['descripcion'] ?? null);
                                 $reservacionMesa->setCantidadMesa($jsonParams['cantidadMesa']);
                                 $reservacionMesa->setFechaReservacion(\DateTime::createFromFormat('Y-m-d H:i:s', $jsonParams['fechaReservacion']));

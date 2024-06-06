@@ -46,7 +46,7 @@ class ReservacionMesa extends BaseEntity
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    private ?string $estado = 'Activa';
+    private ?string $estado = null;
 
 
     /**
