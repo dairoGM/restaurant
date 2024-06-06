@@ -34,7 +34,13 @@
                         <td>{{ item.fechaReservacion | default('') }}</td>
                         <td>{{ item.nombreCorteEspacio | default('') }}</td>
                         <td>{{ item.cantidadMesa | default('') }}</td>
-                        <td>{{ item.estado | default('') }}</td>
+                        <td class="-text-center">
+                            {% if 'Activa' == item.estado %}
+                                <span class="ms-status -active">{{ item.estado }}</span>
+                            {% else %}
+                                <span class="ms-status">{{ item.estado }}</span>
+                            {% endif %}
+                        </td>
                         <td class="text-center">
                             <button title="Eliminar" class="btn btn-outline-danger elementRemove"
                                     data-url="{{ path('app_contactenos_eliminar', {'id': item.id}) }}">
