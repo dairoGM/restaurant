@@ -113,7 +113,7 @@ class ApiServicesController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
 
-            if (isset($jsonParams['usuario']) && !empty($jsonParams['usuario']) && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
+            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
                 && isset($jsonParams['cantidadMesa']) && !empty($jsonParams['cantidadMesa'])
                 && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
 
@@ -128,7 +128,7 @@ class ApiServicesController extends AbstractController
 
                     if (intval($jsonParams['cantidadMesa']) <= $mesasEspacio) {
                         if (($mesasEspacio - $reservacionesRealizadas) >= $jsonParams['cantidadMesa']) {
-                            $perfil = $perfilRepository->findBy(['usuario' => $jsonParams['usuario']]);
+                            $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
                             if (isset($perfil[0])) {
                                 $reservacionMesa->setPerfil($perfil[0]);
                                 $reservacionMesa->setEspacio($espacio);
@@ -167,9 +167,9 @@ class ApiServicesController extends AbstractController
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
-            $usuario = $jsonParams['usuario'] ?? null;
-            if (!empty($usuario)) {
-                $reservaciones = $reservacionMesaRepository->getReservaciones($usuario);
+            $email = $jsonParams['email'] ?? null;
+            if (!empty($email)) {
+                $reservaciones = $reservacionMesaRepository->getReservaciones($email);
                 $response = [];
                 foreach ($reservaciones as $value) {
                     $value['fechaReservacion'] = date_format($value['fechaReservacion'], 'Y-m-d H:i:s');

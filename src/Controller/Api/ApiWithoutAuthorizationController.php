@@ -215,7 +215,6 @@ class ApiWithoutAuthorizationController extends AbstractController
      */
     public function editarPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
     {
-
         try {
             $jsonParams = json_decode($request->getContent(), true);
             if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
@@ -272,11 +271,11 @@ class ApiWithoutAuthorizationController extends AbstractController
             $jsonParams = json_decode($request->getContent(), true);
             if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
                 $perfil = $perfilRepository->listarPerfiles(['email' => $jsonParams['email'], 'password' => $jsonParams['password']]);
-                return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'data' => $perfil[0] ?? []]);
+                return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'data' => $perfil[0] ?? [], 'autenticado' => $perfil[0]]);
             }
-            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => [], 'autenticado' => false], Response::HTTP_BAD_REQUEST);
         } catch (\Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => [], 'autenticado' => false], Response::HTTP_BAD_GATEWAY);
         }
     }
 

@@ -62,16 +62,16 @@ class ReservacionMesaRepository extends ServiceEntityRepository
         return $result[0]['total'] ?? 0;
     }
 
-    public function getReservaciones($usuario = null)
+    public function getReservaciones($email = null)
     {
         $query = $this->createQueryBuilder('qb')
             ->select(
-                "qb.id, qb.cantidadMesa,qb.estado, qb.fechaReservacion, e.nombreCorto as nombreCorteEspacio, p.usuario"
+                "qb.id, qb.cantidadMesa,qb.estado, qb.fechaReservacion, e.nombreCorto as nombreCorteEspacio, p.email"
             )
             ->join('qb.espacio', 'e')
             ->join('qb.perfil', 'p');
-        if (!empty($usuario)) {
-            $query->where("p.usuario = '$usuario'");
+        if (!empty($email)) {
+            $query->where("p.email = '$email'");
         }
         $result = $query->getQuery()->getResult();
         return $result;
