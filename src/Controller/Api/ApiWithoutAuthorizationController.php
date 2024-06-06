@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Restaurant\Contactenos;
 use App\Entity\Restaurant\Perfil;
+use App\Entity\Security\User;
 use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
 use App\Repository\Configuracion\CateringRepository;
@@ -40,8 +41,10 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\Utils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/service")
@@ -50,14 +53,16 @@ class ApiWithoutAuthorizationController extends AbstractController
 {
     private $requestStack;
     private $baseUrl;
+    private UserPasswordHasherInterface $hasher;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, UserPasswordHasherInterface $hasher)
     {
         $this->requestStack = $requestStack;
         $request = $this->requestStack->getCurrentRequest();
 
         // Obtener la URL base
         $this->baseUrl = $request->getSchemeAndHttpHost() . $request->getBasePath();
+        $this->hasher = $hasher;
     }
 
 
@@ -176,7 +181,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function crearPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
+    public function crearPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -193,6 +198,15 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $perfil->setNombre($perfil->getEmail());
                     $perfil->setActivo(true);
                     $em->persist($perfil);
+
+
+                    $user = new User();
+                    $user->setEmail($jsonParams['email']);
+                    $user->setRole('ROLE_ADMIN');
+                    $password = $this->hasher->hashPassword($user, $jsonParams['password']);
+                    $user->setPassword($password);
+                    $em->persist($user);
+
                     $em->flush();
 
                     return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)]);
@@ -271,7 +285,7 @@ class ApiWithoutAuthorizationController extends AbstractController
             $jsonParams = json_decode($request->getContent(), true);
             if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
                 $perfil = $perfilRepository->listarPerfiles(['email' => $jsonParams['email'], 'password' => $jsonParams['password']]);
-                return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'data' => $perfil[0] ?? [], 'autenticado' => $perfil[0] ?? false]);
+                return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'data' => $perfil[0] ?? [], 'autenticado' => isset($perfil[0])]);
             }
             return $this->json(['messaje' => 'Incorrect Parameter', 'data' => [], 'autenticado' => false], Response::HTTP_BAD_REQUEST);
         } catch (\Exception $exc) {
