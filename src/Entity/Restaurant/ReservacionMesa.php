@@ -16,13 +16,13 @@ class ReservacionMesa extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="Perfil")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private ?Perfil $perfil;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Configuracion\Espacio")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private ?Espacio $espacio;
 
@@ -42,6 +42,12 @@ class ReservacionMesa extends BaseEntity
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $descripcion = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private ?string $estado = 'Activa';
+
 
     /**
      * @return Perfil|null
@@ -121,6 +127,22 @@ class ReservacionMesa extends BaseEntity
     public function setDescripcion(?string $descripcion): void
     {
         $this->descripcion = $descripcion;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEstado(): ?string
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param string|null $estado
+     */
+    public function setEstado(?string $estado): void
+    {
+        $this->estado = $estado;
     }
 
 

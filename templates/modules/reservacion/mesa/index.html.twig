@@ -22,6 +22,7 @@
                     <th>Fecha de reservación</th>
                     <th>Espacio</th>
                     <th>Cantidad de mesas</th>
+                    <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
                 </thead>
@@ -33,6 +34,7 @@
                         <td>{{ item.fechaReservacion | default('') }}</td>
                         <td>{{ item.nombreCorteEspacio | default('') }}</td>
                         <td>{{ item.cantidadMesa | default('') }}</td>
+                        <td>{{ item.estado | default('') }}</td>
                         <td class="text-center">
                             <button title="Eliminar" class="btn btn-outline-danger elementRemove"
                                     data-url="{{ path('app_contactenos_eliminar', {'id': item.id}) }}">

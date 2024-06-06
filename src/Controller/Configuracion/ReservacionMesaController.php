@@ -4,6 +4,7 @@ namespace App\Controller\Configuracion;
 
 
 use App\Entity\Restaurant\Contactenos;
+use App\Entity\Restaurant\ReservacionMesa;
 use App\Repository\Restaurant\ContactenosRepository;
 use App\Repository\Restaurant\ReservacionMesaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
- * @Route("/reservacion/mesa")
+ * @Route("/configuracion/reservacion/mesa")
  * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CARRERA")
  */
 class ReservacionMesaController extends AbstractController
@@ -46,23 +47,23 @@ class ReservacionMesaController extends AbstractController
 
     /**
      * @Route("/{id}/eliminar", name="app_contactenos_eliminar", methods={"GET"})
-     * @param Contactenos $contactenos
-     * @param ContactenosRepository $contactenosRepository
+     * @param ReservacionMesa $reservacionMesa
+     * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return Response
      */
-    public function eliminar(Contactenos $contactenos, ContactenosRepository $contactenosRepository)
+    public function eliminar(ReservacionMesa $reservacionMesa, ReservacionMesaRepository $reservacionMesaRepository)
     {
         try {
-            if ($contactenosRepository->find($contactenos) instanceof Contactenos) {
-                $contactenosRepository->remove($contactenos, true);
+            if ($reservacionMesaRepository->find($reservacionMesa) instanceof ReservacionMesa) {
+                $reservacionMesaRepository->remove($reservacionMesa, true);
                 $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
-                return $this->redirectToRoute('app_contactenos_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
             }
             $this->addFlash('error', 'Error en la entrada de datos');
-            return $this->redirectToRoute('app_contactenos_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_contactenos_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
         }
     }
 
