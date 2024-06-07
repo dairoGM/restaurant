@@ -53,7 +53,7 @@ class ReservacionMesaController extends AbstractController
 
 
     /**
-     * @Route("/{id}/eliminar", name="app_contactenos_eliminar", methods={"GET"})
+     * @Route("/{id}/eliminar", name="app_reservacion_mesa_eliminar", methods={"GET"})
      * @param ReservacionMesa $reservacionMesa
      * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return Response
