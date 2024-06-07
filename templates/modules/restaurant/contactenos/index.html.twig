@@ -33,8 +33,8 @@
                         <td>{{ item.nombre | default('') }}</td>
                         <td>{{ item.correo | default('') }}</td>
                         <td>{{ item.mensaje | default('') }}</td>
-                        <td>{{ item.creado | date('d/m/Y H:i:s') }}</td>
-                        <td>{{ item.actualizado | date('d/m/Y H:i:s') }}</td>
+                        <td>{{ item.creado | default('') }}</td>
+                        <td>{{ item.actualizado | default('') }}</td>
 
 
                         <td class="text-center">
