@@ -56,7 +56,7 @@ class PerfilRepository extends ServiceEntityRepository
             ->select(
                 "qb.id,  
                 DateFormat(qb.creado, 'DD/MM/YYYY HH24:mi:ss') as creado,
-                DateFormat(qb.creado, 'DD/MM/YYYY HH24:mi:ss') as actualizado,
+                DateFormat(qb.actualizado, 'DD/MM/YYYY HH24:mi:ss') as actualizado,
                 qb.email,
                 qb.activo"
             );

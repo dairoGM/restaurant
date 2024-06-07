@@ -55,8 +55,8 @@ class ContactenosRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('qb')
             ->select(
                 "qb.id,  
-                DateFormat(qb.creado, 'DD/MM/YYYY HH24:mi:ss') as creado,
-                DateFormat(qb.creado, 'DD/MM/YYYY HH24:mi:ss') as actualizado,
+                qb.creado,
+                qb.actualizado,
                 qb.nombre,
                 qb.mensaje,
                 qb.correo"
