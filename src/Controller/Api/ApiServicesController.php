@@ -63,67 +63,6 @@ class ApiServicesController extends AbstractController
     }
 
     /**
-     * @Route("/reservar/mesa/crear", name="api_reservar_mesa_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param Request $request
-     * @param EspacioRepository $espacioRepository
-     * @param PerfilRepository $perfilRepository
-     * @param EntityManagerInterface $em
-     * @param ReservacionMesaRepository $reservacionMesaRepository
-     * @return JsonResponse
-     */
-    public function reservarMesa(Request $request, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
-    {
-        try {
-            $jsonParams = json_decode($request->getContent(), true);
-
-            if (isset($jsonParams['email']) && !empty($jsonParams['email'])
-                && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
-                && isset($jsonParams['cantidadMesa']) && !empty($jsonParams['cantidadMesa'])
-                && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
-                && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
-                && isset($jsonParams['dni']) && !empty($jsonParams['dni'])
-                && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
-
-                $reservacionMesa = new ReservacionMesa();
-                $form = $this->createForm(ReservacionMesaType::class, $reservacionMesa);
-                $form->submit($jsonParams);
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $espacio = $espacioRepository->find($jsonParams['espacio']);
-                    $mesasEspacio = $espacio->getCantidadMesa();
-                    $fecha = explode(' ', $jsonParams['fechaReservacion'])[0];
-                    $reservacionesRealizadas = $reservacionMesaRepository->getCantidadReservaciones($fecha);
-
-                    if (intval($jsonParams['cantidadMesa']) <= $mesasEspacio) {
-                        if (($mesasEspacio - $reservacionesRealizadas) >= $jsonParams['cantidadMesa']) {
-                            $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
-                            if (isset($perfil[0])) {
-                                $reservacionMesa->setTicket(uniqid('RESERV_'));
-                                $reservacionMesa->setPerfil($perfil[0]);
-                                $reservacionMesa->setEspacio($espacio);
-                                $reservacionMesa->setEstado('Activa');
-                                $reservacionMesa->setFechaReservacion(\DateTime::createFromFormat('Y-m-d H:i:s', $jsonParams['fechaReservacion']));
-
-                                $em->persist($reservacionMesa);
-                                $em->flush();
-
-                                return $this->json(['messaje' => 'OK', 'data' => ['ticked' => $reservacionMesa->getTicket()]]);
-                            }
-                            return $this->json(['messaje' => "Usuario no válido", 'data' => []], Response::HTTP_BAD_REQUEST);
-                        }
-                        return $this->json(['messaje' => "La disponibilidad de mesas es insuficiente", 'data' => []], Response::HTTP_BAD_REQUEST);
-                    }
-                    return $this->json(['messaje' => "La cantidad de mesas solicitada es superior a las mesas del espacio seleccionado", 'data' => []], Response::HTTP_BAD_REQUEST);
-                }
-                return $this->json(['messaje' => $form->getErrors(), 'data' => []], Response::HTTP_BAD_REQUEST);
-            }
-            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
-        } catch (\Exception $exc) {
-            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
-        }
-    }
-
-
-    /**
      * @Route("/reservaciones/mesa/listar", name="api_reservaciones_mesa_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
      * @param ReservacionMesaRepository $reservacionMesaRepository
