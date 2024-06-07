@@ -3,6 +3,7 @@
 namespace App\Entity\Restaurant;
 
 use App\Entity\BaseNomenclator;
+use App\Entity\Security\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -13,6 +14,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Perfil extends BaseNomenclator
 {
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Security\User")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     */
+    private ?User $user;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -54,6 +62,22 @@ class Perfil extends BaseNomenclator
     public function setPassword(?string $password): void
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User|null $user
+     */
+    public function setUser(?User $user): void
+    {
+        $this->user = $user;
     }
 
 

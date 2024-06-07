@@ -18,6 +18,10 @@
                 <thead class="table-custom-header">
                 <tr>
                     <th>No.</th>
+                    <th>Identificador</th>
+                    <th>Nombre completo</th>
+                    <th>DNI</th>
+                    <th>Celular</th>
                     <th>Usuario</th>
                     <th>Fecha de reservación</th>
                     <th>Espacio</th>
@@ -30,7 +34,11 @@
                 {% for item in registros %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ item.usuario | default('') }}</td>
+                        <td>{{ item.ticket | default('') }}</td>
+                        <td>{{ item.nombreCompleto | default('') }}</td>
+                        <td>{{ item.dni | default('') }}</td>
+                        <td>{{ item.celular | default('') }}</td>
+                        <td>{{ item.email | default('') }}</td>
                         <td>{{ item.fechaReservacion | default('') }}</td>
                         <td>{{ item.nombreCorteEspacio | default('') }}</td>
                         <td>{{ item.cantidadMesa | default('') }}</td>

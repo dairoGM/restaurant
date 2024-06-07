@@ -18,9 +18,26 @@ class ReservacionMesaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('usuario', TextType::class, [
+            ->add('email', TextType::class, [
                 'label' => 'Usuario',
                 'mapped' => false,
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
+            ->add('nombreCompleto', TextType::class, [
+                'label' => 'Nombre completo',
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
+            ->add('celular', TextType::class, [
+                'label' => 'Celular',
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ]) ->add('dni', TextType::class, [
+                'label' => 'DNI',
                 'constraints' => [
                     new NotBlank()
                 ]

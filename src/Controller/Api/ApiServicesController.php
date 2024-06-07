@@ -76,8 +76,12 @@ class ApiServicesController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
 
-            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
+            if (isset($jsonParams['email']) && !empty($jsonParams['email'])
+                && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
                 && isset($jsonParams['cantidadMesa']) && !empty($jsonParams['cantidadMesa'])
+                && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
+                && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
+                && isset($jsonParams['dni']) && !empty($jsonParams['dni'])
                 && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
 
                 $reservacionMesa = new ReservacionMesa();
@@ -93,17 +97,16 @@ class ApiServicesController extends AbstractController
                         if (($mesasEspacio - $reservacionesRealizadas) >= $jsonParams['cantidadMesa']) {
                             $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
                             if (isset($perfil[0])) {
+                                $reservacionMesa->setTicket(uniqid('RESERV_'));
                                 $reservacionMesa->setPerfil($perfil[0]);
                                 $reservacionMesa->setEspacio($espacio);
                                 $reservacionMesa->setEstado('Activa');
-                                $reservacionMesa->setDescripcion($jsonParams['descripcion'] ?? null);
-                                $reservacionMesa->setCantidadMesa($jsonParams['cantidadMesa']);
                                 $reservacionMesa->setFechaReservacion(\DateTime::createFromFormat('Y-m-d H:i:s', $jsonParams['fechaReservacion']));
 
                                 $em->persist($reservacionMesa);
                                 $em->flush();
 
-                                return $this->json(['messaje' => 'OK', 'data' => []]);
+                                return $this->json(['messaje' => 'OK', 'data' => ['ticked' => $reservacionMesa->getTicket()]]);
                             }
                             return $this->json(['messaje' => "Usuario no válido", 'data' => []], Response::HTTP_BAD_REQUEST);
                         }

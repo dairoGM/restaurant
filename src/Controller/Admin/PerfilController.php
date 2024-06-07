@@ -60,13 +60,16 @@ class PerfilController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $entidad->setNombre($entidad->getEmail());
-                $perfilRepository->add($entidad, true);
-                $user = new User();
 
+                $user = new User();
                 $user->setEmail($entidad->getEmail());
                 $user->setRole('ROLE_CLIENT');
                 $password = $this->hasher->hashPassword($user, $entidad->getPassword());
                 $user->setPassword($password);
+
+                $entidad->setUser($user);
+                $perfilRepository->add($entidad, true);
+
                 $em->persist($user);
                 $em->flush();
 

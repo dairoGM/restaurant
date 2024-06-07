@@ -66,7 +66,15 @@ class ReservacionMesaRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('qb')
             ->select(
-                "qb.id, qb.cantidadMesa,qb.estado, qb.fechaReservacion, e.nombreCorto as nombreCorteEspacio, p.email"
+                "qb.id,
+                 qb.nombreCompleto, 
+                 qb.celular, 
+                 qb.dni, 
+                 qb.ticket, 
+                 qb.cantidadMesa,
+                 qb.estado,                 
+                 qb.fechaReservacion, 
+                 e.nombreCorto as nombreCorteEspacio, p.email"
             )
             ->join('qb.espacio', 'e')
             ->join('qb.perfil', 'p');

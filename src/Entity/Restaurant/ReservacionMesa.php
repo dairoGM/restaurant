@@ -48,6 +48,24 @@ class ReservacionMesa extends BaseEntity
      */
     private ?string $estado = null;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $nombreCompleto = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $dni = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $celular = null;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $ticket = null;
 
     /**
      * @return Perfil|null
@@ -143,6 +161,70 @@ class ReservacionMesa extends BaseEntity
     public function setEstado(?string $estado): void
     {
         $this->estado = $estado;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNombreCompleto(): ?string
+    {
+        return $this->nombreCompleto;
+    }
+
+    /**
+     * @param string|null $nombreCompleto
+     */
+    public function setNombreCompleto(?string $nombreCompleto): void
+    {
+        $this->nombreCompleto = $nombreCompleto;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDni(): ?string
+    {
+        return $this->dni;
+    }
+
+    /**
+     * @param string|null $dni
+     */
+    public function setDni(?string $dni): void
+    {
+        $this->dni = $dni;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCelular(): ?string
+    {
+        return $this->celular;
+    }
+
+    /**
+     * @param string|null $celular
+     */
+    public function setCelular(?string $celular): void
+    {
+        $this->celular = $celular;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTicket(): ?string
+    {
+        return $this->ticket;
+    }
+
+    /**
+     * @param string|null $ticket
+     */
+    public function setTicket(?string $ticket): void
+    {
+        $this->ticket = $ticket;
     }
 
 
