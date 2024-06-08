@@ -33,7 +33,11 @@ class ComentarioEspacioType extends AbstractType
                     new NotBlank()
                 ]
             ])
-
+            ->add('comentario', TextType::class, [
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
             ->add('evaluacion', IntegerType::class, [
                 'required' => false,
                 'attr' => [

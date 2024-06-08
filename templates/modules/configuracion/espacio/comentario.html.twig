@@ -42,6 +42,11 @@
                     {{ form_errors(form.nombre ) }}
                 </div>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 form-group">
+                    {{ form_label(form.comentario ) }}
+                    {{ form_widget(form.comentario ) }}
+                    {{ form_errors(form.comentario ) }}
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 form-group">
                     {{ form_label(form.evaluacion) }}
                     {{ form_widget(form.evaluacion) }}
                     {{ form_errors(form.evaluacion) }}
