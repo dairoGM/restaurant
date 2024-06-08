@@ -82,6 +82,7 @@
                 <th>No.</th>
                 <th>Imagen</th>
                 <th>Nombre</th>
+                <th>Comentario</th>
                 <th>Evaluación</th>
                 <th>Fecha</th>
 
@@ -100,6 +101,7 @@
                         </a></td>
 
                     <td>{{ item.nombre | default('') }}</td>
+                    <td>{{ item.comentario | default('') }}</td>
                     <td>{{ item.evaluacion | raw }}</td>
                     <td>{{ item.fecha |default('') }}</td>
 
