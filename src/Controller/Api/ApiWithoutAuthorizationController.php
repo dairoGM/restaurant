@@ -607,8 +607,8 @@ class ApiWithoutAuthorizationController extends AbstractController
                 $disponibilidadEspacio = $value->getCantidadMesa();
                 $item['idEspacio'] = $value->getId();
                 $item['nombreCorto'] = $value->getNombreCorto();
-                $item['cantidadMesa'] = $disponibilidadEspacio;
-                $item['reservaciones'] = $reservaciones;
+                $item['cantidadMesa'] = intval($disponibilidadEspacio);
+                $item['reservaciones'] = intval($reservaciones);
                 $item['disponibilidad'] = ($disponibilidadEspacio - $reservaciones) > 0 ? ($disponibilidadEspacio - $reservaciones) : 0;
                 $item['fecha'] = $date;
                 $response[] = $item;
