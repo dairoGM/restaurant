@@ -87,6 +87,7 @@ class ReservacionMesaRepository extends ServiceEntityRepository
         if (!empty($email)) {
             $query->where("p.email = '$email'");
         }
+        $query->orderBy('qb.id', 'desc');
         $result = $query->getQuery()->getResult();
         return $result;
     }
