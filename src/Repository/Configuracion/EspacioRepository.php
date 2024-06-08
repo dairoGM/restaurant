@@ -89,4 +89,43 @@ class EspacioRepository extends ServiceEntityRepository
 //        die;
         return $query->getQuery()->getResult(1);
     }
+
+    public function getDisponibilidadEspacio($date)
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "qb.id, 
+                        qb.nombreCorto, 
+                        qb.nombreLargo, 
+                        qb.categoria, 
+                        qb.orden,                                           
+                        qb.activo,                                           
+                        qb.publico,                                           
+                        qb.cantidadMesa,                                           
+                        qb.descripcion,
+                         qb.imagenPortada, 
+                         qb.imagenMovil, 
+                         qb.imagenBanner, 
+                         qb.imagenDetallada"
+            );
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("qb.$key = '$value'");
+            }
+        }
+        if (count($orderBy) == 0) {
+            $query->orderBy('qb.orden', 'ASC');
+        } else {
+            foreach ($orderBy as $key => $value) {
+                $query->addOrderBy("qb.$key", $value);
+            }
+        }
+//        echo '<pre>';
+//        print_r($query->getQuery()->getSQL());
+//        die;
+        return $query->getQuery()->getResult(1);
+    }
 }

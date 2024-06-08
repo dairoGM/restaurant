@@ -426,7 +426,6 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         try {
             $result = $reservaRepository->listarItemReserva(['activo' => true]);
-
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -589,5 +588,35 @@ class ApiWithoutAuthorizationController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/espacio/disponibilidad", name="api_espacio_disponibilidad", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param EspacioRepository $espacioRepository
+     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @return JsonResponse
+     */
+    public function getDisponibilidadEspacio(Request $request, EspacioRepository $espacioRepository, ReservacionMesaRepository $reservacionMesaRepository)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            $date = $jsonParams['fecha'] ?? date('Y-m-d');
+            $espacios = $espacioRepository->findAll();
+            $response = [];
+            foreach ($espacios as $value) {
+                $reservaciones = $reservacionMesaRepository->getCantidadReservaciones($date, $value->getId());
+                $disponibilidadEspacio = $value->getCantidadMesa();
+                $item['idEspacio'] = $value->getId();
+                $item['nombreCorto'] = $value->getNombreCorto();
+                $item['cantidadMesa'] = $disponibilidadEspacio;
+                $item['reservaciones'] = $reservaciones;
+                $item['disponibilidad'] = ($disponibilidadEspacio - $reservaciones) > 0 ? ($disponibilidadEspacio - $reservaciones) : 0;
+                $item['fecha'] = $date;
+                $response[] = $item;
+            }
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 
 }

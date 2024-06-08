@@ -87,4 +87,58 @@ class ApiServicesController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
+
+    /**
+     * @Route("/reservar/mesa/editar", name="api_reservar_mesa_editar",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param EspacioRepository $espacioRepository
+     * @param PerfilRepository $perfilRepository
+     * @param EntityManagerInterface $em
+     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @return JsonResponse
+     */
+    public function editarMesa(Request $request, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+
+            if (isset($jsonParams['ticket']) && !empty($jsonParams['ticket'])) {
+
+                $email = $jsonParams['email'] ?? null;
+                $fechaReservacion = $jsonParams['fechaReservacion'] ?? null;
+                $cantidadMesa = $jsonParams['cantidadMesa'] ?? null;
+                $celular = $jsonParams['celular'] ?? null;
+                $dni = $jsonParams['dni'] ?? null;
+
+
+                $reservacionMesa = $reservacionMesaRepository->findOneBy($jsonParams['ticket']);
+
+                $espacio = $reservacionMesa->getEspacio();
+                $mesasEspacio = $espacio->getCantidadMesa();
+                $fecha = explode(' ', $jsonParams['fechaReservacion'])[0];
+                $reservacionesRealizadas = $reservacionMesaRepository->getCantidadReservaciones($fecha);
+
+                if (intval($jsonParams['cantidadMesa']) <= $mesasEspacio) {
+                    if (($mesasEspacio - $reservacionesRealizadas) >= $jsonParams['cantidadMesa']) {
+
+                        if (!empty($fechaReservacion)){
+                            $reservacionMesa->setFechaReservacion(\DateTime::createFromFormat('Y-m-d H:i:s', $fechaReservacion));
+                        }
+
+
+
+                        return $this->json(['messaje' => 'OK', 'data' => ['ticked' => $reservacionMesa->getTicket()]]);
+
+                    }
+                    return $this->json(['messaje' => "La disponibilidad de mesas es insuficiente", 'data' => []], Response::HTTP_BAD_REQUEST);
+                }
+                return $this->json(['messaje' => "La cantidad de mesas solicitada es superior a las mesas del espacio seleccionado", 'data' => []], Response::HTTP_BAD_REQUEST);
+
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 }

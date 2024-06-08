@@ -50,14 +50,19 @@ class ReservacionMesaRepository extends ServiceEntityRepository
     }
 
 
-    public function getCantidadReservaciones($fecha)
+    public function getCantidadReservaciones($fecha, $espacioId = null)
     {
         $query = $this->createQueryBuilder('qb')
             ->select(
                 "sum(qb.cantidadMesa) as total"
-            );
+            )
+            ->innerJoin('qb.espacio', 'e');
+        if (!empty($espacioId)) {
+            $query->where("e.id = $espacioId");
+        }
         $query->andWhere('qb.fechaReservacion LIKE :val');
         $query->setParameter('val', '%' . $fecha . '%');
+
         $result = $query->getQuery()->getResult(1);
         return $result[0]['total'] ?? 0;
     }
@@ -74,7 +79,8 @@ class ReservacionMesaRepository extends ServiceEntityRepository
                  qb.cantidadMesa,
                  qb.estado,                 
                  qb.fechaReservacion, 
-                 e.nombreCorto as nombreCorteEspacio, p.email"
+                 e.nombreCorto as nombreCorteEspacio, 
+                 p.email"
             )
             ->join('qb.espacio', 'e')
             ->join('qb.perfil', 'p');
