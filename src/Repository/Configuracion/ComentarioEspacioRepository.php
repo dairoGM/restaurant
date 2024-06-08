@@ -55,6 +55,7 @@ class ComentarioEspacioRepository extends ServiceEntityRepository
             ->select(
                 " 
                         qb.nombre,
+                        qb.comentario,
                         qb.evaluacion, 
                         qb.imagen,
                         qb.creado 

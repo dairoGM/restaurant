@@ -56,6 +56,11 @@ class ComentarioEspacio extends BaseEntity
     private ?Espacio $espacio;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private ?string $comentario = null;
+
+    /**
      * @return string|null
      */
     public function getNombre(): ?string
@@ -133,6 +138,22 @@ class ComentarioEspacio extends BaseEntity
     public function setFecha($fecha): void
     {
         $this->fecha = $fecha;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getComentario(): ?string
+    {
+        return $this->comentario;
+    }
+
+    /**
+     * @param string|null $comentario
+     */
+    public function setComentario(?string $comentario): void
+    {
+        $this->comentario = $comentario;
     }
 
 
