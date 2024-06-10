@@ -205,6 +205,13 @@ class PortadaWebController extends AbstractController
     {
         try {
             if ($portadaRepository->find($portada) instanceof Portada) {
+
+                $allPortadas = $portadaRepository->findAll();
+                foreach ($allPortadas as $value) {
+                    $value->setPublico(false);
+                    $portadaRepository->edit($value, true);
+                }
+
                 $portada->setPublico(!$portada->getPublico());
                 $portadaRepository->edit($portada, true);
 
