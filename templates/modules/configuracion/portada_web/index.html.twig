@@ -23,7 +23,10 @@
                 <thead class="table-custom-header">
                 <tr>
                     <th>No.</th>
-                    <th>Imagen</th>
+                    <th>Imagen 1</th>
+                    <th>Imagen 2</th>
+                    <th>Imagen 3</th>
+                    <th>Imagen 4</th>
                     <th>Descripción</th>
                     <th>Publicado</th>
                     <th>Estado</th>
@@ -39,8 +42,29 @@
                                target="_blank">
                                 <img src="{% if item.imagen != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen/{{ item.imagen }}{% else %} /assets/images/usuario.png {% endif %}"
                                      class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
-                            </a></td>
-
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% if item.imagen2 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen2/{{ item.imagen2 }} {% else %} /assets/images/usuario.png {% endif %}"
+                               target="_blank">
+                                <img src="{% if item.imagen2 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen2/{{ item.imagen2 }}{% else %} /assets/images/usuario.png {% endif %}"
+                                     class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% if item.imagen3 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen3/{{ item.imagen3 }} {% else %} /assets/images/usuario.png {% endif %}"
+                               target="_blank">
+                                <img src="{% if item.imagen3 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen3/{{ item.imagen3 }}{% else %} /assets/images/usuario.png {% endif %}"
+                                     class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% if item.imagen4 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen4/{{ item.imagen4 }} {% else %} /assets/images/usuario.png {% endif %}"
+                               target="_blank">
+                                <img src="{% if item.imagen4 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen4/{{ item.imagen4 }}{% else %} /assets/images/usuario.png {% endif %}"
+                                     class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
+                            </a>
+                        </td>
 
                         <td>{{ item.descripcion |default('') }}</td>
                         <td class="-text-center">
