@@ -62,6 +62,11 @@ class Portada extends BaseEntity
     private $imagen4 = null;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagenFooter = null;
+
+    /**
      * @return string|null
      */
     public function getDescripcion(): ?string
@@ -173,5 +178,17 @@ class Portada extends BaseEntity
         $this->imagen4 = $imagen4;
     }
 
+    public function getImagenFooter()
+    {
+        return $this->imagenFooter;
+    }
+
+    /**
+     * @param null $imagenFooter
+     */
+    public function setImagenFooter($imagenFooter): void
+    {
+        $this->imagenFooter = $imagenFooter;
+    }
 
 }

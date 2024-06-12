@@ -27,6 +27,7 @@
                     <th>Imagen 2</th>
                     <th>Imagen 3</th>
                     <th>Imagen 4</th>
+                    <th>Imagen footer</th>
                     <th>Descripción</th>
                     <th>Publicado</th>
                     <th>Estado</th>
@@ -65,7 +66,13 @@
                                      class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
                             </a>
                         </td>
-
+                        <td>
+                            <a href="{% if item.imagenFooter != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagenFooter/{{ item.imagenFooter }} {% else %} /assets/images/usuario.png {% endif %}"
+                               target="_blank">
+                                <img src="{% if item.imagenFooter != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagenFooter/{{ item.imagenFooter }}{% else %} /assets/images/usuario.png {% endif %}"
+                                     class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
+                            </a>
+                        </td>
                         <td>{{ item.descripcion |default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.publico %}

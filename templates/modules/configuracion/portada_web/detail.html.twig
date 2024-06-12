@@ -14,6 +14,13 @@
                 <img src="{% if item.imagen3 != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagen3/{{ item.imagen3 }}{% else %} /assets/images/usuario.png {% endif %}"
                      class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
             </a></h5>
+        <h5 class="mb-0"><b>Imagen Footer:</b></h5>
+        <h5 class="mb-0"><a
+                    href="{% if item.imagenFooter != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagenFooter/{{ item.imagenFooter }} {% else %} /assets/images/usuario.png {% endif %}"
+                    target="_blank">
+                <img src="{% if item.imagenFooter != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/portada_web/imagenFooter/{{ item.imagenFooter }}{% else %} /assets/images/usuario.png {% endif %}"
+                     class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
+            </a></h5>
     </div>
     <div class="col-6">
 

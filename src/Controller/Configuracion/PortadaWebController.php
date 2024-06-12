@@ -77,6 +77,13 @@ class PortadaWebController extends AbstractController
                     $entidad->setImagen4($file_name);
                     $file->move("uploads/images/portada_web/imagen4", $file_name);
                 }
+                if (!empty($form['imagenFooter']->getData())) {
+                    $file = $form['imagenFooter']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setImagenFooter($file_name);
+                    $file->move("uploads/images/portada_web/imagenFooter", $file_name);
+                }
                 $portadaRepository->add($entidad, true);
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
                 return $this->redirectToRoute('app_portada_web_index', [], Response::HTTP_SEE_OTHER);
@@ -121,7 +128,7 @@ class PortadaWebController extends AbstractController
                     $file->move("uploads/images/portada_web/imagen", $file_name);
                 }
                 if (!empty($form['imagen2']->getData())) {
-                    if ($portada->getImagen() != null) {
+                    if ($portada->getImagen2() != null) {
                         if (file_exists('uploads/images/portada_web/imagen2/' . $portada->getImagen2())) {
                             unlink('uploads/images/portada_web/imagen2/' . $portada->getImagen2());
                         }
@@ -133,7 +140,7 @@ class PortadaWebController extends AbstractController
                     $file->move("uploads/images/portada_web/imagen2", $file_name);
                 }
                 if (!empty($form['imagen3']->getData())) {
-                    if ($portada->getImagen() != null) {
+                    if ($portada->getImagen3() != null) {
                         if (file_exists('uploads/images/portada_web/imagen3/' . $portada->getImagen3())) {
                             unlink('uploads/images/portada_web/imagen3/' . $portada->getImagen3());
                         }
@@ -145,7 +152,7 @@ class PortadaWebController extends AbstractController
                     $file->move("uploads/images/portada_web/imagen3", $file_name);
                 }
                 if (!empty($form['imagen4']->getData())) {
-                    if ($portada->getImagen() != null) {
+                    if ($portada->getImagen4() != null) {
                         if (file_exists('uploads/images/portada_web/imagen4/' . $portada->getImagen4())) {
                             unlink('uploads/images/portada_web/imagen4/' . $portada->getImagen4());
                         }
@@ -156,7 +163,18 @@ class PortadaWebController extends AbstractController
                     $portada->setImagen4($file_name);
                     $file->move("uploads/images/portada_web/imagen4", $file_name);
                 }
-
+                if (!empty($form['imagenFooter']->getData())) {
+                    if ($portada->getImagenFooter() != null) {
+                        if (file_exists('uploads/images/portada_web/imagenFooter/' . $portada->getImagenFooter())) {
+                            unlink('uploads/images/portada_web/imagenFooter/' . $portada->getImagenFooter());
+                        }
+                    }
+                    $file = $form['imagenFooter']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $portada->setImagenFooter($file_name);
+                    $file->move("uploads/images/portada_web/imagenFooter", $file_name);
+                }
 
                 $portadaRepository->edit($portada);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');

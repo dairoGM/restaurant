@@ -57,7 +57,13 @@ class PortadaType extends AbstractType
                 "required" => false,
                 "mapped" => false,
 
-            ));
+            ))  ->add('imagenFooter', FileType::class, array(
+                "attr" => array("type" => "file"),
+                "required" => false,
+                "mapped" => false,
+
+            ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

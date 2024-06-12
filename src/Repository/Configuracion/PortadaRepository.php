@@ -59,7 +59,8 @@ class PortadaRepository extends ServiceEntityRepository
                          qb.imagen,
                          qb.imagen2,
                          qb.imagen3,
-                         qb.imagen4
+                         qb.imagen4,
+                         qb.imagenFooter
                          ') ;
         if (!is_null($limit)) {
             $query->setMaxResults($limit);

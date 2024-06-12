@@ -158,6 +158,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $value['imagen2'] = !empty($value['imagen2']) ? $this->baseUrl . "/uploads/images/portada_web/imagen2/" . $value['imagen2'] : null;
                     $value['imagen3'] = !empty($value['imagen3']) ? $this->baseUrl . "/uploads/images/portada_web/imagen3/" . $value['imagen3'] : null;
                     $value['imagen4'] = !empty($value['imagen4']) ? $this->baseUrl . "/uploads/images/portada_web/imagen4/" . $value['imagen4'] : null;
+                    $value['imagenFooter'] = !empty($value['imagenFooter']) ? $this->baseUrl . "/uploads/images/portada_web/imagenFooter/" . $value['imagenFooter'] : null;
                     $response[] = $value;
                 }
             }
