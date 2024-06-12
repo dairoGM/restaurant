@@ -40,6 +40,15 @@
                     {{ form_widget(form.precio) }}
                     {{ form_errors(form.precio) }}
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">
+                    {{ form_label(form.nombreLargo) }}
+                    {{ form_widget(form.nombreLargo) }}
+                    {{ form_errors(form.nombreLargo) }}
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 form-group">
                     {{ form_label(form.sugerenciaChef) }}
                     {{ form_widget(form.sugerenciaChef) }}
@@ -75,6 +84,33 @@
     <script>
 
         ClassicEditor.create(document.getElementById('plato_descripcion'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+
+        ClassicEditor.create(document.getElementById('plato_nombreLargo'), {
             licenseKey: '',
             image: {
                 toolbar: [

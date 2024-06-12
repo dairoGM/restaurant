@@ -35,6 +35,10 @@ class PlatoType extends AbstractType
                 'label' => 'Descripción',
                 'required' => false,
             ])
+            ->add('nombreLargo', TextareaType::class, [
+                'label' => 'Nombre largo',
+                'required' => false,
+            ])
             ->add('imagen', FileType::class, array(
                 "attr" => array("type" => "file"),
                 "required" => false,

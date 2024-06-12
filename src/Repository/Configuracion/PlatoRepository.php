@@ -55,6 +55,7 @@ class PlatoRepository extends ServiceEntityRepository
             ->select('qb.id, 
                         qb.nombre, 
                         qb.precio,                                                  
+                        qb.nombreLargo,                                                  
                         qb.activo,                                           
                         qb.publico,                                           
                         qb.sugerenciaChef,                                           

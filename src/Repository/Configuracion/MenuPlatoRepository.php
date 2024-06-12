@@ -57,6 +57,7 @@ class MenuPlatoRepository extends ServiceEntityRepository
                         e.nombreCorto as nombreCortoEspacio, 
                         e.id as idEspacio, 
                         p.precio,    
+                        p.nombreLargo,    
                         p.activo,                                           
                         p.publico,                                           
                         p.sugerenciaChef,                                           

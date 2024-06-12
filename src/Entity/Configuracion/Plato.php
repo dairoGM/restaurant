@@ -4,6 +4,7 @@ namespace App\Entity\Configuracion;
 
 use App\Entity\BaseEntity;
 use App\Entity\BaseNomenclator;
+
 //use App\Entity\Estructura\Provincia;
 //use App\Entity\Estructura\Municipio;
 //use App\Entity\Estructura\CategoriaEstructura;
@@ -29,6 +30,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Plato extends BaseNomenclator
 {
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $nombreLargo = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -111,6 +116,22 @@ class Plato extends BaseNomenclator
     public function setSugerenciaChef(?bool $sugerenciaChef): void
     {
         $this->sugerenciaChef = $sugerenciaChef;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNombreLargo(): ?string
+    {
+        return $this->nombreLargo;
+    }
+
+    /**
+     * @param string|null $nombreLargo
+     */
+    public function setNombreLargo(?string $nombreLargo): void
+    {
+        $this->nombreLargo = $nombreLargo;
     }
 
 
