@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Restaurant\Contactenos;
 use App\Entity\Restaurant\Perfil;
 use App\Entity\Restaurant\ReservacionMesa;
+use App\Entity\Security\User;
 use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
 use App\Form\Restaurant\ReservacionMesaType;
@@ -41,6 +42,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\Utils;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -52,14 +54,16 @@ class ApiServicesController extends AbstractController
 {
     private $requestStack;
     private $baseUrl;
+    private UserPasswordHasherInterface $hasher;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, UserPasswordHasherInterface $hasher)
     {
         $this->requestStack = $requestStack;
         $request = $this->requestStack->getCurrentRequest();
 
         // Obtener la URL base
         $this->baseUrl = $request->getSchemeAndHttpHost() . $request->getBasePath();
+        $this->hasher = $hasher;
     }
 
     /**
@@ -153,5 +157,48 @@ class ApiServicesController extends AbstractController
         } catch (\Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
+    }
+
+    /**
+     * @Route("/perfil/cambiar_clave", name="api_perfil_cambiar_clave", methods={"POST"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param PerfilRepository $perfilRepository
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    public function cambiarClave(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
+                $perfil = $perfilRepository->findOneBy(['email' => $jsonParams['email']]);
+                if ($perfil instanceof Perfil) {
+
+                    $perfil->setPassword($jsonParams['password']);
+
+                    if (method_exists($perfil, 'getUser') && !empty($perfil->getUser())) {
+                        $password = $this->hasher->hashPassword($perfil->getUser(), $jsonParams['password']);
+                        $perfil->getUser()->setPassword($password);
+                    } else {
+                        $user = new User();
+                        $user->setEmail($jsonParams['email']);
+                        $user->setRole('ROLE_CLIENT');
+                        $password = $this->hasher->hashPassword($user, $jsonParams['password']);
+                        $user->setPassword($password);
+                        $em->persist($user);
+                        $perfil->setUser($user);
+                    }
+
+                    $em->persist($perfil);
+                    $em->flush();
+                    return $this->json(['messaje' => 'OK', 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)[0]]);
+                }
+                return $this->json(['messaje' => 'Item no found', 'data' => []], Response::HTTP_NOT_FOUND);
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+
     }
 }

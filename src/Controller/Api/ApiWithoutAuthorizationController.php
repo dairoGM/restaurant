@@ -203,9 +203,9 @@ class ApiWithoutAuthorizationController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
             $filtros = [];
-            $usuario = $jsonParams['usuario'] ?? null;
+            $email = $jsonParams['email'] ?? null;
             if (!empty($usuario)) {
-                $filtros['usuario'] = $usuario;
+                $filtros['email'] = $email;
             }
             $result = $perfilRepository->listarPerfiles($filtros);
             return $this->json(['messaje' => 'OK', 'data' => $result]);
