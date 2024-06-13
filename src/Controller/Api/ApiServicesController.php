@@ -199,6 +199,5 @@ class ApiServicesController extends AbstractController
         } catch (\Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
-
     }
 }
