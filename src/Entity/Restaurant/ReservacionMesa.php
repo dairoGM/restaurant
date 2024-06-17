@@ -33,10 +33,18 @@ class ReservacionMesa extends BaseEntity
 
 
     /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="text", nullable=false)
      */
     protected $fechaReservacion;
+
+    /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    protected $horaInicio;
+    /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    protected $horaFin;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -115,21 +123,6 @@ class ReservacionMesa extends BaseEntity
         $this->cantidadMesa = $cantidadMesa;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFechaReservacion()
-    {
-        return $this->fechaReservacion;
-    }
-
-    /**
-     * @param mixed $fechaReservacion
-     */
-    public function setFechaReservacion($fechaReservacion): void
-    {
-        $this->fechaReservacion = $fechaReservacion;
-    }
 
     /**
      * @return string|null
@@ -225,6 +218,54 @@ class ReservacionMesa extends BaseEntity
     public function setTicket(?string $ticket): void
     {
         $this->ticket = $ticket;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFechaReservacion()
+    {
+        return $this->fechaReservacion;
+    }
+
+    /**
+     * @param mixed $fechaReservacion
+     */
+    public function setFechaReservacion($fechaReservacion): void
+    {
+        $this->fechaReservacion = $fechaReservacion;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHoraInicio()
+    {
+        return $this->horaInicio;
+    }
+
+    /**
+     * @param mixed $horaInicio
+     */
+    public function setHoraInicio($horaInicio): void
+    {
+        $this->horaInicio = $horaInicio;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHoraFin()
+    {
+        return $this->horaFin;
+    }
+
+    /**
+     * @param mixed $horaFin
+     */
+    public function setHoraFin($horaFin): void
+    {
+        $this->horaFin = $horaFin;
     }
 
 

@@ -29,6 +29,7 @@ use App\Repository\Configuracion\SeccionServicioRepository;
 use App\Repository\Configuracion\ServicioRepository;
 use App\Repository\Configuracion\SobreRepository;
 use App\Repository\Configuracion\TerminosCondicionesRepository;
+use App\Repository\Configuracion\TiempoRepository;
 use App\Repository\Restaurant\ContactenosRepository;
 use App\Repository\Restaurant\PerfilRepository;
 use App\Repository\Restaurant\ReservacionMesaRepository;
@@ -48,6 +49,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\Utils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @Route("/service")
@@ -538,7 +540,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function reservarMesa(Request $request, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
+    public function reservarMesa(Request $request, TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -557,7 +559,9 @@ class ApiWithoutAuthorizationController extends AbstractController
                 if ($form->isSubmitted() && $form->isValid()) {
                     $espacio = $espacioRepository->find($jsonParams['espacio']);
                     $mesasEspacio = $espacio->getCantidadMesa();
-                    $fecha = explode(' ', $jsonParams['fechaReservacion'])[0];
+                    $dateParam = explode(' ', $jsonParams['fechaReservacion']);
+                    $fecha = $dateParam[0];
+                    $horaInicio = $dateParam[1];
                     $reservacionesRealizadas = $reservacionMesaRepository->getCantidadReservaciones($fecha);
 
                     if (intval($jsonParams['cantidadMesa']) <= $mesasEspacio) {
@@ -568,7 +572,18 @@ class ApiWithoutAuthorizationController extends AbstractController
                                 $reservacionMesa->setPerfil($perfil[0]);
                                 $reservacionMesa->setEspacio($espacio);
                                 $reservacionMesa->setEstado('Activa');
-                                $reservacionMesa->setFechaReservacion(\DateTime::createFromFormat('Y-m-d H:i:s', $jsonParams['fechaReservacion']));
+                                $reservacionMesa->setFechaReservacion($fecha);
+                                $reservacionMesa->setHoraInicio($horaInicio);
+                                $dataTiempoConfigurado = $tiempoRepository->findAll();
+                                $tiempoConfig = $dataTiempoConfigurado[0]->getTiempo();
+
+
+                                $tiempoInicial = new \DateTime($jsonParams['fechaReservacion']);
+                                $intervalo = new \DateInterval("PT" . $tiempoConfig . "H");
+                                $tiempoFinal = $tiempoInicial->add($intervalo);
+                                $tiempoFinalFormateado = $tiempoFinal->format('H:i');
+
+                                $reservacionMesa->setHoraFin($tiempoFinalFormateado);
 
                                 $em->persist($reservacionMesa);
                                 $em->flush();
