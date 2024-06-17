@@ -57,7 +57,7 @@
                                 <span class="ms-status">{{ item.estado }}</span>
                             {% endif %}
                         </td>
-                        <td class="text-center" width="7%">
+                        <td class="text-center" width="10%">
                             {% if 'Activa' == item.estado %}
                                 <button title="Eliminar" class="btn btn-outline-danger elementRemove"
                                         data-url="{{ path('app_reservacion_mesa_eliminar', {'id': item.id}) }}">
