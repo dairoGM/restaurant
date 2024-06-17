@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entity\Restaurant\ReservacionMesa;
 use App\Entity\Security\Rol;
 
 //use App\Entity\Security\RolEstructura;
@@ -504,5 +505,13 @@ class Utils
         } catch (\Exception  $exception) {
             return $exception->getMessage();
         }
+    }
+
+
+    public function generarIdentificadorReserva()
+    {
+        $contador = count($this->em->getRepository(ReservacionMesa::class)->findAll())+1;
+        $identificador = 'IV' . str_pad($contador, 5, '0', STR_PAD_LEFT);
+        return $identificador;
     }
 }

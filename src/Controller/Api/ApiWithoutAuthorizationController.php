@@ -540,7 +540,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function reservarMesa(Request $request, TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
+    public function reservarMesa(Request $request, Utils $utils, TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -568,7 +568,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                         if (($mesasEspacio - $reservacionesRealizadas) >= $jsonParams['cantidadMesa']) {
                             $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
                             if (isset($perfil[0])) {
-                                $reservacionMesa->setTicket(uniqid('RESERV_'));
+                                $reservacionMesa->setTicket($utils->generarIdentificadorReserva());
                                 $reservacionMesa->setPerfil($perfil[0]);
                                 $reservacionMesa->setEspacio($espacio);
                                 $reservacionMesa->setEstado('Activa');
