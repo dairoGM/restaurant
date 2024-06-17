@@ -79,6 +79,8 @@ class ReservacionMesaRepository extends ServiceEntityRepository
                  qb.cantidadMesa,
                  qb.estado,                 
                  qb.fechaReservacion, 
+                 qb.horaInicio, 
+                 qb.horaFin,                  
                  e.nombreCorto as nombreCorteEspacio, 
                  p.email"
             )

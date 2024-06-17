@@ -31,8 +31,7 @@ class ReservacionMesaController extends AbstractController
             $reservaciones = $reservacionMesaRepository->getReservaciones();
             $response = [];
             foreach ($reservaciones as $value) {
-                $fechaReservacion = date_format($value['fechaReservacion'], 'Y-m-d H:i:s');
-                $value['fechaReservacion'] = $fechaReservacion;
+                $fechaReservacion = new \DateTime($value['fechaReservacion'] . ' ' . $value['horaFin']);
                 if ($fechaReservacion < date('Y-m-d H:i:s')) {
                     $reserva = $reservacionMesaRepository->find($value['id']);
                     $reserva->setEstado('Expirada');
