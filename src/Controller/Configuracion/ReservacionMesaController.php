@@ -27,7 +27,7 @@ class ReservacionMesaController extends AbstractController
      */
     public function index(ReservacionMesaRepository $reservacionMesaRepository)
     {
-        try {
+//        try {
             $reservaciones = $reservacionMesaRepository->getReservaciones();
             $response = [];
             foreach ($reservaciones as $value) {
@@ -44,10 +44,10 @@ class ReservacionMesaController extends AbstractController
             return $this->render('modules/reservacion/mesa/index.html.twig', [
                 'registros' => $response,
             ]);
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
-        }
+//        } catch (\Exception $exception) {
+//            $this->addFlash('error', $exception->getMessage());
+//            return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
+//        }
     }
 
 
@@ -73,4 +73,27 @@ class ReservacionMesaController extends AbstractController
         }
     }
 
+
+    /**
+     * @Route("/{id}/terminar", name="app_reservacion_mesa_terminar", methods={"GET"})
+     * @param ReservacionMesa $reservacionMesa
+     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @return Response
+     */
+    public function terminar(ReservacionMesa $reservacionMesa, ReservacionMesaRepository $reservacionMesaRepository)
+    {
+        try {
+            if ($reservacionMesaRepository->find($reservacionMesa) instanceof ReservacionMesa) {
+                $reservacionMesa->setEstado('Terminada');
+                $reservacionMesaRepository->edit($reservacionMesa, true);
+                $this->addFlash('success', 'El elemento ha sido modificado satisfactoriamente.');
+                return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
+            }
+            $this->addFlash('error', 'Error en la entrada de datos');
+            return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
 }

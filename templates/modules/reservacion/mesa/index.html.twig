@@ -23,9 +23,9 @@
                     <th>DNI</th>
                     <th>Celular</th>
                     <th>Usuario</th>
-                    <th>Fecha de reservación</th>
-                    <th>Hora de inicio</th>
-                    <th>Hora de fin</th>
+                    <th>Fecha</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
                     <th>Espacio</th>
                     <th>Cantidad de mesas</th>
                     <th>Estado</th>
@@ -49,14 +49,22 @@
                         <td class="-text-center">
                             {% if 'Activa' == item.estado %}
                                 <span class="ms-status -active">{{ item.estado }}</span>
-                            {% else %}
+                            {% endif %}
+                            {% if 'Terminada' == item.estado %}
+                                <span class="ms-status -info">{{ item.estado }}</span>
+                            {% endif %}
+                            {% if 'Expirada' == item.estado %}
                                 <span class="ms-status">{{ item.estado }}</span>
                             {% endif %}
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" width="7%">
                             <button title="Eliminar" class="btn btn-outline-danger elementRemove"
                                     data-url="{{ path('app_reservacion_mesa_eliminar', {'id': item.id}) }}">
                                 <i class="fa fa-trash"></i>
+                            </button>
+                            <button title="Terminar reservación" class="btn btn-outline-primary elementRemove"
+                                    data-url="{{ path('app_reservacion_mesa_terminar', {'id': item.id}) }}">
+                                <i class="fa fa-hammer"></i>
                             </button>
                         </td>
                     </tr>

@@ -78,12 +78,7 @@ class ApiServicesController extends AbstractController
             $jsonParams = json_decode($request->getContent(), true);
             $email = $jsonParams['email'] ?? null;
             if (!empty($email)) {
-                $reservaciones = $reservacionMesaRepository->getReservaciones($email);
-                $response = [];
-                foreach ($reservaciones as $value) {
-                    $value['fechaReservacion'] = date_format($value['fechaReservacion'], 'Y-m-d H:i:s');
-                    $response[] = $value;
-                }
+                $response = $reservacionMesaRepository->getReservaciones($email);
                 return $this->json(['messaje' => 'OK', 'data' => $response]);
             }
             return $this->json(['messaje' => "Usuario requerido", 'data' => []], Response::HTTP_BAD_GATEWAY);
