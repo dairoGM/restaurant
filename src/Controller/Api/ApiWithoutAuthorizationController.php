@@ -33,6 +33,7 @@ use App\Repository\Configuracion\TiempoRepository;
 use App\Repository\Restaurant\ContactenosRepository;
 use App\Repository\Restaurant\PerfilRepository;
 use App\Repository\Restaurant\ReservacionMesaRepository;
+use App\Repository\Security\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -223,7 +224,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function crearPerfil(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em, Utils $utils)
+    public function crearPerfil(Request $request, UserRepository $userRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, Utils $utils)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -240,10 +241,15 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $perfil->setActivo(true);
 
                     $user = new User();
+                    $existeUser = $userRepository->findOneBy(['email' => $jsonParams['email']]);
+                    if (!empty($existeUser)) {
+                        $user = $existeUser;
+                    }
+
                     $user->setEmail($jsonParams['email']);
                     $user->setRole('ROLE_CLIENT');
-                    $password = $this->hasher->hashPassword($user, $jsonParams['password']);
-                    $user->setPassword($password);
+                    $user->setActivo(true);
+                    $user->setPassword($this->hasher->hashPassword($user, $jsonParams['password']));
                     $em->persist($user);
 
                     $perfil->setUser($user);
@@ -251,7 +257,7 @@ class ApiWithoutAuthorizationController extends AbstractController
 
                     $em->flush();
 
-                    $token = $utils->getToken($jsonParams['email'], $jsonParams['password']);
+                    $token =null;// $utils->getToken($jsonParams['email'], $jsonParams['password']);
                     return $this->json(['messaje' => 'OK', 'token' => $token, 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)]);
                 }
                 return $this->json(['messaje' => $form->getErrors(), 'token' => null, 'data' => []], Response::HTTP_BAD_REQUEST);
@@ -327,7 +333,7 @@ class ApiWithoutAuthorizationController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
             if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
-                $perfil = $perfilRepository->listarPerfiles(['email' => $jsonParams['email'], 'password' => $jsonParams['password']]);
+                $perfil = $perfilRepository->listarPerfiles(['email' => $jsonParams['email'], 'password' => $jsonParams['password'], 'activo' => true]);
                 $token = $utils->getToken($jsonParams['email'], $jsonParams['password']);
 
                 return $this->json(['messaje' => isset($perfil[0]) ? 'Usuario autenticado' : 'Usuario o clave incorrecto', 'token' => $token, 'data' => $perfil[0] ?? [], 'autenticado' => isset($perfil[0])]);
@@ -567,30 +573,53 @@ class ApiWithoutAuthorizationController extends AbstractController
                     if (intval($jsonParams['cantidadMesa']) <= $mesasEspacio) {
                         if (($mesasEspacio - $reservacionesRealizadas) >= $jsonParams['cantidadMesa']) {
                             $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
-                            if (isset($perfil[0])) {
-                                $reservacionMesa->setTicket($utils->generarIdentificadorReserva());
-                                $reservacionMesa->setPerfil($perfil[0]);
-                                $reservacionMesa->setEspacio($espacio);
-                                $reservacionMesa->setEstado('Activa');
-                                $reservacionMesa->setFechaReservacion($fecha);
-                                $reservacionMesa->setHoraInicio($horaInicio);
-                                $dataTiempoConfigurado = $tiempoRepository->findAll();
-                                $tiempoConfig = $dataTiempoConfigurado[0]->getTiempo();
+                            $perfilRegistro = null;
+                            if (!isset($perfil[0])) {
+                                $newPerfil = new Perfil();
+                                $newPerfil->setNombre($jsonParams['email']);
+                                $newPerfil->setActivo(false);
+                                $newPerfil->setEmail($jsonParams['email']);
+                                $newPerfil->setPassword(md5('Dairo'));
 
+                                $user = new User();
+                                $user->setEmail($jsonParams['email']);
+                                $user->setRole('ROLE_CLIENT');
+                                $password = $this->hasher->hashPassword($user, md5('Dairo'));
+                                $user->setPassword($password);
+                                $user->setActivo(false);
+                                $em->persist($user);
 
-                                $tiempoInicial = new \DateTime($jsonParams['fechaReservacion']);
-                                $intervalo = new \DateInterval("PT" . $tiempoConfig . "H");
-                                $tiempoFinal = $tiempoInicial->add($intervalo);
-                                $tiempoFinalFormateado = $tiempoFinal->format('H:i');
-
-                                $reservacionMesa->setHoraFin($tiempoFinalFormateado);
-
-                                $em->persist($reservacionMesa);
+                                $newPerfil->setUser($user);
+                                $em->persist($newPerfil);
                                 $em->flush();
 
-                                return $this->json(['messaje' => 'OK', 'data' => ['ticked' => $reservacionMesa->getTicket()]]);
+                                $perfilRegistro = $newPerfil;
+                            } else {
+                                $perfilRegistro = $perfil[0];
                             }
-                            return $this->json(['messaje' => "Usuario no válido", 'data' => []], Response::HTTP_BAD_REQUEST);
+
+                            $reservacionMesa->setTicket($utils->generarIdentificadorReserva());
+                            $reservacionMesa->setPerfil($perfilRegistro);
+                            $reservacionMesa->setEspacio($espacio);
+                            $reservacionMesa->setEstado('Activa');
+                            $reservacionMesa->setFechaReservacion($fecha);
+                            $reservacionMesa->setHoraInicio($horaInicio);
+                            $dataTiempoConfigurado = $tiempoRepository->findAll();
+                            $tiempoConfig = $dataTiempoConfigurado[0]->getTiempo();
+
+
+                            $tiempoInicial = new \DateTime($jsonParams['fechaReservacion']);
+                            $intervalo = new \DateInterval("PT" . $tiempoConfig . "H");
+                            $tiempoFinal = $tiempoInicial->add($intervalo);
+                            $tiempoFinalFormateado = $tiempoFinal->format('H:i');
+
+                            $reservacionMesa->setHoraFin($tiempoFinalFormateado);
+
+                            $em->persist($reservacionMesa);
+                            $em->flush();
+
+                            return $this->json(['messaje' => 'OK', 'data' => ['ticked' => $reservacionMesa->getTicket()]]);
+
                         }
                         return $this->json(['messaje' => "La disponibilidad de mesas es insuficiente", 'data' => []], Response::HTTP_BAD_REQUEST);
                     }

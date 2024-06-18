@@ -31,6 +31,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Correo</th>
+                    <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
                 </thead>
@@ -39,6 +40,13 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ item.email }}</td>
+                        <td class="-text-center">
+                            {% if '1' == item.activo %}
+                                <span class="ms-status -active">Habilitado</span>
+                            {% else %}
+                                <span class="ms-status">Deshabilitado</span>
+                            {% endif %}
+                        </td>
                         <td class="text-center">
 {#                            <button title="Detalles" class="btn btn-outline-primary modalDetailAction"#}
 {#                                    data-url="{{ path('app_usuario_detail', {'id' : item.id}) }}"#}
