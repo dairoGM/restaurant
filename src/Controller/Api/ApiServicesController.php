@@ -140,7 +140,7 @@ class ApiServicesController extends AbstractController
 
 
     /**
-     * @Route("/reservaciones/mesa/eliminar/{id}", name="api_reservaciones_mesa_eliminar",methods={"DELETE", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/reservaciones/mesa/eliminar/{id}", name="api_reservaciones_mesa_eliminar",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return JsonResponse
      */
