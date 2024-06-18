@@ -257,7 +257,7 @@ class ApiWithoutAuthorizationController extends AbstractController
 
                     $em->flush();
 
-                    $token =null;// $utils->getToken($jsonParams['email'], $jsonParams['password']);
+                    $token = $utils->getToken($jsonParams['email'], $jsonParams['password']);
                     return $this->json(['messaje' => 'OK', 'token' => $token, 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)]);
                 }
                 return $this->json(['messaje' => $form->getErrors(), 'token' => null, 'data' => []], Response::HTTP_BAD_REQUEST);
