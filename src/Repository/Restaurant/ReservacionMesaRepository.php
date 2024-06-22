@@ -54,7 +54,7 @@ class ReservacionMesaRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('qb')
             ->select(
-                "sum(qb.cantidadMesa) as total"
+                "sum(qb.cantidadPersona) as total"
             )
             ->innerJoin('qb.espacio', 'e');
         if (!empty($espacioId)) {
@@ -76,7 +76,7 @@ class ReservacionMesaRepository extends ServiceEntityRepository
                  qb.celular, 
                  qb.dni, 
                  qb.ticket, 
-                 qb.cantidadMesa,
+                 qb.cantidadPersona,
                  qb.estado,                 
                  qb.fechaReservacion, 
                  qb.horaInicio, 

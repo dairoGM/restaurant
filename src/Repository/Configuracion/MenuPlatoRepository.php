@@ -61,6 +61,7 @@ class MenuPlatoRepository extends ServiceEntityRepository
                         p.activo,                                           
                         p.publico,                                           
                         p.sugerenciaChef,                                           
+                        p.ofertaFamilia,                                           
                         p.descripcion,
                          p.imagen")
             ->innerJoin('qb.menu', 'm')
@@ -75,7 +76,8 @@ class MenuPlatoRepository extends ServiceEntityRepository
             }
         }
 
-        $query->orderBy('p.nombre', 'ASC');
+        $query->orderBy('p.ofertaFamilia', 'asc')
+            ->addOrderBy('p.nombre', 'ASC');
 
 //        echo '<pre>';
 //        print_r($query->getQuery()->getSQL());

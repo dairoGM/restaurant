@@ -55,6 +55,11 @@ class Plato extends BaseNomenclator
     private ?bool $sugerenciaChef = false;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $ofertaFamilia = false;
+
+    /**
      * @return null
      */
     public function getImagen()
@@ -132,6 +137,22 @@ class Plato extends BaseNomenclator
     public function setNombreLargo(?string $nombreLargo): void
     {
         $this->nombreLargo = $nombreLargo;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getOfertaFamilia(): ?bool
+    {
+        return $this->ofertaFamilia;
+    }
+
+    /**
+     * @param bool|null $ofertaFamilia
+     */
+    public function setOfertaFamilia(?bool $ofertaFamilia): void
+    {
+        $this->ofertaFamilia = $ofertaFamilia;
     }
 
 

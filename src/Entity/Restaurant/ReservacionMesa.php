@@ -29,7 +29,7 @@ class ReservacionMesa extends BaseEntity
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $cantidadMesa;
+    private ?int $cantidadPersona;
 
 
     /**
@@ -76,6 +76,11 @@ class ReservacionMesa extends BaseEntity
     private ?string $ticket = null;
 
     /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private ?string $precioUsd = null;
+
+    /**
      * @return Perfil|null
      */
     public function getPerfil(): ?Perfil
@@ -110,17 +115,17 @@ class ReservacionMesa extends BaseEntity
     /**
      * @return int|null
      */
-    public function getCantidadMesa(): ?int
+    public function getCantidadPersona(): ?int
     {
-        return $this->cantidadMesa;
+        return $this->cantidadPersona;
     }
 
     /**
-     * @param int|null $cantidadMesa
+     * @param int|null $cantidadPersona
      */
-    public function setCantidadMesa(?int $cantidadMesa): void
+    public function setCantidadPersona(?int $cantidadPersona): void
     {
-        $this->cantidadMesa = $cantidadMesa;
+        $this->cantidadPersona = $cantidadPersona;
     }
 
 
@@ -266,6 +271,22 @@ class ReservacionMesa extends BaseEntity
     public function setHoraFin($horaFin): void
     {
         $this->horaFin = $horaFin;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPrecioUsd(): ?string
+    {
+        return $this->precioUsd;
+    }
+
+    /**
+     * @param string|null $precioUsd
+     */
+    public function setPrecioUsd(?string $precioUsd): void
+    {
+        $this->precioUsd = $precioUsd;
     }
 
 

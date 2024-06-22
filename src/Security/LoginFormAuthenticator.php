@@ -86,7 +86,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
 
         $session = new Session();
-        if ($user instanceof User) {
+        if ($user instanceof User && $user->getRole() != 'ROLE_CLIENT') {
             $session->set('id_usuario_autenticado', $user->getId());
             $session->set('usuario_autenticado_role_admin', in_array('ROLE_ADMIN', $user->getRoles()));
 
@@ -100,6 +100,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             $traceService = new TraceService($this->requestStack, $this->entityManager, $this->serializer);
             $traceService->registrar($this->container->getParameter('accion_inicio_sesion'), $this->container->getParameter('objeto_autenticacion'), null, null, $this->container->getParameter('tipo_traza_sesion'));
 
+        }else{
+            throw new CustomUserMessageAuthenticationException('Usuario no válido.');
         }
 // else {
 //            $session->set('nombre_usuario_autenticado', (method_exists($user, 'getUsername') ? $user->getUsername() : null));
@@ -111,6 +113,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Correo electrónico no encontrado.');
+
         }
         return $user;
     }

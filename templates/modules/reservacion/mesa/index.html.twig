@@ -20,14 +20,13 @@
                     <th>No.</th>
                     <th>Identificador</th>
                     <th>Nombre completo</th>
-                    <th>DNI</th>
                     <th>Celular</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Inicio</th>
                     <th>Fin</th>
                     <th>Espacio</th>
-                    <th>Cantidad de mesas</th>
+                    <th>Cantidad de personas</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -38,14 +37,13 @@
                         <td>{{ loop.index }}</td>
                         <td>{{ item.ticket | default('') }}</td>
                         <td>{{ item.nombreCompleto | default('') }}</td>
-                        <td>{{ item.dni | default('') }}</td>
                         <td>{{ item.celular | default('') }}</td>
                         <td>{{ item.email | default('') }}</td>
                         <td>{{ item.fechaReservacion | default('') }}</td>
                         <td>{{ item.horaInicio | default('') }}</td>
                         <td>{{ item.horaFin | default('') }}</td>
                         <td>{{ item.nombreCorteEspacio | default('') }}</td>
-                        <td>{{ item.cantidadMesa | default('') }}</td>
+                        <td>{{ item.cantidadPersona | default('') }}</td>
                         <td class="-text-center">
                             {% if 'Activa' == item.estado %}
                                 <span class="ms-status -active">{{ item.estado }}</span>

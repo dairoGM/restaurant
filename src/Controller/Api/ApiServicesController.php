@@ -102,7 +102,7 @@ class ApiServicesController extends AbstractController
 
             if (isset($jsonParams['id']) && !empty($jsonParams['id'])) {
                 $fechaReservacion = $jsonParams['fechaReservacion'] ?? null;
-                $cantidadMesa = $jsonParams['cantidadMesa'] ?? null;
+                $cantidadPersona = $jsonParams['cantidadPersona'] ?? null;
                 $celular = $jsonParams['celular'] ?? null;
                 $dni = $jsonParams['dni'] ?? null;
 
@@ -121,11 +121,11 @@ class ApiServicesController extends AbstractController
                         $reservacionMesa->setFechaReservacion(\DateTime::createFromFormat('Y-m-d H:i:s', $fechaReservacion));
                     }
                 }
-                if (!empty($cantidadMesa)) {
+                if (!empty($cantidadPersona)) {
                     $reservaciones = $reservacionMesaRepository->getCantidadReservaciones($reservacionMesa->getFechaReservacion()->format('Y-m-d'), $reservacionMesa->getEspacio()->getId());
                     $disponibilidadEspacio = $reservacionMesa->getEspacio()->getCantidadMesa();
-                    if (($disponibilidadEspacio - ($reservaciones + $cantidadMesa)) >= 0) {
-                        $reservacionMesa->setCantidadMesa($cantidadMesa);
+                    if (($disponibilidadEspacio - ($reservaciones + $cantidadPersona)) >= 0) {
+                        $reservacionMesa->setCantidadPersona($cantidadPersona);
                     }
                 }
                 $em->persist($reservacionMesa);

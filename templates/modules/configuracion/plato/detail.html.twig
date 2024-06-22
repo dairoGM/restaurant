@@ -24,6 +24,12 @@
         {% else %}
             <h5 class="mb-0"><b>Sugerencia del Chef:</b> No </h5>
         {% endif %}
+
+        {% if '1' == item.ofertaFamilia %}
+            <h5 class="mb-0"><b>Oferta familiar:</b> Sí</h5>
+        {% else %}
+            <h5 class="mb-0"><b>Oferta familiar:</b> No </h5>
+        {% endif %}
         {% if '1' == item.activo %}
             <h5 class="mb-0"><b>Estado:</b> Habilitado</h5>
         {% else %}

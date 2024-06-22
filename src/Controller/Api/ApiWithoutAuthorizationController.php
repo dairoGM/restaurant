@@ -503,39 +503,6 @@ class ApiWithoutAuthorizationController extends AbstractController
     }
 
 
-    /**
-     * @Route("/enviar-datos-contacto", name="enviar-datos-contacto", methods={"POST", "OPTIONS"} )
-     * @param Request $request
-     * @param MailerInterface $mailer
-     * @return JsonResponse
-     * @throws GuzzleException
-     * @throws TransportExceptionInterface
-     */
-    public function enviarDatosContacto(Request $request, MailerInterface $mailer)
-    {
-        try {
-            $body = '<p>Se esta solicitando comunicación con BIPAY desde el sitio con los siguientes datos de contacto: <br>
-                         
-                          <b>Correo: </b>' . "asdasdasd" . '<br>
-                        </p><br>';
-
-
-            $email = (new Email())
-                ->from(new Address('dairoroberto2014@gmail.com'))
-                ->to(new Address('restaurat.reserva@gmail.com'))
-                ->subject('Holaaa')
-                ->html($body);
-            $mailer->send($email);
-
-            return $this->json('Datos enviados y guardados satisfactoriamente.');
-
-
-        } catch (Exception $exc) {
-            pr($exc->getMessage());
-            return $this->json($exc->getMessage());
-        }
-    }
-
 
     /**
      * @Route("/reservar/mesa/crear", name="api_reservar_mesa_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
@@ -553,10 +520,9 @@ class ApiWithoutAuthorizationController extends AbstractController
 
             if (isset($jsonParams['email']) && !empty($jsonParams['email'])
                 && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
-                && isset($jsonParams['cantidadMesa']) && !empty($jsonParams['cantidadMesa'])
+                && isset($jsonParams['cantidadPersona']) && !empty($jsonParams['cantidadPersona'])
                 && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
                 && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
-                && isset($jsonParams['dni']) && !empty($jsonParams['dni'])
                 && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
 
                 $reservacionMesa = new ReservacionMesa();
@@ -570,8 +536,8 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $horaInicio = $dateParam[1];
                     $reservacionesRealizadas = $reservacionMesaRepository->getCantidadReservaciones($fecha);
 
-                    if (intval($jsonParams['cantidadMesa']) <= $mesasEspacio) {
-                        if (($mesasEspacio - $reservacionesRealizadas) >= $jsonParams['cantidadMesa']) {
+                    if (intval($jsonParams['cantidadPersona']) <= $mesasEspacio * 4) {
+                        if (($mesasEspacio * 4 - $reservacionesRealizadas) >= $jsonParams['cantidadPersona']) {
                             $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
                             $perfilRegistro = null;
                             if (!isset($perfil[0])) {
@@ -604,6 +570,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                             $reservacionMesa->setEstado('Activa');
                             $reservacionMesa->setFechaReservacion($fecha);
                             $reservacionMesa->setHoraInicio($horaInicio);
+                            $reservacionMesa->setPrecioUsd(intval($jsonParams['cantidadPersona']) * 50);
                             $dataTiempoConfigurado = $tiempoRepository->findAll();
                             $tiempoConfig = $dataTiempoConfigurado[0]->getTiempo();
 

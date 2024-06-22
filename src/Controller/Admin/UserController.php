@@ -31,7 +31,7 @@ class UserController extends AbstractController
     {
         try {
             return $this->render('modules/admin/usuario/index.html.twig', [
-                'usuarios' => $usuarioRepository->findBy([], ['id' => 'desc']),
+                'usuarios' => $usuarioRepository->findBy(['role' => 'ROLE_ADMIN'], ['id' => 'desc']),
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
@@ -84,7 +84,7 @@ class UserController extends AbstractController
      */
     public function modificar(Request $request, User $usuario, UserRepository $usuarioRepository, UserPasswordEncoderInterface $encoder)
     {
-        try {            
+        try {
             $form = $this->createForm(UserFormType::class, $usuario, ['action' => 'modificar']);
             $form->handleRequest($request);
 
@@ -93,12 +93,12 @@ class UserController extends AbstractController
                 if ($form->getData()->getPasswordPlainText() != "") {
                     $encodedPassword = $encoder->encodePassword($usuario, $form->getData()->getPasswordPlainText());
                     $usuario->setPassword($encodedPassword);
-                    $usuario->setPasswordChangeFirstTime(false);                    
+                    $usuario->setPasswordChangeFirstTime(false);
                 }
 
                 $usuario = $usuarioRepository->edit($usuario);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
-                
+
                 return $this->redirectToRoute('app_usuario_index', [], Response::HTTP_SEE_OTHER);
             }
 
@@ -175,5 +175,5 @@ class UserController extends AbstractController
         $export = $usuarioRepository->findBy([], ['id' => 'desc']);
         $html = $this->render('modules/admin/usuario/index_excel.html.twig', ['datos' => $export])->getContent();
         $handFop->exportToExcel($html, 'Listado de usuarios');
-    }    
+    }
 }

@@ -1,0 +1,75 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Tasa de cambio (1 USD){% endblock %}
+
+{% block body %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="row" style="display: flex; justify-content: space-between; align-items: center">
+                <h3 class="card-title text-bold text-gray">Tasa de cambio (1 USD)</h3>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table class="table table-bordered table-striped dataTable">
+                <thead class="table-custom-header">
+                <tr>
+                    <th>No.</th>
+                    <th>CUP</th>
+                    <th>MLC</th>
+                    <th>EURO</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in registros %}
+                    <tr>
+                        <td width="1%">{{ loop.index }}</td>
+                        <td><input style="width: 90%" class="form-control" type="tel" id="dc_cup_{{ item.id }}"
+                                   name="dc_cup_{{ item.cup }}" value="{{ item.cup }}"></td>
+                        <td><input style="width: 90%" class="form-control" type="text" id="dc_mlc_{{ item.id }}"
+                                   name="dc_mlc_{{ item.mlc }}" value="{{ item.mlc }}"></td>
+                        <td><input style="width: 90%" class="form-control" type="email" id="dc_euro_{{ item.id }}"
+                                   name="dc_euro_{{ item.euro }}" value="{{ item.euro }}"></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('input[id*="dc_"]').on('blur', function (e) {
+            var valor = $(this).val();
+            var campo = e.currentTarget.id.split('_')[1];
+            var id = e.currentTarget.id.split('_')[2];
+            HoldOn.open({
+                theme: "sk-cube-grid",
+                message: 'Por favor espere...',
+                textColor: "white"
+            });
+            $.post("{{ path('app_tasa_cambio_guardar') }}",
+                {
+                    id: id,
+                    campo: campo,
+                    valor: valor,
+                },
+                function (data) {
+                    toastr.success("El elemento ha sido modificado correctamente.");
+                    setTimeout(function () {
+                        $(window).attr('location', window.location)
+                    }, 500);
+                    HoldOn.close()
+                });
+        })
+
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('#DataTables_Table_0_wrapper').children()[2].remove()
+                $('#DataTables_Table_0_wrapper').children()[0].remove()
+            }, 100);
+        });
+    </script>
+{% endblock %}
