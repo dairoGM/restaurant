@@ -268,7 +268,6 @@ class ApiWithoutAuthorizationController extends AbstractController
         }
     }
 
-
     /**
      * @Route("/perfil/editar", name="api_perfil_editar", methods={"PUT"}, defaults={"_format":"json"})
      * @param Request $request
