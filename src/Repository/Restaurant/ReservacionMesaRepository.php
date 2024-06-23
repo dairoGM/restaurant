@@ -73,11 +73,11 @@ class ReservacionMesaRepository extends ServiceEntityRepository
             ->select(
                 "qb.id,
                  qb.nombreCompleto, 
-                 qb.celular, 
-                 qb.dni, 
+                 qb.celular,  
                  qb.ticket, 
                  qb.cantidadPersona,
                  qb.estado,                 
+                 qb.descripcion,                 
                  qb.fechaReservacion, 
                  qb.horaInicio, 
                  qb.horaFin,                  

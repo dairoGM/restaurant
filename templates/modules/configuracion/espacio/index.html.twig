@@ -23,13 +23,13 @@
                 <thead class="table-custom-header">
                 <tr>
                     <th>No.</th>
-
                     <th>Imagen portada</th>
                     <th>Imagen detallada</th>
                     <th>Nombre corto</th>
                     <th>Nombre largo</th>
                     <th>Orden</th>
                     <th>Publicado</th>
+                    <th>Se reserva</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -55,6 +55,13 @@
                         <td>{{ item.orden |default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.publico %}
+                                <span class="ms-status -active">Sí</span>
+                            {% else %}
+                                <span class="ms-status">No</span>
+                            {% endif %}
+                        </td>
+                        <td class="-text-center">
+                            {% if '1' == item.reservar %}
                                 <span class="ms-status -active">Sí</span>
                             {% else %}
                                 <span class="ms-status">No</span>

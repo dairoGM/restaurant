@@ -69,6 +69,11 @@ class Espacio extends BaseEntity
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
+    private ?bool $reservar = true;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
     private ?bool $publico = false;
 
     /**
@@ -271,6 +276,22 @@ class Espacio extends BaseEntity
     public function setImagenBanner($imagenBanner): void
     {
         $this->imagenBanner = $imagenBanner;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getReservar(): ?bool
+    {
+        return $this->reservar;
+    }
+
+    /**
+     * @param bool|null $reservar
+     */
+    public function setReservar(?bool $reservar): void
+    {
+        $this->reservar = $reservar;
     }
 
 

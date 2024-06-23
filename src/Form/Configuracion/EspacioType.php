@@ -42,6 +42,9 @@ class EspacioType extends AbstractType
             ->add('activo', CheckboxType::class, [
                 'required' => false
             ])
+            ->add('reservar', CheckboxType::class, [
+                'required' => false
+            ])
             ->add('orden', IntegerType::class, [
                 'required' => false,
                 'attr' => [

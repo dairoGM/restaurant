@@ -8,6 +8,11 @@
         {% else %}
             <h5 class="mb-0"><b>Publico:</b> No </h5>
         {% endif %}
+        {% if '1' == item.reservar %}
+            <h5 class="mb-0"><b>Se reserva:</b> Sí</h5>
+        {% else %}
+            <h5 class="mb-0"><b>Se reserva:</b> No </h5>
+        {% endif %}
         <h5 class="mb-0"><b>Imagen de portada:</b></h5>
         <h5 class="mb-0"><a
                     href="{% if item.imagenPortada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenPortada/{{ item.imagenPortada }} {% else %} /assets/images/usuario.png {% endif %}"

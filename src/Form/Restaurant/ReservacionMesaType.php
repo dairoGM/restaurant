@@ -36,12 +36,13 @@ class ReservacionMesaType extends AbstractType
                 'constraints' => [
                     new NotBlank()
                 ]
-            ]) ->add('dni', TextType::class, [
-                'label' => 'DNI',
-                'constraints' => [
-                    new NotBlank()
-                ]
             ])
+//            ->add('dni', TextType::class, [
+//                'label' => 'DNI',
+//                'constraints' => [
+//                    new NotBlank()
+//                ]
+//            ])
             ->add('fechaReservacion', TextType::class, [
                 'label' => 'Fecha',
                 'mapped' => false,

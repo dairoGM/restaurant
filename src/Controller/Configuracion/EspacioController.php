@@ -50,7 +50,7 @@ class EspacioController extends AbstractController
      */
     public function registrar(Request $request, EspacioRepository $espacioRepository)
     {
-        try {
+//        try {
             $entidad = new Espacio();
             $form = $this->createForm(EspacioType::class, $entidad, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -92,10 +92,10 @@ class EspacioController extends AbstractController
             return $this->render('modules/configuracion/espacio/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_espacio_index', [], Response::HTTP_SEE_OTHER);
-        }
+//        } catch (\Exception $exception) {
+//            $this->addFlash('error', $exception->getMessage());
+//            return $this->redirectToRoute('app_espacio_index', [], Response::HTTP_SEE_OTHER);
+//        }
     }
 
 
