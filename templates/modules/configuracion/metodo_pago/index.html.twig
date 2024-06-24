@@ -1,0 +1,83 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Métodos de pago{% endblock %}
+
+{% block body %}
+
+    {% include 'pages/modalDetail.html.twig' %}
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <div class="row" style="display: flex; justify-content: space-between; align-items: center">
+
+                <h3 class="card-title text-bold text-gray">Listado de métodos de pago</h3>
+                <a title="Adicionar" class="btn btn-primary mr-2" href="{{ path('app_metodo_pago_registrar') }}"><i
+                            class="fa fa-plus"></i>
+                </a>
+
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table class="table table-bordered table-striped dataTable">
+                <thead class="table-custom-header">
+                <tr>
+                    <th>No.</th>
+                    <th>QR</th>
+                    <th>Nombre</th>
+                    <th>Tipo moneda</th>
+                    <th>Tipo método de pago</th>
+                    <th>Número de tarjeta</th>
+                    <th>Télefono de confirmación</th>
+                    <th>Link de pago</th>
+                    <th>Estado</th>
+                    <th class="text-center">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in registros %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <a href="{% if item.imagenQr != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/metodo_pago/imagen_qr/{{ item.imagenQr }} {% else %} /assets/images/usuario.png {% endif %}"
+                               target="_blank">
+                                <img src="{% if item.imagenQr != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/metodo_pago/imagen_qr/{{ item.imagenQr }}{% else %} /assets/images/usuario.png {% endif %}"
+                                     class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
+                            </a></td>
+                        <td>{{ item.nombre | default('') }}</td>
+                        <td>{{ item.tipoMoneda.nombre | default('') }}</td>
+                        <td>{{ item.tipoMetodoPago.nombre | default('') }}</td>
+                        <td>{{ item.numeroTarjeta | default('') }}</td>
+                        <td>{{ item.telefonoConfirmacion | default('') }}</td>
+                        <td>{{ item.linkPago | default('') }}</td>
+                        <td class="-text-center">
+                            {% if '1' == item.activo %}
+                                <span class="ms-status -active">Habilitado</span>
+                            {% else %}
+                                <span class="ms-status">Deshabilitado</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a title="Modificar" href="{{ path('app_metodo_pago_modificar', {'id': item.id}) }}"
+                               class="btn btn-outline-primary"><i
+                                        class="fa fa-edit"></i>
+                            </a>
+                            <button title="Eliminar" class="btn btn-outline-danger elementRemove"
+                                    data-url="{{ path('app_metodo_pago_eliminar', {'id': item.id}) }}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+
+
+{% endblock %}
+
+

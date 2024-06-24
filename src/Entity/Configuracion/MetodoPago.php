@@ -37,15 +37,16 @@ class MetodoPago extends BaseNomenclator
     private ?string $telefonoConfirmacion;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Configuracion\TipoMoneda")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private ?string $tipoMoneda;
+    private ?TipoMoneda $tipoMoneda;
 
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $imagenQk = null;
+    private $imagenQr = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -54,7 +55,7 @@ class MetodoPago extends BaseNomenclator
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Configuracion\TipoMetodoPago")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private ?TipoMetodoPago $tipoMetodoPago;
 
@@ -93,7 +94,7 @@ class MetodoPago extends BaseNomenclator
     /**
      * @return string|null
      */
-    public function getTipoMoneda(): ?string
+    public function getTipoMoneda()
     {
         return $this->tipoMoneda;
     }
@@ -101,7 +102,7 @@ class MetodoPago extends BaseNomenclator
     /**
      * @param string|null $tipoMoneda
      */
-    public function setTipoMoneda(?string $tipoMoneda): void
+    public function setTipoMoneda($tipoMoneda): void
     {
         $this->tipoMoneda = $tipoMoneda;
     }
@@ -109,18 +110,20 @@ class MetodoPago extends BaseNomenclator
     /**
      * @return null
      */
-    public function getImagenQk()
+    public function getImagenQr()
     {
-        return $this->imagenQk;
+        return $this->imagenQr;
     }
 
     /**
-     * @param null $imagenQk
+     * @param null $imagenQr
      */
-    public function setImagenQk($imagenQk): void
+    public function setImagenQr($imagenQr): void
     {
-        $this->imagenQk = $imagenQk;
+        $this->imagenQr = $imagenQr;
     }
+
+
 
     /**
      * @return null
