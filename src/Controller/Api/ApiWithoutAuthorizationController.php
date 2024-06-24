@@ -368,7 +368,13 @@ class ApiWithoutAuthorizationController extends AbstractController
     public function listarSobre(SobreRepository $sobreRepository)
     {
         try {
-            return $this->json(['messaje' => 'OK', 'data' => $sobreRepository->findAll()]);
+            $result = $sobreRepository->listarSobre();
+            if (is_array($result)) {
+                foreach ($result as $value) {
+                    $value['imagen'] = !empty($value['imagen']) ? $this->baseUrl . '/uploads/images/sobre/imagen/' . $value['imagen'] : null;
+                }
+            }
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (\Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
@@ -405,7 +411,8 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $value['imagenPortada'] = !empty($value['imagenPortada']) ? $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenPortada'] : null;
                     $value['imagenDetallada'] = !empty($value['imagenDetallada']) ? $this->baseUrl . '/uploads/images/espacio/imagenDetallada/' . $value['imagenDetallada'] : null;
                     $value['imagenBanner'] = !empty($value['imagenBanner']) ? $this->baseUrl . '/uploads/images/espacio/imagenBanner/' . $value['imagenBanner'] : null;
-                    $value['imagenMovil'] = !empty($value['imagenMovil']) ? $this->baseUrl . '/uploads/images/espacio/imagenMovil/' . $value['imagenMovil'] : null;
+                    $value['reel'] = !empty($value['imagenMovil']) ? $this->baseUrl . '/uploads/video/espacio/reel/' . $value['imagenMovil'] : null;
+                    unset($value['imagenMovil']);
                     $value['redesSociales'] = $espacioRedesSocialesRepository->listarRedesSocialesEspacios(['e.id' => $value['id']]);
 
                     $comentarios = $comentarioEspacioRepository->listarComentariosEspacios(['e.id' => $value['id']]);

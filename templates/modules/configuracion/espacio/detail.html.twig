@@ -45,12 +45,15 @@
                      class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
             </a></h5>
         <h5 class="mb-0"><b>Imagen móvil:</b></h5>
-        <h5 class="mb-0"><a
-                    href="{% if item.imagenMovil != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenMovil/{{ item.imagenMovil }} {% else %} /assets/images/usuario.png {% endif %}"
-                    target="_blank">
-                <img src="{% if item.imagenMovil != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenMovil/{{ item.imagenMovil }}{% else %} /assets/images/usuario.png {% endif %}"
-                     class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
-            </a></h5>
+        <h5 class="mb-0">
+            <video width="300" controls>
+                <source src="{{ app.request.getSchemeAndHttpHost() }}/uploads/video/espacio/reel/{{ item.imagenMovil }}"
+                        type="video">
+                Tu navegador no soporta el elemento de video.
+            </video>
+
+
+        </h5>
     </div>
 </div>
 <div class="row">

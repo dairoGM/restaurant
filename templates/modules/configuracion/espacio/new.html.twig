@@ -290,7 +290,8 @@
             var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
             var image_holder1 = $("#image-holder3");
             image_holder1.empty();
-            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+            // if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+            if (true) {
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < countFiles; i++) {

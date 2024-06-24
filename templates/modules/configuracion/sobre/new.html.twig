@@ -1,6 +1,6 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Adicionar quienes somos{% endblock %}
+{% block title %}Adicionar sobre{% endblock %}
 
 {% block body %}
 
@@ -8,7 +8,7 @@
         <div class="card-header">
             <div class="row" style="display: flex; justify-content: space-between; align-items: center">
 
-                <h3 class="card-title text-bold text-gray">Adicionar quienes somos</h3>
+                <h3 class="card-title text-bold text-gray">Adicionar sobre</h3>
 
             </div>
         </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="card-footer" style="display: flex; justify-content: flex-end; align-items: center;">
-            <a class="btn btn-danger mr-2 btn-cancel" data-url="{{ path('app_conocenos_index') }}" data-title=""
+            <a class="btn btn-danger mr-2 btn-cancel" data-url="{{ path('app_sobre_index') }}" data-title=""
                data-content="¿Está seguro que desea realizar la acción?" type="button">Cancelar</a>
             <button class="btn btn-primary">Aceptar</button>
         </div>
@@ -53,7 +53,7 @@
     <script>
 
 
-        ClassicEditor.create(document.getElementById('conocenos_descripcion'), {
+        ClassicEditor.create(document.getElementById('sobre_descripcion'), {
             licenseKey: '',
             image: {
                 toolbar: [
@@ -83,7 +83,7 @@
 
 
 
-        $("#conocenos_imagen").on('change', function () {
+        $("#sobre_imagen").on('change', function () {
             //Get count of selected files
             var countFiles = $(this)[0].files.length;
             var imgPath = $(this)[0].value;

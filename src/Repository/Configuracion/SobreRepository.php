@@ -52,21 +52,10 @@ class SobreRepository extends ServiceEntityRepository
     public function listarSobre()
     {
         $qb = $this->createQueryBuilder('qb')
-            ->select('qb.id, 
-                        qb.nombre, 
-                        qb.activo, 
-                        qb.fecha,                        
-                        qb.cantidadPlantosPersonas,                         
-                        qb.cantidadTragosPersonas,                         
-                        qb.cantidadParticipantes,                       
+            ->select(' 
                         qb.descripcion, 
-                        tc.nombre as nombreTipoSobre, 
-                        tc.id as idTipoSobre')
-            ->innerJoin('qb.tipoSobre', 'tc');
-
-        $qb->orderBy('qb.nombre');
+                        qb.imagen');
         $resul = $qb->getQuery()->getResult();
-
-        return $resul;
+        return $resul[0] ?? [];
     }
 }

@@ -1,12 +1,20 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Sobre {% endblock %}
+{% block title %}Sobre{% endblock %}
 
 {% block body %}
+
+    {% include 'pages/modalDetail.html.twig' %}
+
     <div class="card shadow-sm">
         <div class="card-header">
             <div class="row" style="display: flex; justify-content: space-between; align-items: center">
-                <h3 class="card-title text-bold text-gray">Sobre </h3>
+
+                <h3 class="card-title text-bold text-gray">Listado de Sobre</h3>
+                <a title="Adicionar" class="btn btn-primary mr-2" href="{{ path('app_sobre_registrar') }}"><i
+                            class="fa fa-plus"></i>
+                </a>
+
             </div>
         </div>
         <!-- /.card-header -->
@@ -14,96 +22,46 @@
             <table class="table table-bordered table-striped dataTable">
                 <thead class="table-custom-header">
                 <tr>
+                    <th>No.</th>
+                    <th>Imagen</th>
                     <th>Descripción</th>
+                    <th class="text-center">Opciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for item in registros %}
                     <tr>
-                        <td><textarea style="width: 90%" class="form-control" id="dc_descripcion_{{ item.id }}"
-                                      name="dc_descripcion_{{ item.id }}" value="{{ item.descripcion }}"></textarea>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <a href="{% if item.imagen != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/sobre/imagen/{{ item.imagen }} {% else %} /assets/images/usuario.png {% endif %}"
+                               target="_blank">
+                                <img src="{% if item.imagen != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/sobre/imagen/{{ item.imagen }}{% else %} /assets/images/usuario.png {% endif %}"
+                                     class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
+                            </a></td>
+                        <td>{{ (item.descripcion | raw) | slice(1,100) }}</td>
+
+                        <td width="20%" class="text-center">
+                            <button title="Detalles" class="btn btn-outline-primary modalDetailAction"
+                                    data-url="{{ path('app_sobre_detail', {'id' : item.id}) }}"
+                                    data-title="Detalles de sobre">
+                                <i class="fa fa-eye "></i>
+                            </button>
+                            <a title="Modificar" class="btn btn-outline-primary"
+                               href="{{ path('app_sobre_modificar', {'id': item.id}) }}"><i
+                                        class="fa fa-edit"></i>
+                            </a>
+                            <button title="Eliminar" class="btn btn-outline-danger elementRemove"
+                                    data-url="{{ path('app_sobre_eliminar', {'id': item.id}) }}">
+                                <i class="fa fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
 
             </table>
-            <div class="card-footer" style="display: flex; justify-content: flex-end; align-items: center; ">
-                <button id="btn_guardar" class="btn btn-primary">Guardar</button>
-            </div>
         </div>
+        <!-- /.card-body -->
     </div>
-{% endblock %}
 
-{% block javascripts %}
-    <script>
-        $('#btn_guardar').click(function (e){
-            var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];
-            var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];
-            var valor = $('div[class*="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred"]')[0].innerHTML;
-            HoldOn.open({
-                theme: "sk-cube-grid",
-                message: 'Por favor espere...',
-                textColor: "white"
-            });
-            $.post("{{ path('app_sobre_guardar') }}",
-                {
-                    id: id,
-                    campo: campo,
-                    valor: valor
-                },
-                function (data) {
-                    toastr.success("El elemento ha sido modificado correctamente.");
-                    setTimeout(function () {
-                        $(window).attr('location', window.location)
-                    }, 500);
-                    HoldOn.close()
-                });
-        })
-
-        ClassicEditor
-            .create(document.querySelector('#dc_descripcion_1'))
-            .then(editor => {
-                // Asignar un valor al editor
-                editor.setData('{{ descripcion | raw }}');
-                {#editor.editing.view.document.on('blur', (e) => {#}
-                {#    setTimeout(function () {#}
-                {#        var valor = $('div[class*="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred"]')[0].innerHTML;#}
-
-                {#        var campo = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[1];#}
-                {#        var id = $('#dc_descripcion_1')[0].attributes.id.nodeValue.split('_')[2];#}
-                {#        HoldOn.open({#}
-                {#            theme: "sk-cube-grid",#}
-                {#            message: 'Por favor espere...',#}
-                {#            textColor: "white"#}
-                {#        });#}
-                {#        $.post("{{ path('app_sobre_guardar') }}",#}
-                {#            {#}
-                {#                id: id,#}
-                {#                campo: campo,#}
-                {#                valor: valor#}
-                {#            },#}
-                {#            function (data) {#}
-                {#                toastr.success("El elemento ha sido modificado correctamente.");#}
-                {#                setTimeout(function () {#}
-                {#                    $(window).attr('location', window.location)#}
-                {#                }, 500);#}
-                {#                HoldOn.close()#}
-                {#            });#}
-
-                {#    }, 500);#}
-
-
-                {#});#}
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        $(document).ready(function () {
-            setTimeout(function () {
-                $('#DataTables_Table_0_wrapper').children()[2].remove()
-                $('#DataTables_Table_0_wrapper').children()[0].remove()
-            }, 100);
-        });
-    </script>
 {% endblock %}

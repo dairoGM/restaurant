@@ -28,6 +28,11 @@ class Sobre
     private $descripcion;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagen = null;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -73,6 +78,22 @@ class Sobre
     public function setDescripcion($descripcion): void
     {
         $this->descripcion = $descripcion;
+    }
+
+    /**
+     * @return null
+     */
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    /**
+     * @param null $imagen
+     */
+    public function setImagen($imagen): void
+    {
+        $this->imagen = $imagen;
     }
 
 

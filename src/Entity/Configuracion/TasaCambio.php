@@ -26,10 +26,11 @@ class TasaCambio
      * @ORM\Column(type="string")
      */
     private $mlc;
+
     /**
      * @ORM\Column(type="string")
      */
-    private $euro;
+    private $tropipay;
 
     /**
      * @return int|null
@@ -79,20 +80,21 @@ class TasaCambio
         $this->mlc = $mlc;
     }
 
+
     /**
      * @return mixed
      */
-    public function getEuro()
+    public function getTropipay()
     {
-        return $this->euro;
+        return $this->tropipay;
     }
 
     /**
-     * @param mixed $euro
+     * @param mixed $tropipay
      */
-    public function setEuro($euro): void
+    public function setTropipay($tropipay): void
     {
-        $this->euro = $euro;
+        $this->tropipay = $tropipay;
     }
 
 

@@ -17,7 +17,7 @@
                     <th>No.</th>
                     <th>CUP</th>
                     <th>MLC</th>
-                    <th>EURO</th>
+                    <th>Tropipay</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,8 +28,8 @@
                                    name="dc_cup_{{ item.cup }}" value="{{ item.cup }}"></td>
                         <td><input style="width: 90%" class="form-control" type="text" id="dc_mlc_{{ item.id }}"
                                    name="dc_mlc_{{ item.mlc }}" value="{{ item.mlc }}"></td>
-                        <td><input style="width: 90%" class="form-control" type="email" id="dc_euro_{{ item.id }}"
-                                   name="dc_euro_{{ item.euro }}" value="{{ item.euro }}"></td>
+                        <td><input style="width: 90%" class="form-control" type="email" id="dc_tropipay_{{ item.id }}"
+                                   name="dc_tropipay_{{ item.tropipay }}" value="{{ item.tropipay }}"></td>
                     </tr>
                 {% endfor %}
                 </tbody>

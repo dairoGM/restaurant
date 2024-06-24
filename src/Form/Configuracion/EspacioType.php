@@ -74,6 +74,7 @@ class EspacioType extends AbstractType
 
             ))
             ->add('imagenMovil', FileType::class, array(
+                'label' => 'Reel',
                 "attr" => array("type" => "file"),
                 "required" => false,
                 "mapped" => false,

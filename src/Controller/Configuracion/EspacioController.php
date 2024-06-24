@@ -50,7 +50,7 @@ class EspacioController extends AbstractController
      */
     public function registrar(Request $request, EspacioRepository $espacioRepository)
     {
-//        try {
+        try {
             $entidad = new Espacio();
             $form = $this->createForm(EspacioType::class, $entidad, ['action' => 'registrar']);
             $form->handleRequest($request);
@@ -82,7 +82,7 @@ class EspacioController extends AbstractController
                     $ext = $file->guessExtension();
                     $file_name = md5(uniqid()) . "." . $ext;
                     $entidad->setImagenMovil($file_name);
-                    $file->move("uploads/images/espacio/imagenMovil", $file_name);
+                    $file->move("uploads/video/espacio/reel", $file_name);
                 }
                 $espacioRepository->add($entidad, true);
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
@@ -92,10 +92,10 @@ class EspacioController extends AbstractController
             return $this->render('modules/configuracion/espacio/new.html.twig', [
                 'form' => $form->createView(),
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_espacio_index', [], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_espacio_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
 
@@ -145,8 +145,8 @@ class EspacioController extends AbstractController
 
                 if (!empty($form['imagenMovil']->getData())) {
                     if ($espacio->getImagenMovil() != null) {
-                        if (file_exists('uploads/images/espacio/imagenMovil/' . $espacio->getImagenMovil())) {
-                            unlink('uploads/images/espacio/imagenMovil/' . $espacio->getImagenMovil());
+                        if (file_exists('uploads/video/espacio/reel/' . $espacio->getImagenMovil())) {
+                            unlink('uploads/video/espacio/reel/' . $espacio->getImagenMovil());
                         }
                     }
 
@@ -154,7 +154,7 @@ class EspacioController extends AbstractController
                     $ext = $file->guessExtension();
                     $file_name = md5(uniqid()) . "." . $ext;
                     $espacio->setImagenMovil($file_name);
-                    $file->move("uploads/images/espacio/imagenMovil", $file_name);
+                    $file->move("uploads/video/espacio/reel", $file_name);
                 }
 
                 if (!empty($form['imagenBanner']->getData())) {
