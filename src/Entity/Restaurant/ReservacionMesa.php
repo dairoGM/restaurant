@@ -81,6 +81,16 @@ class ReservacionMesa extends BaseEntity
     private ?string $precioUsd = null;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $numeroTransferencia = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $politicaCancelacion = null;
+
+    /**
      * @return Perfil|null
      */
     public function getPerfil(): ?Perfil
@@ -287,6 +297,38 @@ class ReservacionMesa extends BaseEntity
     public function setPrecioUsd(?string $precioUsd): void
     {
         $this->precioUsd = $precioUsd;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPoliticaCancelacion(): ?string
+    {
+        return $this->politicaCancelacion;
+    }
+
+    /**
+     * @param string|null $politicaCancelacion
+     */
+    public function setPoliticaCancelacion(?string $politicaCancelacion): void
+    {
+        $this->politicaCancelacion = $politicaCancelacion;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNumeroTransferencia(): ?string
+    {
+        return $this->numeroTransferencia;
+    }
+
+    /**
+     * @param string|null $numeroTransferencia
+     */
+    public function setNumeroTransferencia(?string $numeroTransferencia): void
+    {
+        $this->numeroTransferencia = $numeroTransferencia;
     }
 
 
