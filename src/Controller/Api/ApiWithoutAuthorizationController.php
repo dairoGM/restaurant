@@ -529,12 +529,15 @@ class ApiWithoutAuthorizationController extends AbstractController
 
             if (isset($jsonParams['email']) && !empty($jsonParams['email'])
                 && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
-                && isset($jsonParams['cantidadPersona']) && !empty($jsonParams['cantidadPersona'])
+
                 && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
                 && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
                 && isset($jsonParams['numeroTransferencia']) && !empty($jsonParams['numeroTransferencia'])
                 && isset($jsonParams['metodoPago']) && !empty($jsonParams['metodoPago'])
                 && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
+
+                $cantidadPersonas = $jsonParams['cantidadPersona'] ?? 1;
+                $tipo = $jsonParams['cantidadPersona'] ?? 'mesa';
 
                 $reservacionMesa = new ReservacionMesa();
                 $form = $this->createForm(ReservacionMesaType::class, $reservacionMesa);
@@ -547,8 +550,8 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $horaInicio = $dateParam[1];
                     $reservacionesRealizadas = $reservacionMesaRepository->getCantidadReservaciones($fecha);
 
-                    if (intval($jsonParams['cantidadPersona']) <= $mesasEspacio * 4) {
-                        if (($mesasEspacio * 4 - $reservacionesRealizadas) >= $jsonParams['cantidadPersona']) {
+                    if (intval($cantidadPersonas) <= $mesasEspacio * 4) {
+                        if (($mesasEspacio * 4 - $reservacionesRealizadas) >= $cantidadPersonas) {
                             $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
                             $perfilRegistro = null;
                             if (!isset($perfil[0])) {
@@ -578,10 +581,10 @@ class ApiWithoutAuthorizationController extends AbstractController
                             $reservacionMesa->setTicket($utils->generarIdentificadorReserva());
                             $reservacionMesa->setPerfil($perfilRegistro);
                             $reservacionMesa->setEspacio($espacio);
-                            $reservacionMesa->setEstado('Activa');
+                            $reservacionMesa->setEstado('Preserva');
                             $reservacionMesa->setFechaReservacion($fecha);
                             $reservacionMesa->setHoraInicio($horaInicio);
-                            $reservacionMesa->setPrecioUsd(intval($jsonParams['cantidadPersona']) * 50);
+                            $reservacionMesa->setPrecioUsd(intval($cantidadPersonas) * 50);
 
                             $politicaCancelacion = $politicaCancelacionRepository->findAll();
                             $reservacionMesa->setPoliticaCancelacion($politicaCancelacion[0]->getDescripcion());
