@@ -56,6 +56,7 @@ class SeccionServicioRepository extends ServiceEntityRepository
                 " 
                         qb.nombre,
                         qb.descripcion, 
+                        qb.galeria, 
                         qb.imagen  
                         "
             )

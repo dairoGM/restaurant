@@ -18,6 +18,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @Route("/configuracion/servicio")
@@ -218,6 +221,18 @@ class ServicioController extends AbstractController
             $form = $this->createForm(SeccionServicioType::class, $seccionServicio, ['action' => 'modificar']);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $gallery = [];
+                if (!empty($form['galeria']->getData())) {
+                    foreach ($form['galeria']->getData() as $key => $val) {
+                        $file = $val;
+                        $ext = $file->guessExtension();
+                        $file_name = md5(uniqid()) . "." . $ext;
+                        $gallery[] = $file_name;
+                        $file->move("uploads/images/servicio/seccion/galeria", $file_name);
+                    }
+                }
+                $seccionServicio->setGaleria(json_encode($gallery));
+
                 if (!empty($form['imagen']->getData())) {
                     if ($seccionServicio->getImagen() != null) {
                         if (file_exists('uploads/images/servicio/seccion/imagen/' . $seccionServicio->getImagen())) {
@@ -237,11 +252,19 @@ class ServicioController extends AbstractController
                 return $this->redirectToRoute('app_servicio_asociar_seccion', ['id' => $servicio->getId()], Response::HTTP_SEE_OTHER);
             }
             $seccion = $seccionServicioRepository->findBy(['servicio' => $servicio->getId()]);
+            $galery = [];
+            if (is_array($seccion)) {
+                foreach ($seccion as $value) {
+                    $galery[$value->getId()] = json_decode($value->getGaleria(), true);
+                }
+            }
+
             return $this->render('modules/configuracion/servicio/seccion.html.twig', [
                 'form' => $form->createView(),
                 'seccionServicio' => $seccionServicio,
                 'servicio' => $servicio,
-                'seccion' => $seccion
+                'seccion' => $seccion,
+                'galeria' => $galery
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());

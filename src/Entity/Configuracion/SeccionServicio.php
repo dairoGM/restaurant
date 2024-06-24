@@ -22,6 +22,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity
@@ -43,6 +45,11 @@ class SeccionServicio extends BaseEntity
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagen = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $galeria = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Servicio")
@@ -112,6 +119,22 @@ class SeccionServicio extends BaseEntity
     public function setServicio(?Servicio $servicio): void
     {
         $this->servicio = $servicio;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGaleria(): ?string
+    {
+        return $this->galeria;
+    }
+
+    /**
+     * @param string|null $galeria
+     */
+    public function setGaleria(?string $galeria): void
+    {
+        $this->galeria = $galeria;
     }
 
 

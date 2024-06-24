@@ -135,6 +135,12 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $seccionAss = [];
                     foreach ($seccion as $v) {
                         $v['imagen'] = !empty($v['imagen']) ? $this->baseUrl . "/uploads/images/servicio/seccion/imagen/" . $v['imagen'] : null;
+                        $temp = json_decode($v['galeria'], true);
+                        $galeria = [];
+                        foreach ($temp as $gal) {
+                            $galeria[] = $this->baseUrl . "/uploads/images/servicio/seccion/galeria/" . $gal;
+                        }
+                        $v['galeria'] = $galeria;
                         $seccionAss[] = $v;
                     }
                     $value['secciones'] = $seccionAss;
