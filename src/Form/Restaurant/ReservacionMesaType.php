@@ -3,6 +3,7 @@
 namespace App\Form\Restaurant;
 
 use App\Entity\Configuracion\Espacio;
+use App\Entity\Configuracion\MetodoPago;
 use App\Entity\Restaurant\ReservacionMesa;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,12 +38,11 @@ class ReservacionMesaType extends AbstractType
                     new NotBlank()
                 ]
             ])
-//            ->add('dni', TextType::class, [
-//                'label' => 'DNI',
-//                'constraints' => [
-//                    new NotBlank()
-//                ]
-//            ])
+            ->add('numeroTransferencia', TextType::class, [
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
             ->add('fechaReservacion', TextType::class, [
                 'label' => 'Fecha',
                 'mapped' => false,
@@ -54,11 +54,20 @@ class ReservacionMesaType extends AbstractType
                 'label' => 'Descripción',
                 'required' => false,
             ])
-            ->add('cantidadMesa', TextType::class, [
-                'label' => 'Cantidad de mesas',
+            ->add('cantidadPersona', TextType::class, [
+                'label' => 'Cantidad de personas',
                 'constraints' => [
                     new NotBlank()
                 ]
+            ])
+            ->add('metodoPago', EntityType::class, [
+                'class' => MetodoPago::class,
+                'choice_label' => 'nombre',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null
             ])
             ->add('espacio', EntityType::class, [
                 'class' => Espacio::class,

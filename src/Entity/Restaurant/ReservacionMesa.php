@@ -96,7 +96,7 @@ class ReservacionMesa extends BaseEntity
      * @ORM\ManyToOne(targetEntity="App\Entity\Configuracion\MetodoPago")
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?TMetodoPago $metodoPago;
+    private ?MetodoPago $metodoPago;
 
     /**
      * @return Perfil|null
@@ -340,17 +340,17 @@ class ReservacionMesa extends BaseEntity
     }
 
     /**
-     * @return TMetodoPago|null
+     * @return MetodoPago|null
      */
-    public function getMetodoPago(): ?TMetodoPago
+    public function getMetodoPago(): ?MetodoPago
     {
         return $this->metodoPago;
     }
 
     /**
-     * @param TMetodoPago|null $metodoPago
+     * @param MetodoPago|null $metodoPago
      */
-    public function setMetodoPago(?TMetodoPago $metodoPago): void
+    public function setMetodoPago(?MetodoPago $metodoPago): void
     {
         $this->metodoPago = $metodoPago;
     }

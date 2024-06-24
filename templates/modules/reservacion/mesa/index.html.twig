@@ -27,6 +27,8 @@
                     <th>Fin</th>
                     <th>Espacio</th>
                     <th>Cantidad de personas</th>
+                    <th>Método de pago</th>
+                    <th>Número de transferencia</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -44,6 +46,8 @@
                         <td>{{ item.horaFin | default('') }}</td>
                         <td>{{ item.nombreCorteEspacio | default('') }}</td>
                         <td>{{ item.cantidadPersona | default('') }}</td>
+                        <td>{{ item.metodoPago.nombre | default('') }}</td>
+                        <td>{{ item.numeroTransferencia | default('') }}</td>
                         <td class="-text-center">
                             {% if 'Activa' == item.estado %}
                                 <span class="ms-status -active">{{ item.estado }}</span>
