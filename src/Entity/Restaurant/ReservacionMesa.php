@@ -4,6 +4,7 @@ namespace App\Entity\Restaurant;
 
 use App\Entity\BaseEntity;
 use App\Entity\Configuracion\Espacio;
+use App\Entity\Configuracion\MetodoPago;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -89,6 +90,13 @@ class ReservacionMesa extends BaseEntity
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $politicaCancelacion = null;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Configuracion\MetodoPago")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?TMetodoPago $metodoPago;
 
     /**
      * @return Perfil|null
@@ -329,6 +337,22 @@ class ReservacionMesa extends BaseEntity
     public function setNumeroTransferencia(?string $numeroTransferencia): void
     {
         $this->numeroTransferencia = $numeroTransferencia;
+    }
+
+    /**
+     * @return TMetodoPago|null
+     */
+    public function getMetodoPago(): ?TMetodoPago
+    {
+        return $this->metodoPago;
+    }
+
+    /**
+     * @param TMetodoPago|null $metodoPago
+     */
+    public function setMetodoPago(?TMetodoPago $metodoPago): void
+    {
+        $this->metodoPago = $metodoPago;
     }
 
 
