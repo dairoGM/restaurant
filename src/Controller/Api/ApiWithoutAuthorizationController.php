@@ -22,6 +22,7 @@ use App\Repository\Configuracion\ExperienciaGastronomicaRepository;
 use App\Repository\Configuracion\MaridajeRepository;
 use App\Repository\Configuracion\MenuPlatoRepository;
 use App\Repository\Configuracion\MenuRepository;
+use App\Repository\Configuracion\MetodoPagoRepository;
 use App\Repository\Configuracion\PlatoRepository;
 use App\Repository\Configuracion\PoliticaCancelacionRepository;
 use App\Repository\Configuracion\PortadaRepository;
@@ -519,7 +520,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function reservarMesa(Request $request, Utils $utils, PoliticaCancelacionRepository $politicaCancelacionRepository, TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
+    public function reservarMesa(Request $request, Utils $utils, MetodoPagoRepository $metodoPagoRepository, PoliticaCancelacionRepository $politicaCancelacionRepository, TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -529,6 +530,8 @@ class ApiWithoutAuthorizationController extends AbstractController
                 && isset($jsonParams['cantidadPersona']) && !empty($jsonParams['cantidadPersona'])
                 && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
                 && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
+                && isset($jsonParams['numeroTransferencia']) && !empty($jsonParams['numeroTransferencia'])
+                && isset($jsonParams['metodoPago']) && !empty($jsonParams['metodoPago'])
                 && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
 
                 $reservacionMesa = new ReservacionMesa();
@@ -591,6 +594,8 @@ class ApiWithoutAuthorizationController extends AbstractController
                             $tiempoFinalFormateado = $tiempoFinal->format('H:i');
 
                             $reservacionMesa->setHoraFin($tiempoFinalFormateado);
+                            $reservacionMesa->setMetodoPago($metodoPagoRepository->find($jsonParams['metodoPago']));
+                            $reservacionMesa->setNumeroTransferencia($jsonParams['numeroTransferencia']);
 
                             $em->persist($reservacionMesa);
                             $em->flush();
