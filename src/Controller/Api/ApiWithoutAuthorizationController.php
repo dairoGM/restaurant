@@ -23,6 +23,7 @@ use App\Repository\Configuracion\MaridajeRepository;
 use App\Repository\Configuracion\MenuPlatoRepository;
 use App\Repository\Configuracion\MenuRepository;
 use App\Repository\Configuracion\PlatoRepository;
+use App\Repository\Configuracion\PoliticaCancelacionRepository;
 use App\Repository\Configuracion\PortadaRepository;
 use App\Repository\Configuracion\ReservaRepository;
 use App\Repository\Configuracion\SeccionServicioRepository;
@@ -502,7 +503,6 @@ class ApiWithoutAuthorizationController extends AbstractController
     }
 
 
-
     /**
      * @Route("/reservar/mesa/crear", name="api_reservar_mesa_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
@@ -512,7 +512,7 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function reservarMesa(Request $request, Utils $utils, TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
+    public function reservarMesa(Request $request, Utils $utils, PoliticaCancelacionRepository $politicaCancelacionRepository, TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -570,6 +570,10 @@ class ApiWithoutAuthorizationController extends AbstractController
                             $reservacionMesa->setFechaReservacion($fecha);
                             $reservacionMesa->setHoraInicio($horaInicio);
                             $reservacionMesa->setPrecioUsd(intval($jsonParams['cantidadPersona']) * 50);
+
+                            $politicaCancelacion = $politicaCancelacionRepository->findAll();
+                            $reservacionMesa->setPoliticaCancelacion($politicaCancelacion[0]->getDescripcion());
+
                             $dataTiempoConfigurado = $tiempoRepository->findAll();
                             $tiempoConfig = $dataTiempoConfigurado[0]->getTiempo();
 
