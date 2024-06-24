@@ -49,8 +49,9 @@ class MenuPlatoRepository extends ServiceEntityRepository
         }
     }
 
-    public function listarPlatos($filters = [], $orderBy = [], $limit = null)
+    private function listarPlatosSinOfertasFamilia($filters = [], $orderBy = [], $limit = null)
     {
+        $filters['p.ofertaFamilia'] = false;
         $query = $this->createQueryBuilder('qb')
             ->select("p.id, 
                         p.nombre, 
@@ -76,13 +77,52 @@ class MenuPlatoRepository extends ServiceEntityRepository
             }
         }
 
-        $query->orderBy('p.ofertaFamilia', 'asc')
-            ->addOrderBy('p.nombre', 'ASC');
-
-//        echo '<pre>';
-//        print_r($query->getQuery()->getSQL());
-//        die;
+        $query->addOrderBy('p.nombre', 'ASC');
         return $query->getQuery()->getResult(1);
+    }
+
+    private function listarPlatosConOfertasFamilia($filters = [], $orderBy = [], $limit = null)
+    {
+        $filters['p.ofertaFamilia'] = true;
+        $query = $this->createQueryBuilder('qb')
+            ->select("p.id, 
+                        p.nombre, 
+                        e.nombreCorto as nombreCortoEspacio, 
+                        e.id as idEspacio, 
+                        p.precio,    
+                        p.nombreLargo,    
+                        p.activo,                                           
+                        p.publico,                                           
+                        p.sugerenciaChef,                                           
+                        p.ofertaFamilia,                                           
+                        p.descripcion,
+                         p.imagen")
+            ->innerJoin('qb.menu', 'm')
+            ->innerJoin('m.espacio', 'e')
+            ->innerJoin('qb.plato', 'p');
+        if (!is_null($limit)) {
+            $query->setMaxResults($limit);
+        }
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("$key = '$value'");
+            }
+        }
+
+        $query->orderBy('p.ofertaFamilia', 'desc')
+            ->addOrderBy('p.nombre', 'ASC')
+            ->setMaxResults(6);
+
+        return $query->getQuery()->getResult(1);
+    }
+
+    public function listarPlatos($filters = [], $orderBy = [], $limit = null)
+    {
+        $platosSinOfertas = $this->listarPlatosSinOfertasFamilia($filters, $orderBy, $limit);
+        $platosConOfertas = $this->listarPlatosConOfertasFamilia($filters, $orderBy, $limit);
+        $result = array_merge($platosConOfertas, $platosSinOfertas);
+        return $result;
+
     }
 
     public function getPrecioMenu($idMenu)
