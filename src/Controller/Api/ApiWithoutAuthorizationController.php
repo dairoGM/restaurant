@@ -522,96 +522,97 @@ class ApiWithoutAuthorizationController extends AbstractController
      */
     public function reservarMesa(Request $request, Utils $utils, MetodoPagoRepository $metodoPagoRepository, PoliticaCancelacionRepository $politicaCancelacionRepository, TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository, PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
     {
-//        try {
-        $jsonParams = json_decode($request->getContent(), true);
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
 
-        if (isset($jsonParams['email']) && !empty($jsonParams['email'])
-            && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
-            && isset($jsonParams['cantidadPersona']) && !empty($jsonParams['cantidadPersona'])
-            && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
-            && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
-            && isset($jsonParams['numeroTransferencia']) && !empty($jsonParams['numeroTransferencia'])
-            && isset($jsonParams['metodoPago']) && !empty($jsonParams['metodoPago'])
-            && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
+            if (isset($jsonParams['email']) && !empty($jsonParams['email'])
+                && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
+                && isset($jsonParams['cantidadPersona']) && !empty($jsonParams['cantidadPersona'])
+                && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
+                && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
+                && isset($jsonParams['numeroTransferencia']) && !empty($jsonParams['numeroTransferencia'])
+                && isset($jsonParams['metodoPago']) && !empty($jsonParams['metodoPago'])
+                && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
 
-            $reservacionMesa = new ReservacionMesa();
-            $form = $this->createForm(ReservacionMesaType::class, $reservacionMesa);
-            $form->submit($jsonParams);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $espacio = $espacioRepository->find($jsonParams['espacio']);
-                $mesasEspacio = $espacio->getCantidadMesa();
-                $dateParam = explode(' ', $jsonParams['fechaReservacion']);
-                $fecha = $dateParam[0];
-                $horaInicio = $dateParam[1];
-                $reservacionesRealizadas = $reservacionMesaRepository->getCantidadReservaciones($fecha);
+                $reservacionMesa = new ReservacionMesa();
+                $form = $this->createForm(ReservacionMesaType::class, $reservacionMesa);
+                $form->submit($jsonParams);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $espacio = $espacioRepository->find($jsonParams['espacio']);
+                    $mesasEspacio = $espacio->getCantidadMesa();
+                    $dateParam = explode(' ', $jsonParams['fechaReservacion']);
+                    $fecha = $dateParam[0];
+                    $horaInicio = $dateParam[1];
+                    $reservacionesRealizadas = $reservacionMesaRepository->getCantidadReservaciones($fecha);
 
-                if (intval($jsonParams['cantidadPersona']) <= $mesasEspacio * 4) {
-                    if (($mesasEspacio * 4 - $reservacionesRealizadas) >= $jsonParams['cantidadPersona']) {
-                        $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
-                        $perfilRegistro = null;
-                        if (!isset($perfil[0])) {
-                            $newPerfil = new Perfil();
-                            $newPerfil->setNombre($jsonParams['email']);
-                            $newPerfil->setActivo(false);
-                            $newPerfil->setEmail($jsonParams['email']);
-                            $newPerfil->setPassword(md5('Dairo'));
+                    if (intval($jsonParams['cantidadPersona']) <= $mesasEspacio * 4) {
+                        if (($mesasEspacio * 4 - $reservacionesRealizadas) >= $jsonParams['cantidadPersona']) {
+                            $perfil = $perfilRepository->findBy(['email' => $jsonParams['email']]);
+                            $perfilRegistro = null;
+                            if (!isset($perfil[0])) {
+                                $newPerfil = new Perfil();
+                                $newPerfil->setNombre($jsonParams['email']);
+                                $newPerfil->setActivo(false);
+                                $newPerfil->setEmail($jsonParams['email']);
+                                $newPerfil->setPassword(md5('Dairo'));
 
-                            $user = new User();
-                            $user->setEmail($jsonParams['email']);
-                            $user->setRole('ROLE_CLIENT');
-                            $password = $this->hasher->hashPassword($user, md5('Dairo'));
-                            $user->setPassword($password);
-                            $user->setActivo(false);
-                            $em->persist($user);
+                                $user = new User();
+                                $user->setEmail($jsonParams['email']);
+                                $user->setRole('ROLE_CLIENT');
+                                $password = $this->hasher->hashPassword($user, md5('Dairo'));
+                                $user->setPassword($password);
+                                $user->setActivo(false);
+                                $em->persist($user);
 
-                            $newPerfil->setUser($user);
-                            $em->persist($newPerfil);
+                                $newPerfil->setUser($user);
+                                $em->persist($newPerfil);
+                                $em->flush();
+
+                                $perfilRegistro = $newPerfil;
+                            } else {
+                                $perfilRegistro = $perfil[0];
+                            }
+
+                            $reservacionMesa->setTicket($utils->generarIdentificadorReserva());
+                            $reservacionMesa->setPerfil($perfilRegistro);
+                            $reservacionMesa->setEspacio($espacio);
+                            $reservacionMesa->setEstado('Activa');
+                            $reservacionMesa->setFechaReservacion($fecha);
+                            $reservacionMesa->setHoraInicio($horaInicio);
+                            $reservacionMesa->setPrecioUsd(intval($jsonParams['cantidadPersona']) * 50);
+
+                            $politicaCancelacion = $politicaCancelacionRepository->findAll();
+                            $reservacionMesa->setPoliticaCancelacion($politicaCancelacion[0]->getDescripcion());
+
+                            $dataTiempoConfigurado = $tiempoRepository->findAll();
+                            $tiempoConfig = $dataTiempoConfigurado[0]->getTiempo();
+
+
+                            $tiempoInicial = new \DateTime($jsonParams['fechaReservacion']);
+                            $intervalo = new \DateInterval("PT" . $tiempoConfig . "H");
+                            $tiempoFinal = $tiempoInicial->add($intervalo);
+                            $tiempoFinalFormateado = $tiempoFinal->format('H:i');
+
+                            $reservacionMesa->setHoraFin($tiempoFinalFormateado);
+                            $reservacionMesa->setMetodoPago($metodoPagoRepository->find($jsonParams['metodoPago']));
+                            $reservacionMesa->setNumeroTransferencia($jsonParams['numeroTransferencia']);
+
+                            $em->persist($reservacionMesa);
                             $em->flush();
 
-                            $perfilRegistro = $newPerfil;
-                        } else {
-                            $perfilRegistro = $perfil[0];
+                            return $this->json(['messaje' => 'OK', 'data' => ['ticked' => $reservacionMesa->getTicket()]]);
+
                         }
-
-                        $reservacionMesa->setTicket($utils->generarIdentificadorReserva());
-                        $reservacionMesa->setPerfil($perfilRegistro);
-                        $reservacionMesa->setEspacio($espacio);
-                        $reservacionMesa->setEstado('Activa');
-                        $reservacionMesa->setFechaReservacion($fecha);
-                        $reservacionMesa->setHoraInicio($horaInicio);
-                        $reservacionMesa->setPrecioUsd(intval($jsonParams['cantidadPersona']) * 50);
-
-                        $politicaCancelacion = $politicaCancelacionRepository->findAll();
-                        $reservacionMesa->setPoliticaCancelacion($politicaCancelacion[0]->getDescripcion());
-
-                        $dataTiempoConfigurado = $tiempoRepository->findAll();
-                        $tiempoConfig = $dataTiempoConfigurado[0]->getTiempo();
-
-
-                        $tiempoInicial = new \DateTime($jsonParams['fechaReservacion']);
-                        $intervalo = new \DateInterval("PT" . $tiempoConfig . "H");
-                        $tiempoFinal = $tiempoInicial->add($intervalo);
-                        $tiempoFinalFormateado = $tiempoFinal->format('H:i');
-
-                        $reservacionMesa->setHoraFin($tiempoFinalFormateado);
-                        $reservacionMesa->setMetodoPago($metodoPagoRepository->find($jsonParams['metodoPago']));
-                        $reservacionMesa->setNumeroTransferencia($jsonParams['numeroTransferencia']);
-
-                        $em->persist($reservacionMesa);
-                        $em->flush();
-
-                        return $this->json(['messaje' => 'OK', 'data' => ['ticked' => $reservacionMesa->getTicket()]]);
-
+                        return $this->json(['messaje' => "La disponibilidad de mesas es insuficiente", 'data' => []], Response::HTTP_BAD_REQUEST);
                     }
-                    return $this->json(['messaje' => "La disponibilidad de mesas es insuficiente", 'data' => []], Response::HTTP_BAD_REQUEST);
+                    return $this->json(['messaje' => "La cantidad de mesas solicitada es superior a las mesas del espacio seleccionado", 'data' => []], Response::HTTP_BAD_REQUEST);
                 }
-                return $this->json(['messaje' => "La cantidad de mesas solicitada es superior a las mesas del espacio seleccionado", 'data' => []], Response::HTTP_BAD_REQUEST);
+                return $this->json(['messaje' => 'Formulario Inválido', 'data' => []], Response::HTTP_BAD_REQUEST);
             }
-            return $this->json(['messaje' => 'Formulario Inválido', 'data' => []], Response::HTTP_BAD_REQUEST);
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
-        return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
-//
-
     }
 
     /**
@@ -621,7 +622,8 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function getDisponibilidadEspacio(Request $request, EspacioRepository $espacioRepository, ReservacionMesaRepository $reservacionMesaRepository)
+    public
+    function getDisponibilidadEspacio(Request $request, EspacioRepository $espacioRepository, ReservacionMesaRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -645,4 +647,19 @@ class ApiWithoutAuthorizationController extends AbstractController
         }
     }
 
+
+    /**
+     * @Route("/metodo_pago/listar", name="api_metodo_pago_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param ReservaRepository $metodoPagoRepository
+     * @return JsonResponse
+     */
+    public function listarMetodosPago(MetodoPagoRepository $metodoPagoRepository)
+    {
+        try {
+            $result = $metodoPagoRepository->listarMetodosPago(['activo' => true]);
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 }

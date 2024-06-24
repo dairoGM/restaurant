@@ -46,30 +46,40 @@
                         <td>{{ item.horaFin | default('') }}</td>
                         <td>{{ item.nombreCorteEspacio | default('') }}</td>
                         <td>{{ item.cantidadPersona | default('') }}</td>
-                        <td>{{ item.metodoPago.nombre | default('') }}</td>
+                        <td>{{ item.nombreMetodoPago | default('') }}</td>
                         <td>{{ item.numeroTransferencia | default('') }}</td>
                         <td class="-text-center">
+                            {% if 'Preserva' == item.estado %}
+                                <span class="ms-status -warning">{{ item.estado }}</span>
+                            {% endif %}
                             {% if 'Activa' == item.estado %}
                                 <span class="ms-status -active">{{ item.estado }}</span>
                             {% endif %}
-                            {% if 'Terminada' == item.estado %}
+                            {% if 'Confirmada' == item.estado %}
                                 <span class="ms-status -info">{{ item.estado }}</span>
                             {% endif %}
-                            {% if 'Expirada' == item.estado %}
-                                <span class="ms-status">{{ item.estado }}</span>
+                            {% if 'Cancelada' == item.estado %}
+                                <span class="ms-status bg-gradient-gray">{{ item.estado }}</span>
+                            {% endif %}
+                            {% if 'Ejecutada' == item.estado %}
+                                <span class="ms-status bg-gradient-green">{{ item.estado }}</span>
                             {% endif %}
                         </td>
                         <td class="text-center" width="10%">
-                            {% if 'Activa' == item.estado %}
-                                <button title="Eliminar" class="btn btn-outline-danger elementRemove"
-                                        data-url="{{ path('app_reservacion_mesa_eliminar', {'id': item.id}) }}">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                                <button title="Terminar reservación" class="btn btn-outline-primary elementRemove"
-                                        data-url="{{ path('app_reservacion_mesa_terminar', {'id': item.id}) }}">
-                                    <i class="fa fa-hammer"></i>
-                                </button>
-                            {% endif %}
+                            {#                            {% if 'Confirmada' == item.estado %} #}
+                            <button title="Eliminar" class="btn btn-outline-danger elementRemove"
+                                    data-url="{{ path('app_reservacion_mesa_eliminar', {'id': item.id}) }}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                            <button title="Terminar reservación" class="btn btn-outline-primary elementRemove"
+                                    data-url="{{ path('app_reservacion_mesa_terminar', {'id': item.id}) }}">
+                                <i class="fa fa-hammer"></i>
+                            </button>
+                            <button title="Confirmar reservación" class="btn btn-outline-primary elementRemove"
+                                    data-url="{{ path('app_reservacion_mesa_confirmar', {'id': item.id}) }}">
+                                <i class="fa fa-dollar-sign"></i>
+                            </button>
+                            {#                            {% endif %} #}
                         </td>
                     </tr>
                 {% endfor %}

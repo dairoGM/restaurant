@@ -84,7 +84,30 @@ class ReservacionMesaController extends AbstractController
     {
         try {
             if ($reservacionMesaRepository->find($reservacionMesa) instanceof ReservacionMesa) {
-                $reservacionMesa->setEstado('Terminada');
+                $reservacionMesa->setEstado('Ejecutada');
+                $reservacionMesaRepository->edit($reservacionMesa, true);
+                $this->addFlash('success', 'El elemento ha sido modificado satisfactoriamente.');
+                return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
+            }
+            $this->addFlash('error', 'Error en la entrada de datos');
+            return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/confirmar", name="app_reservacion_mesa_confirmar", methods={"GET"})
+     * @param ReservacionMesa $reservacionMesa
+     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @return Response
+     */
+    public function confirmar(ReservacionMesa $reservacionMesa, ReservacionMesaRepository $reservacionMesaRepository)
+    {
+        try {
+            if ($reservacionMesaRepository->find($reservacionMesa) instanceof ReservacionMesa) {
+                $reservacionMesa->setEstado('Confirmada');
                 $reservacionMesaRepository->edit($reservacionMesa, true);
                 $this->addFlash('success', 'El elemento ha sido modificado satisfactoriamente.');
                 return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
