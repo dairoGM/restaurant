@@ -555,6 +555,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
             }
         });
+        $(document).on('click', '.elementRemoveText', function () {
+            let url = $(this).data('url');
+            bootbox.confirm({
+                message: `<p>¿Está seguro que desea realizar la acción?</p>
+                  <div class="form-group">
+                      <label for="additionalText">Número de transferencia:</label>
+                      <input type="text" class="form-control" id="additionalText" placeholder="Ingrese el número de la transferencia" required>
+                  </div>`,
+                buttons: {
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirmar',
+                        className: 'btn-primary'
+                    },
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancelar',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        let additionalText = $('#additionalText').val(); // Obtener el texto adicional
+                        if (!additionalText) {
+                            bootbox.alert("El número de la transferencia es obligatorio.");
+                            return false;
+                        }
+                        // Puedes usar el texto adicional aquí si es necesario
+                        // Ejemplo: redireccionar con el texto adicional como parámetro GET
+                        window.location.href = url + '?numeroTransferencia=' + encodeURIComponent(additionalText);
+                    }
+                }
+            });
+        });
 
 
         $('.btn-cancel').click(function () {

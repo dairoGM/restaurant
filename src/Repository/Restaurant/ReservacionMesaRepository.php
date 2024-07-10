@@ -67,7 +67,7 @@ class ReservacionMesaRepository extends ServiceEntityRepository
         return $result[0]['total'] ?? 0;
     }
 
-    public function getReservaciones($email = null, $prereserva = null)
+    public function getReservaciones($email = null )
     {
         $query = $this->createQueryBuilder('qb')
             ->select(
@@ -92,9 +92,6 @@ class ReservacionMesaRepository extends ServiceEntityRepository
             ->join('qb.perfil', 'p');
         if (!empty($email)) {
             $query->where("p.email = '$email'");
-        }
-        if (!empty($prereserva)) {
-            $query->andWhere("qb.estado = 'Prereserva'");
         }
         $query->orderBy('qb.id', 'desc');
         $result = $query->getQuery()->getResult();

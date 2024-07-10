@@ -103,13 +103,19 @@ class ReservacionMesaController extends AbstractController
      * @param ReservacionMesaRepository $reservacionMesaRepository
      * @return Response
      */
-    public function confirmar(ReservacionMesa $reservacionMesa, ReservacionMesaRepository $reservacionMesaRepository)
+    public function confirmar(Request $request, ReservacionMesa $reservacionMesa, ReservacionMesaRepository $reservacionMesaRepository)
     {
         try {
+            $numeroTransferencia = $request->query->get('numeroTransferencia');
+
             if ($reservacionMesaRepository->find($reservacionMesa) instanceof ReservacionMesa) {
-                $reservacionMesa->setEstado('Confirmada');
-                $reservacionMesaRepository->edit($reservacionMesa, true);
-                $this->addFlash('success', 'El elemento ha sido modificado satisfactoriamente.');
+                if ($numeroTransferencia == $reservacionMesa->getNumeroTransferencia()) {
+                    $reservacionMesa->setEstado('Confirmada');
+                    $reservacionMesaRepository->edit($reservacionMesa, true);
+                    $this->addFlash('success', 'El elemento ha sido modificado satisfactoriamente.');
+                    return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
+                }
+                $this->addFlash('error', 'El número de la transferencia no coincide con el enviado por el cliente.');
                 return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
             }
             $this->addFlash('error', 'Error en la entrada de datos');

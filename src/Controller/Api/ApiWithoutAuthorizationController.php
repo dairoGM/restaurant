@@ -531,8 +531,6 @@ class ApiWithoutAuthorizationController extends AbstractController
                 && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
                 && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
                 && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
-                && isset($jsonParams['numeroTransferencia']) && !empty($jsonParams['numeroTransferencia'])
-                && isset($jsonParams['metodoPago']) && !empty($jsonParams['metodoPago'])
                 && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
 
                 $cantidadPersonas = $jsonParams['cantidadPersona'] ?? 1;
@@ -597,8 +595,6 @@ class ApiWithoutAuthorizationController extends AbstractController
                             $tiempoFinalFormateado = $tiempoFinal->format('H:i');
 
                             $reservacionMesa->setHoraFin($tiempoFinalFormateado);
-                            $reservacionMesa->setMetodoPago($metodoPagoRepository->find($jsonParams['metodoPago']));
-                            $reservacionMesa->setNumeroTransferencia($jsonParams['numeroTransferencia']);
 
                             $em->persist($reservacionMesa);
                             $em->flush();
