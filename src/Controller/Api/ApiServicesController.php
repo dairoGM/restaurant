@@ -196,4 +196,26 @@ class ApiServicesController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
+
+    /**
+     * @Route("/reservaciones/prereserva", name="api_reservaciones_mesa_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @return JsonResponse
+     */
+    public function listarReservacionesPrereserva(Request $request, ReservacionMesaRepository $reservacionMesaRepository)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            $email = $jsonParams['email'] ?? null;
+            if (!empty($email)) {
+                $response = $reservacionMesaRepository->listarReservacionesPrereserva($email);
+                return $this->json(['messaje' => 'OK', 'data' => $response]);
+            }
+            return $this->json(['messaje' => "Usuario requerido", 'data' => []], Response::HTTP_BAD_GATEWAY);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 }

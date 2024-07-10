@@ -529,7 +529,6 @@ class ApiWithoutAuthorizationController extends AbstractController
 
             if (isset($jsonParams['email']) && !empty($jsonParams['email'])
                 && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
-
                 && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
                 && isset($jsonParams['celular']) && !empty($jsonParams['celular'])
                 && isset($jsonParams['numeroTransferencia']) && !empty($jsonParams['numeroTransferencia'])
@@ -537,7 +536,6 @@ class ApiWithoutAuthorizationController extends AbstractController
                 && isset($jsonParams['espacio']) && !empty($jsonParams['espacio'])) {
 
                 $cantidadPersonas = $jsonParams['cantidadPersona'] ?? 1;
-                $tipo = $jsonParams['cantidadPersona'] ?? 'mesa';
 
                 $reservacionMesa = new ReservacionMesa();
                 $form = $this->createForm(ReservacionMesaType::class, $reservacionMesa);
@@ -581,7 +579,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                             $reservacionMesa->setTicket($utils->generarIdentificadorReserva());
                             $reservacionMesa->setPerfil($perfilRegistro);
                             $reservacionMesa->setEspacio($espacio);
-                            $reservacionMesa->setEstado('Preserva');
+                            $reservacionMesa->setEstado('Prereserva');
                             $reservacionMesa->setFechaReservacion($fecha);
                             $reservacionMesa->setHoraInicio($horaInicio);
                             $reservacionMesa->setPrecioUsd(intval($cantidadPersonas) * 50);
@@ -667,4 +665,6 @@ class ApiWithoutAuthorizationController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
+
 }

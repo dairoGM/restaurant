@@ -67,7 +67,7 @@ class ReservacionMesaRepository extends ServiceEntityRepository
         return $result[0]['total'] ?? 0;
     }
 
-    public function getReservaciones($email, $prereserva)
+    public function getReservaciones($email = null, $prereserva = null)
     {
         $query = $this->createQueryBuilder('qb')
             ->select(
@@ -94,8 +94,38 @@ class ReservacionMesaRepository extends ServiceEntityRepository
             $query->where("p.email = '$email'");
         }
         if (!empty($prereserva)) {
-            $query->andWhere("p.estado = 'Preserva'");
+            $query->andWhere("qb.estado = 'Prereserva'");
         }
+        $query->orderBy('qb.id', 'desc');
+        $result = $query->getQuery()->getResult();
+        return $result;
+    }
+
+    public function listarReservacionesPrereserva($email = null)
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "qb.id,
+                 qb.nombreCompleto, 
+                 qb.celular,  
+                 qb.ticket, 
+                 qb.cantidadPersona,
+                 qb.estado,                 
+                 qb.descripcion,                 
+                 qb.fechaReservacion, 
+                 qb.numeroTransferencia, 
+                 qb.politicaCancelacion, 
+                 qb.horaInicio, 
+                 mp.nombre as nombreMetodoPago,
+                 qb.horaFin,                  
+                 e.nombreCorto as nombreCorteEspacio, 
+                 p.email"
+            )
+            ->join('qb.espacio', 'e')
+            ->join('qb.metodoPago', 'mp')
+            ->join('qb.perfil', 'p');
+        $query->where("p.email = '$email'");
+        $query->andWhere("qb.estado = 'Prereserva'");
         $query->orderBy('qb.id', 'desc');
         $result = $query->getQuery()->getResult();
         return $result;

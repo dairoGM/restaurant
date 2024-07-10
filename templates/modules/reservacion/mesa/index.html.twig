@@ -49,7 +49,7 @@
                         <td>{{ item.nombreMetodoPago | default('') }}</td>
                         <td>{{ item.numeroTransferencia | default('') }}</td>
                         <td class="-text-center">
-                            {% if 'Preserva' == item.estado %}
+                            {% if 'Prereserva' == item.estado %}
                                 <span class="ms-status -warning">{{ item.estado }}</span>
                             {% endif %}
                             {% if 'Activa' == item.estado %}
