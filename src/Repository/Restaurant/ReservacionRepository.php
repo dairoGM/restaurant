@@ -76,6 +76,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.celular,  
                  qb.ticket, 
                  qb.cantidadPersona,
+                 qb.cantidad,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
