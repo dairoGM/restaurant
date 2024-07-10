@@ -2,26 +2,26 @@
 
 namespace App\Repository\Restaurant;
 
-use App\Entity\Restaurant\ReservacionMesa;
+use App\Entity\Restaurant\Reservacion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ReservacionMesa>
+ * @extends ServiceEntityRepository<Reservacion>
  *
- * @method ReservacionMesa|null find($id, $lockMode = null, $lockVersion = null)
- * @method ReservacionMesa|null findOneBy(array $criteria, array $orderBy = null)
- * @method ReservacionMesa[]    findAll()
- * @method ReservacionMesa[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Reservacion|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Reservacion|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Reservacion[]    findAll()
+ * @method Reservacion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ReservacionMesaRepository extends ServiceEntityRepository
+class ReservacionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ReservacionMesa::class);
+        parent::__construct($registry, Reservacion::class);
     }
 
-    public function add(ReservacionMesa $entity, bool $flush = false): void
+    public function add(Reservacion $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ReservacionMesaRepository extends ServiceEntityRepository
         }
     }
 
-    public function edit(ReservacionMesa $entity, bool $flush = true): ReservacionMesa
+    public function edit(Reservacion $entity, bool $flush = true): Reservacion
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -40,7 +40,7 @@ class ReservacionMesaRepository extends ServiceEntityRepository
         return $entity;
     }
 
-    public function remove(ReservacionMesa $entity, bool $flush = false): void
+    public function remove(Reservacion $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -84,11 +84,13 @@ class ReservacionMesaRepository extends ServiceEntityRepository
                  qb.horaInicio, 
                  mp.nombre as nombreMetodoPago,
                  qb.horaFin,                  
-                 e.nombreCorto as nombreCorteEspacio, 
+                 e.nombreCorto as nombreCortoEspacio, 
+                 pl.nombre as nombrePlato, 
                  p.email"
             )
-            ->join('qb.espacio', 'e')
-            ->join('qb.metodoPago', 'mp')
+            ->leftJoin('qb.espacio', 'e')
+            ->leftJoin('qb.plato', 'pl')
+            ->leftJoin('qb.metodoPago', 'mp')
             ->join('qb.perfil', 'p');
         if (!empty($email)) {
             $query->where("p.email = '$email'");

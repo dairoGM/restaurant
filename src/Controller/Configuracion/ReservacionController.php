@@ -4,9 +4,9 @@ namespace App\Controller\Configuracion;
 
 
 use App\Entity\Restaurant\Contactenos;
-use App\Entity\Restaurant\ReservacionMesa;
+use App\Entity\Restaurant\Reservacion;
 use App\Repository\Restaurant\ContactenosRepository;
-use App\Repository\Restaurant\ReservacionMesaRepository;
+use App\Repository\Restaurant\ReservacionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,28 +14,28 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
- * @Route("/configuracion/reservacion/mesa")
+ * @Route("/configuracion/reservacion")
  * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CARRERA")
  */
-class ReservacionMesaController extends AbstractController
+class ReservacionController extends AbstractController
 {
 
     /**
      * @Route("/", name="app_reservacion_mesa_index", methods={"GET"})
-     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @param ReservacionRepository $reservacionRepository
      * @return Response
      */
-    public function index(ReservacionMesaRepository $reservacionMesaRepository)
+    public function index(ReservacionRepository $reservacionRepository)
     {
         try {
-            $reservaciones = $reservacionMesaRepository->getReservaciones();
+            $reservaciones = $reservacionRepository->getReservaciones();
             $response = [];
             foreach ($reservaciones as $value) {
                 $fechaReservacion = new \DateTime($value['fechaReservacion'] . ' ' . $value['horaFin']);
                 if ($fechaReservacion < date('Y-m-d H:i:s')) {
-                    $reserva = $reservacionMesaRepository->find($value['id']);
+                    $reserva = $reservacionRepository->find($value['id']);
                     $reserva->setEstado('Expirada');
-                    $reservacionMesaRepository->edit($reserva, true);
+                    $reservacionRepository->edit($reserva, true);
                     $value['estado'] = 'Expirada';
                 }
                 $response[] = $value;
@@ -53,15 +53,15 @@ class ReservacionMesaController extends AbstractController
 
     /**
      * @Route("/{id}/eliminar", name="app_reservacion_mesa_eliminar", methods={"GET"})
-     * @param ReservacionMesa $reservacionMesa
-     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @param Reservacion $reservacion
+     * @param ReservacionRepository $reservacionMesaRepository
      * @return Response
      */
-    public function eliminar(ReservacionMesa $reservacionMesa, ReservacionMesaRepository $reservacionMesaRepository)
+    public function eliminar(Reservacion $reservacion, ReservacionRepository $reservacionMesaRepository)
     {
         try {
-            if ($reservacionMesaRepository->find($reservacionMesa) instanceof ReservacionMesa) {
-                $reservacionMesaRepository->remove($reservacionMesa, true);
+            if ($reservacionMesaRepository->find($reservacion) instanceof Reservacion) {
+                $reservacionMesaRepository->remove($reservacion, true);
                 $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
                 return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -76,16 +76,16 @@ class ReservacionMesaController extends AbstractController
 
     /**
      * @Route("/{id}/terminar", name="app_reservacion_mesa_terminar", methods={"GET"})
-     * @param ReservacionMesa $reservacionMesa
-     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @param Reservacion $reservacion
+     * @param ReservacionRepository $reservacionRepository
      * @return Response
      */
-    public function terminar(ReservacionMesa $reservacionMesa, ReservacionMesaRepository $reservacionMesaRepository)
+    public function terminar(Reservacion $reservacion, ReservacionRepository $reservacionRepository)
     {
         try {
-            if ($reservacionMesaRepository->find($reservacionMesa) instanceof ReservacionMesa) {
-                $reservacionMesa->setEstado('Ejecutada');
-                $reservacionMesaRepository->edit($reservacionMesa, true);
+            if ($reservacionRepository->find($reservacion) instanceof Reservacion) {
+                $reservacion->setEstado('Ejecutada');
+                $reservacionRepository->edit($reservacion, true);
                 $this->addFlash('success', 'El elemento ha sido modificado satisfactoriamente.');
                 return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -99,19 +99,20 @@ class ReservacionMesaController extends AbstractController
 
     /**
      * @Route("/{id}/confirmar", name="app_reservacion_mesa_confirmar", methods={"GET"})
-     * @param ReservacionMesa $reservacionMesa
-     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @param Request $request
+     * @param Reservacion $reservacion
+     * @param ReservacionRepository $reservacionRepository
      * @return Response
      */
-    public function confirmar(Request $request, ReservacionMesa $reservacionMesa, ReservacionMesaRepository $reservacionMesaRepository)
+    public function confirmar(Request $request, Reservacion $reservacion, ReservacionRepository $reservacionRepository)
     {
         try {
             $numeroTransferencia = $request->query->get('numeroTransferencia');
 
-            if ($reservacionMesaRepository->find($reservacionMesa) instanceof ReservacionMesa) {
-                if ($numeroTransferencia == $reservacionMesa->getNumeroTransferencia()) {
-                    $reservacionMesa->setEstado('Confirmada');
-                    $reservacionMesaRepository->edit($reservacionMesa, true);
+            if ($reservacionRepository->find($reservacion) instanceof Reservacion) {
+                if ($numeroTransferencia == $reservacion->getNumeroTransferencia()) {
+                    $reservacion->setEstado('Confirmada');
+                    $reservacionRepository->edit($reservacion, true);
                     $this->addFlash('success', 'El elemento ha sido modificado satisfactoriamente.');
                     return $this->redirectToRoute('app_reservacion_mesa_index', [], Response::HTTP_SEE_OTHER);
                 }

@@ -1,6 +1,6 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Reservaciones de mesa{% endblock %}
+{% block title %}Reservaciones{% endblock %}
 
 {% block body %}
 
@@ -9,7 +9,7 @@
     <div class="card shadow-sm">
         <div class="card-header">
             <div class="row" style="display: flex; justify-content: space-between; align-items: center">
-                <h3 class="card-title text-bold text-gray">Listado de reservaciones de mesa</h3>
+                <h3 class="card-title text-bold text-gray">Listado de reservaciones</h3>
             </div>
         </div>
         <!-- /.card-header -->
@@ -18,17 +18,18 @@
                 <thead class="table-custom-header">
                 <tr>
                     <th>No.</th>
-                    <th>Identificador</th>
-                    <th>Nombre completo</th>
+                    <th>Id</th>
+                    <th>Cliente</th>
                     <th>Celular</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Inicio</th>
                     <th>Fin</th>
                     <th>Espacio</th>
+                    <th>Plato</th>
                     <th>Cantidad de personas</th>
                     <th>Método de pago</th>
-                    <th>Número de transferencia</th>
+                    <th>No. de transferencia</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -44,7 +45,8 @@
                         <td>{{ item.fechaReservacion | default('') }}</td>
                         <td>{{ item.horaInicio | default('') }}</td>
                         <td>{{ item.horaFin | default('') }}</td>
-                        <td>{{ item.nombreCorteEspacio | default('') }}</td>
+                        <td>{{ item.nombreCortoEspacio | default('') }}</td>
+                        <td>{{ item.nombrePlato | default('') }}</td>
                         <td>{{ item.cantidadPersona | default('') }}</td>
                         <td>{{ item.nombreMetodoPago | default('') }}</td>
                         <td>{{ item.numeroTransferencia | default('') }}</td>

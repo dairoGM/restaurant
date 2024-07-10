@@ -4,11 +4,9 @@ namespace App\Controller\Api;
 
 use App\Entity\Restaurant\Contactenos;
 use App\Entity\Restaurant\Perfil;
-use App\Entity\Restaurant\ReservacionMesa;
 use App\Entity\Security\User;
 use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
-use App\Form\Restaurant\ReservacionMesaType;
 use App\Repository\Configuracion\CateringRepository;
 use App\Repository\Configuracion\ConocenosRedesSocialesRepository;
 use App\Repository\Configuracion\ConocenosRepository;
@@ -29,7 +27,7 @@ use App\Repository\Configuracion\SobreRepository;
 use App\Repository\Configuracion\TerminosCondicionesRepository;
 use App\Repository\Restaurant\ContactenosRepository;
 use App\Repository\Restaurant\PerfilRepository;
-use App\Repository\Restaurant\ReservacionMesaRepository;
+use App\Repository\Restaurant\ReservacionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,10 +67,10 @@ class ApiServicesController extends AbstractController
     /**
      * @Route("/reservaciones/mesa/listar", name="api_reservaciones_mesa_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
-     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @param ReservacionRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function listarReservacionesMesa(Request $request, ReservacionMesaRepository $reservacionMesaRepository)
+    public function listarReservacionesMesa(Request $request, ReservacionRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -93,10 +91,10 @@ class ApiServicesController extends AbstractController
      * @Route("/reservaciones/mesa/editar", name="api_reservaciones_mesa_editar",methods={"PUT", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
      * @param EntityManagerInterface $em
-     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @param ReservacionRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function editarMesa(Request $request, EntityManagerInterface $em, ReservacionMesaRepository $reservacionMesaRepository)
+    public function editarMesa(Request $request, EntityManagerInterface $em, ReservacionRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
@@ -142,10 +140,10 @@ class ApiServicesController extends AbstractController
 
     /**
      * @Route("/reservaciones/mesa/eliminar/{id}", name="api_reservaciones_mesa_eliminar",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @param ReservacionRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function eliminarMesa(ReservacionMesa $id, ReservacionMesaRepository $reservacionMesaRepository)
+    public function eliminarMesa(ReservacionMesa $id, ReservacionRepository $reservacionMesaRepository)
     {
         try {
             $reservacionMesaRepository->remove($id, true);
@@ -201,10 +199,10 @@ class ApiServicesController extends AbstractController
     /**
      * @Route("/reservaciones/prereserva", name="api_reservaciones_mesa_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
-     * @param ReservacionMesaRepository $reservacionMesaRepository
+     * @param ReservacionRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function listarReservacionesPrereserva(Request $request, ReservacionMesaRepository $reservacionMesaRepository)
+    public function listarReservacionesPrereserva(Request $request, ReservacionRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);

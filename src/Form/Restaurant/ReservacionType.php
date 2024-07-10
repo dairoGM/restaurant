@@ -3,8 +3,8 @@
 namespace App\Form\Restaurant;
 
 use App\Entity\Configuracion\Espacio;
-use App\Entity\Configuracion\MetodoPago;
-use App\Entity\Restaurant\ReservacionMesa;
+use App\Entity\Configuracion\Plato;
+use App\Entity\Restaurant\Reservacion;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ReservacionMesaType extends AbstractType
+class ReservacionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -38,11 +38,6 @@ class ReservacionMesaType extends AbstractType
                     new NotBlank()
                 ]
             ])
-            ->add('numeroTransferencia', TextType::class, [
-                'constraints' => [
-                    new NotBlank()
-                ]
-            ])
             ->add('fechaReservacion', TextType::class, [
                 'label' => 'Fecha',
                 'mapped' => false,
@@ -56,12 +51,14 @@ class ReservacionMesaType extends AbstractType
             ])
             ->add('cantidadPersona', TextType::class, [
                 'label' => 'Cantidad de personas',
-                'constraints' => [
-                    new NotBlank()
-                ]
+                'required' => false
             ])
-            ->add('metodoPago', EntityType::class, [
-                'class' => MetodoPago::class,
+            ->add('cantidad', TextType::class, [
+                'label' => 'Cantidad',
+                'required' => false
+            ])
+            ->add('plato', EntityType::class, [
+                'class' => Plato::class,
                 'choice_label' => 'nombre',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
@@ -83,7 +80,7 @@ class ReservacionMesaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ReservacionMesa::class,
+            'data_class' => Reservacion::class,
             'csrf_protection' => false
         ]);
     }

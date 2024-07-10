@@ -5,14 +5,15 @@ namespace App\Entity\Restaurant;
 use App\Entity\BaseEntity;
 use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\MetodoPago;
+use App\Entity\Configuracion\Plato;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tbd_reservacion_mesa")
+ * @ORM\Table(name="tbd_reservacion")
  */
-class ReservacionMesa extends BaseEntity
+class Reservacion extends BaseEntity
 {
 
     /**
@@ -28,9 +29,20 @@ class ReservacionMesa extends BaseEntity
     private ?Espacio $espacio;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Configuracion\Plato")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     */
+    private ?Plato $plato;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $cantidadPersona;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $cantidad;
 
 
     /**
@@ -353,6 +365,38 @@ class ReservacionMesa extends BaseEntity
     public function setMetodoPago(?MetodoPago $metodoPago): void
     {
         $this->metodoPago = $metodoPago;
+    }
+
+    /**
+     * @return Plato|null
+     */
+    public function getPlato(): ?Plato
+    {
+        return $this->plato;
+    }
+
+    /**
+     * @param Plato|null $plato
+     */
+    public function setPlato(?Plato $plato): void
+    {
+        $this->plato = $plato;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getCantidad(): ?int
+    {
+        return $this->cantidad;
+    }
+
+    /**
+     * @param int|null $cantidad
+     */
+    public function setCantidad(?int $cantidad): void
+    {
+        $this->cantidad = $cantidad;
     }
 
 
