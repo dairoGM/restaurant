@@ -67,7 +67,7 @@ class ReservacionRepository extends ServiceEntityRepository
         return $result[0]['total'] ?? 0;
     }
 
-    public function getReservaciones($email = null )
+    public function getReservaciones($email = null)
     {
         $query = $this->createQueryBuilder('qb')
             ->select(
@@ -93,6 +93,41 @@ class ReservacionRepository extends ServiceEntityRepository
             ->leftJoin('qb.plato', 'pl')
             ->leftJoin('qb.metodoPago', 'mp')
             ->join('qb.perfil', 'p');
+        if (!empty($email)) {
+            $query->where("p.email = '$email'");
+        }
+        $query->orderBy('qb.id', 'desc');
+        $result = $query->getQuery()->getResult();
+        return $result;
+    }
+
+    public function getReservacionesCanceladas($email = null)
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "qb.id,
+                 qb.nombreCompleto, 
+                 qb.celular,  
+                 qb.ticket, 
+                 qb.cantidadPersona,
+                 qb.cantidad,
+                 qb.estado,                 
+                 qb.descripcion,                 
+                 qb.fechaReservacion, 
+                 qb.numeroTransferencia, 
+                 qb.politicaCancelacion, 
+                 qb.horaInicio, 
+                 mp.nombre as nombreMetodoPago,
+                 qb.horaFin,                  
+                 e.nombreCorto as nombreCortoEspacio, 
+                 pl.nombre as nombrePlato, 
+                 p.email"
+            )
+            ->leftJoin('qb.espacio', 'e')
+            ->leftJoin('qb.plato', 'pl')
+            ->leftJoin('qb.metodoPago', 'mp')
+            ->join('qb.perfil', 'p')
+            ->where("qb.estado = 'Cancelada'");
         if (!empty($email)) {
             $query->where("p.email = '$email'");
         }
