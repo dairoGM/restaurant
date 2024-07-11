@@ -529,16 +529,15 @@ class ApiWithoutAuthorizationController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
 
-            if (isset($jsonParams['email']) && !empty($jsonParams['email'])
-                && isset($jsonParams['fechaReservacion']) && !empty($jsonParams['fechaReservacion'])
-                && isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto'])
-                && isset($jsonParams['celular']) && !empty($jsonParams['celular'])) {
+            if (isset($jsonParams['email']) && !empty($jsonParams['email'])) {
 
                 $cantidadPersonas = $jsonParams['cantidadPersona'] ?? null;
                 $espacio = $jsonParams['espacio'] ?? null;
+                $fechaReservacion = $jsonParams['fechaReservacion'] ?? null;
 
                 $cantidad = $jsonParams['cantidad'] ?? null;
                 $plato = $jsonParams['plato'] ?? null;
+                $idReservaMesa = $jsonParams['idReservaMesa'] ?? null;//la reserva de la mesa a la que se asociaria el plato
                 $entidadPlato = null;
 
                 if (!empty($cantidadPersonas)) {
@@ -551,10 +550,16 @@ class ApiWithoutAuthorizationController extends AbstractController
 
                 $reservacion = new Reservacion();
                 $form = $this->createForm(ReservacionType::class, $reservacion);
-
+                $reservaMesa = null;
                 $form->submit($jsonParams);
+
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $dateParam = explode(' ', $jsonParams['fechaReservacion']);
+                    if (empty($fechaReservacion)) {
+                        $reservaMesa = $reservacionRepository->find($idReservaMesa);
+                        $fechaReservacion = $reservaMesa->getFechaReservacion() . " " . $reservaMesa->getHoraInicio();
+                    }
+
+                    $dateParam = explode(' ', $fechaReservacion);
                     $fecha = $dateParam[0];
                     $horaInicio = $dateParam[1];
                     $reglasPlatos = false;
@@ -614,6 +619,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                         $reservacion->setHoraInicio($horaInicio);
                         $reservacion->setPrecioUsd($precioUsd);
                         $reservacion->setCantidad($cantidad);
+                        $reservacion->setIdReservaMesa($reservaMesa);
 
                         $politicaCancelacion = $politicaCancelacionRepository->findAll();
                         $reservacion->setPoliticaCancelacion($politicaCancelacion[0]->getDescripcion());
@@ -621,7 +627,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                         $dataTiempoConfigurado = $tiempoRepository->findAll();
                         $tiempoConfig = $dataTiempoConfigurado[0]->getTiempo();
 
-                        $tiempoInicial = new \DateTime($jsonParams['fechaReservacion']);
+                        $tiempoInicial = new \DateTime($fechaReservacion);
                         $intervalo = new \DateInterval("PT" . $tiempoConfig . "H");
                         $tiempoFinal = $tiempoInicial->add($intervalo);
                         $tiempoFinalFormateado = $tiempoFinal->format('H:i');
@@ -633,7 +639,6 @@ class ApiWithoutAuthorizationController extends AbstractController
 
                         return $this->json(['messaje' => 'OK', 'data' => ['ticked' => $reservacion->getTicket()]]);
                     }
-
                 }
                 return $this->json(['messaje' => 'Formulario Inválido', 'data' => []], Response::HTTP_BAD_REQUEST);
             }
@@ -678,7 +683,7 @@ class ApiWithoutAuthorizationController extends AbstractController
 
     /**
      * @Route("/metodo_pago/listar", name="api_metodo_pago_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
-     * @param ReservaRepository $metodoPagoRepository
+     * @param MetodoPagoRepository $metodoPagoRepository
      * @return JsonResponse
      */
     public function listarMetodosPago(MetodoPagoRepository $metodoPagoRepository)
@@ -694,6 +699,21 @@ class ApiWithoutAuthorizationController extends AbstractController
             }
 
             return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+    /**
+     * @Route("/politica_cancelacion/listar", name="api_politica_cancelacion_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param PoliticaCancelacionRepository $politicaCancelacionRepository
+     * @return JsonResponse
+     */
+    public function listarPoliticaCancelacion(PoliticaCancelacionRepository $politicaCancelacionRepository)
+    {
+        try {
+            $result = $politicaCancelacionRepository->listarPoliticaCancelacion();
+            return $this->json(['messaje' => 'OK', 'data' => $result[0]]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }

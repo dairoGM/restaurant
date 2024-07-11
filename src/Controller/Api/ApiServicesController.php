@@ -75,9 +75,8 @@ class ApiServicesController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
             $email = $jsonParams['email'] ?? null;
-            $prereserva = $jsonParams['prereserva'] ?? null;
             if (!empty($email)) {
-                $response = $reservacionMesaRepository->getReservaciones($email, $prereserva);
+                $response = $reservacionMesaRepository->getReservaciones($email);
                 return $this->json(['messaje' => 'OK', 'data' => $response]);
             }
             return $this->json(['messaje' => "Usuario requerido", 'data' => []], Response::HTTP_BAD_GATEWAY);
@@ -143,7 +142,7 @@ class ApiServicesController extends AbstractController
      * @param ReservacionRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function eliminarMesa(ReservacionMesa $id, ReservacionRepository $reservacionMesaRepository)
+    public function eliminarMesa(Reservacion $id, ReservacionRepository $reservacionMesaRepository)
     {
         try {
             $reservacionMesaRepository->remove($id, true);
@@ -210,6 +209,28 @@ class ApiServicesController extends AbstractController
             if (!empty($email)) {
                 $response = $reservacionMesaRepository->listarReservacionesPrereserva($email);
                 return $this->json(['messaje' => 'OK', 'data' => $response]);
+            }
+            return $this->json(['messaje' => "Usuario requerido", 'data' => []], Response::HTTP_BAD_GATEWAY);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/reservaciones/cantidad_prereserva", name="api_reservaciones_cantidad_prereserva", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param ReservacionRepository $reservacionMesaRepository
+     * @return JsonResponse
+     */
+    public function listarCantidadReservacionesPrereserva(Request $request, ReservacionRepository $reservacionMesaRepository)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            $email = $jsonParams['email'] ?? null;
+            if (!empty($email)) {
+                $response = $reservacionMesaRepository->listarReservacionesPrereserva($email);
+                return $this->json(['messaje' => 'OK', 'data' => count($response)]);
             }
             return $this->json(['messaje' => "Usuario requerido", 'data' => []], Response::HTTP_BAD_GATEWAY);
         } catch (\Exception $exc) {

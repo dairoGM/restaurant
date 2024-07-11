@@ -29,6 +29,12 @@ class Reservacion extends BaseEntity
     private ?Espacio $espacio;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Reservacion")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     */
+    private ?Reservacion $idReservaMesa;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Configuracion\Plato")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
@@ -397,6 +403,22 @@ class Reservacion extends BaseEntity
     public function setCantidad(?int $cantidad): void
     {
         $this->cantidad = $cantidad;
+    }
+
+    /**
+     * @return Reservacion|null
+     */
+    public function getIdReservaMesa(): ?Reservacion
+    {
+        return $this->idReservaMesa;
+    }
+
+    /**
+     * @param Reservacion|null $idReservaMesa
+     */
+    public function setIdReservaMesa(?Reservacion $idReservaMesa): void
+    {
+        $this->idReservaMesa = $idReservaMesa;
     }
 
 

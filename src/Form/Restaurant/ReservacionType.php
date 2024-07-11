@@ -26,17 +26,10 @@ class ReservacionType extends AbstractType
                     new NotBlank()
                 ]
             ])
-            ->add('nombreCompleto', TextType::class, [
-                'label' => 'Nombre completo',
-                'constraints' => [
-                    new NotBlank()
-                ]
-            ])
-            ->add('celular', TextType::class, [
-                'label' => 'Celular',
-                'constraints' => [
-                    new NotBlank()
-                ]
+            ->add('idReservaMesa', TextType::class, [
+                'label' => 'ID Reserva Mesa',
+                'mapped' => false,
+                'required' => false
             ])
             ->add('fechaReservacion', TextType::class, [
                 'label' => 'Fecha',

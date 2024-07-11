@@ -53,17 +53,7 @@ class PoliticaCancelacionRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('qb')
             ->select('qb.id, 
-                        qb.nombre, 
-                        qb.activo, 
-                        qb.fecha,                        
-                        qb.cantidadPlantosPersonas,                         
-                        qb.cantidadTragosPersonas,                         
-                        qb.cantidadParticipantes,                       
-                        qb.descripcion, 
-                        tc.nombre as nombreTipoPoliticaCancelacion, 
-                        tc.id as idTipoPoliticaCancelacion')
-            ->innerJoin('qb.tipoPoliticaCancelacion', 'tc');
-
+                        qb.descripcion');
         $qb->orderBy('qb.nombre');
         $resul = $qb->getQuery()->getResult();
 
