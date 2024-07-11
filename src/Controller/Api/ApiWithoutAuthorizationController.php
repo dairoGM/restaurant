@@ -735,4 +735,6 @@ class ApiWithoutAuthorizationController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
+
 }

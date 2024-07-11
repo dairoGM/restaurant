@@ -197,7 +197,7 @@ class ApiServicesController extends AbstractController
 
 
     /**
-     * @Route("/reservaciones/prereserva", name="api_reservaciones_mesa_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/reservaciones/prereserva", name="api_reservaciones_prereserva_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
      * @param ReservacionRepository $reservacionMesaRepository
      * @return JsonResponse
@@ -255,4 +255,28 @@ class ApiServicesController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
+
+    /**
+     * @Route("/reservaciones/prereserva_mesa", name="api_reservaciones_prereserva_mesa_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param ReservacionRepository $reservacionMesaRepository
+     * @return JsonResponse
+     */
+    public function listarReservacionesPrereservaMesa(Request $request, ReservacionRepository $reservacionMesaRepository, PlatoRepository $platoRepository)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+            $espacio = $jsonParams['espacioPlato'] ?? null;
+            $email = $jsonParams['email'] ?? null;
+            if (!empty($email)) {
+                $response = $reservacionMesaRepository->listarReservacionesPrereservaMesa($email, $espacio);
+                return $this->json(['messaje' => 'OK', 'data' => $response]);
+            }
+            return $this->json(['messaje' => "Usuario requerido", 'data' => []], Response::HTTP_BAD_GATEWAY);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
 }

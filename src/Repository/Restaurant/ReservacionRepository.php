@@ -156,11 +156,45 @@ class ReservacionRepository extends ServiceEntityRepository
                  e.nombreCorto as nombreCorteEspacio, 
                  p.email"
             )
-            ->join('qb.espacio', 'e')
-            ->join('qb.metodoPago', 'mp')
-            ->join('qb.perfil', 'p');
+            ->leftJoin('qb.espacio', 'e')
+            ->leftJoin('qb.metodoPago', 'mp')
+            ->leftJoin('qb.perfil', 'p');
         $query->where("p.email = '$email'");
         $query->andWhere("qb.estado = 'Prereserva'");
+        $query->orderBy('qb.id', 'desc');
+        $result = $query->getQuery()->getResult();
+        return $result;
+    }
+
+
+    public function listarReservacionesPrereservaMesa($email, $espacio = null)
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "qb.id,
+                 qb.nombreCompleto, 
+                 qb.celular,  
+                 qb.ticket, 
+                 qb.cantidadPersona,
+                 qb.estado,                 
+                 qb.descripcion,                 
+                 qb.fechaReservacion, 
+                 qb.numeroTransferencia, 
+                 qb.politicaCancelacion, 
+                 qb.horaInicio, 
+                 mp.nombre as nombreMetodoPago,
+                 qb.horaFin,                  
+                 e.nombreCorto as nombreCorteEspacio, 
+                 p.email"
+            )
+            ->join('qb.espacio', 'e')
+            ->leftJoin('qb.metodoPago', 'mp')
+            ->leftJoin('qb.perfil', 'p')
+            ->where("p.email = '$email' and e.id is not null");
+        $query->andWhere("qb.estado = 'Prereserva'");
+        if (!empty($espacio)) {
+            $query->andWhere("e.id = '$espacio'");
+        }
         $query->orderBy('qb.id', 'desc');
         $result = $query->getQuery()->getResult();
         return $result;
