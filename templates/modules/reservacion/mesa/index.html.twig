@@ -19,8 +19,6 @@
                 <tr>
                     <th>No.</th>
                     <th>Id</th>
-                    <th>Cliente</th>
-                    <th>Celular</th>
                     <th>Usuario</th>
                     <th>Fecha</th>
                     <th>Inicio</th>
@@ -39,8 +37,6 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ item.ticket | default('') }}</td>
-                        <td>{{ item.nombreCompleto | default('') }}</td>
-                        <td>{{ item.celular | default('') }}</td>
                         <td>{{ item.email | default('') }}</td>
                         <td>{{ item.fechaReservacion | default('') }}</td>
                         <td>{{ item.horaInicio | default('') }}</td>
