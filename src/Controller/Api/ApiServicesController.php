@@ -97,19 +97,22 @@ class ApiServicesController extends AbstractController
      * @param ReservacionRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function editarReservacion(Request $request, EntityManagerInterface $em, ReservacionRepository $reservacionMesaRepository)
+    public function editarReservacion(Request $request, EntityManagerInterface $em, ReservacionRepository $reservacionRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
 
             if (isset($jsonParams['id']) && !empty($jsonParams['id']) &&
                 isset($jsonParams['cantidad']) && !empty($jsonParams['cantidad'])) {
-
                 $cantidad = $jsonParams['cantidad'];
+                $reservacion = $reservacionRepository->find($jsonParams['id']);
+                if (empty($reservacion->getEspacio())) {
+                    $reservacion->setCantidad($cantidad);
+                } else {
+                    $reservacion->setCantidadPersona($cantidad);
+                }
 
-                $reservacionMesa = $reservacionMesaRepository->find($jsonParams['id']);
-
-                $em->persist($reservacionMesa);
+                $em->persist($reservacion);
                 $em->flush();
                 return $this->json(['messaje' => 'OK', 'data' => []]);
             }
