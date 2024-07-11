@@ -25,6 +25,7 @@ use App\Repository\Configuracion\MenuRepository;
 use App\Repository\Configuracion\MetodoPagoRepository;
 use App\Repository\Configuracion\PlatoRepository;
 use App\Repository\Configuracion\PoliticaCancelacionRepository;
+use App\Repository\Configuracion\PoliticaReservacionRepository;
 use App\Repository\Configuracion\PortadaRepository;
 use App\Repository\Configuracion\ReservaRepository;
 use App\Repository\Configuracion\SeccionServicioRepository;
@@ -720,4 +721,18 @@ class ApiWithoutAuthorizationController extends AbstractController
     }
 
 
+    /**
+     * @Route("/politica_reservacion/listar", name="api_politica_reservacion_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param PoliticaReservacionRepository $politicaReservacionRepository
+     * @return JsonResponse
+     */
+    public function listarPoliticaReservacion(PoliticaReservacionRepository $politicaReservacionRepository)
+    {
+        try {
+            $result = $politicaReservacionRepository->listarPoliticaReservacion();
+            return $this->json(['messaje' => 'OK', 'data' => $result[0]]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 }
