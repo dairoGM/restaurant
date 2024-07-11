@@ -56,6 +56,10 @@ class MetodoPagoRepository extends ServiceEntityRepository
             ->select(
                 "qb.id, 
                         qb.nombre,
+                        qb.numeroTarjeta,
+                        qb.telefonoConfirmacion,
+                        qb.imagenQr,
+                        qb.linkPago,
                          t.nombre as nombreTipoMetodoPago,
                          tm.nombre as nombreTipoMoneda"
             )

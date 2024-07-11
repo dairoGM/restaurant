@@ -685,7 +685,15 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         try {
             $result = $metodoPagoRepository->listarMetodosPago(['activo' => true]);
-            return $this->json(['messaje' => 'OK', 'data' => $result]);
+            $response = [];
+            if (is_array($result)) {
+                foreach ($result as $value) {
+                    $value['imagenQr'] = !empty($value['imagenQr']) ? $this->baseUrl . '/uploads/images/metodo_pago/imagen_qr/' . $value['imagenQr'] : null;
+                    $response[] = $value;
+                }
+            }
+
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
