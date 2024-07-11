@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Restaurant\Contactenos;
 use App\Entity\Restaurant\Perfil;
+use App\Entity\Restaurant\Reservacion;
 use App\Entity\Security\User;
 use App\Form\Restaurant\ContactenosApiType;
 use App\Form\Restaurant\PerfilApiType;
@@ -233,6 +234,23 @@ class ApiServicesController extends AbstractController
                 return $this->json(['messaje' => 'OK', 'data' => count($response)]);
             }
             return $this->json(['messaje' => "Usuario requerido", 'data' => []], Response::HTTP_BAD_GATEWAY);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/reservaciones/cancelar/{id}", name="api_reservaciones_cancelar",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param ReservacionRepository $reservacionMesaRepository
+     * @return JsonResponse
+     */
+    public function cancelarReservacion(Reservacion $id, ReservacionRepository $reservacionMesaRepository)
+    {
+        try {
+            $id->setEstado('Cancelada');
+            $reservacionMesaRepository->edit($id, true);
+            return $this->json(['messaje' => 'OK', 'data' => []]);
         } catch (\Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
