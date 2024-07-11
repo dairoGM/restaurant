@@ -3,11 +3,14 @@
 namespace App\Controller\Api;
 
 use App\Entity\Restaurant\Contactenos;
+use App\Entity\Restaurant\Pago;
 use App\Entity\Restaurant\Perfil;
 use App\Entity\Restaurant\Reservacion;
 use App\Entity\Security\User;
 use App\Form\Restaurant\ContactenosApiType;
+use App\Form\Restaurant\PagoType;
 use App\Form\Restaurant\PerfilApiType;
+use App\Form\Restaurant\ReservacionType;
 use App\Repository\Configuracion\CateringRepository;
 use App\Repository\Configuracion\ConocenosRedesSocialesRepository;
 use App\Repository\Configuracion\ConocenosRepository;

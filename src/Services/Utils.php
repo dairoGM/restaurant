@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entity\Restaurant\Pago;
 use App\Entity\Restaurant\Reservacion;
 use App\Entity\Restaurant\ReservacionMesa;
 use App\Entity\Security\Rol;
@@ -511,8 +512,15 @@ class Utils
 
     public function generarIdentificadorReserva()
     {
-        $contador = count($this->em->getRepository(Reservacion::class)->findAll())+1;
-        $identificador = 'IV' . str_pad($contador, 5, '0', STR_PAD_LEFT);
+        $contador = count($this->em->getRepository(Reservacion::class)->findAll()) + 1;
+        $identificador = 'RS' . str_pad($contador, 5, '0', STR_PAD_LEFT);
+        return $identificador;
+    }
+
+    public function generarIdentificadorPago()
+    {
+        $contador = count($this->em->getRepository(Pago::class)->findAll()) + 1;
+        $identificador = 'PG' . str_pad($contador, 5, '0', STR_PAD_LEFT);
         return $identificador;
     }
 }
