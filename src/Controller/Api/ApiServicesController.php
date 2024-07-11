@@ -89,12 +89,62 @@ class ApiServicesController extends AbstractController
         }
     }
 
-
     /**
-     * @Route("/reservaciones/editar", name="api_reservaciones_editar",methods={"PUT", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/pago/crear", name="api_pago_crear",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
      * @param EntityManagerInterface $em
-     * @param ReservacionRepository $reservacionMesaRepository
+     * @param Utils $utils
+     * @return JsonResponse
+     */
+    public function crearPago(Request $request, EntityManagerInterface $em, Utils $utils, ReservacionRepository $reservacionRepository)
+    {
+        try {
+            $jsonParams = json_decode($request->getContent(), true);
+
+            if (isset($jsonParams['nombreCompleto']) && !empty($jsonParams['nombreCompleto']) &&
+                isset($jsonParams['alias']) && !empty($jsonParams['alias']) &&
+                isset($jsonParams['dni']) && !empty($jsonParams['dni']) &&
+                isset($jsonParams['celular']) && !empty($jsonParams['celular']) &&
+                isset($jsonParams['numeroTransferencia']) && !empty($jsonParams['numeroTransferencia']) &&
+                isset($jsonParams['metodoPago']) && !empty($jsonParams['metodoPago']) &&
+                isset($jsonParams['reservaciones']) && !empty($jsonParams['reservaciones'])) {
+
+                $pago = new Pago();
+                $form = $this->createForm(PagoType::class, $pago);
+                $form->submit($jsonParams);
+
+                if ($form->isSubmitted()) {
+                    $pago->setTicket($utils->generarIdentificadorPago());
+                    $em->persist($pago);
+                    $reservaciones = $jsonParams['reservaciones'];
+                    foreach ($reservaciones as $value) {
+                        $itemRes = $reservacionRepository->find($value);
+                        if (!empty($itemRes)) {
+                            $itemRes->setEstado('Activa');
+                            $itemRes->setMetodoPago($pago->getMetodoPago());
+                            $itemRes->setNombreCompleto($pago->getNombreCompleto());
+                            $itemRes->setNumeroTransferencia($pago->getNumeroTransferencia());
+                            $itemRes->setCelular($pago->getCelular());
+                            $itemRes->setDni($pago->getDni());
+                            $reservacionRepository->edit($itemRes, true);
+                        }
+                    }
+                    $em->flush();
+                    return $this->json(['messaje' => 'OK', 'data' => []]);
+                }
+                return $this->json(['messaje' => 'Formulario Inválido', 'data' => []], Response::HTTP_BAD_REQUEST);
+            }
+            return $this->json(['messaje' => 'Incorrect Parameter', 'data' => []], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+    /**
+     * @Route("/reservaciones/editar", name="api_reservaciones_editar",methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param ReservacionRepository $reservacionRepository
      * @return JsonResponse
      */
     public function editarReservacion(Request $request, EntityManagerInterface $em, ReservacionRepository $reservacionRepository)
