@@ -27,6 +27,18 @@
                     </div>
                 </div>
                 <div class="col-4 form-group">
+                    {{ form_label(form.tituloImagen) }}
+                    {{ form_widget(form.tituloImagen) }}
+                    {{ form_errors(form.tituloImagen) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.descripcionImagen) }}
+                    {{ form_widget(form.descripcionImagen) }}
+                    {{ form_errors(form.descripcionImagen) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 form-group">
                     <div class="row">
                         <div class="col-10">
                             {{ form_label(form.imagen2) }}
@@ -38,6 +50,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.tituloImagen2) }}
+                    {{ form_widget(form.tituloImagen2) }}
+                    {{ form_errors(form.tituloImagen2) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.descripcionImagen2) }}
+                    {{ form_widget(form.descripcionImagen2) }}
+                    {{ form_errors(form.descripcionImagen2) }}
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-4 form-group">
                     <div class="row">
                         <div class="col-10">
@@ -51,6 +75,18 @@
                     </div>
                 </div>
                 <div class="col-4 form-group">
+                    {{ form_label(form.tituloImagen3) }}
+                    {{ form_widget(form.tituloImagen3) }}
+                    {{ form_errors(form.tituloImagen3) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.descripcionImagen3) }}
+                    {{ form_widget(form.descripcionImagen3) }}
+                    {{ form_errors(form.descripcionImagen3) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 form-group">
                     <div class="row">
                         <div class="col-10">
                             {{ form_label(form.imagen4) }}
@@ -63,8 +99,21 @@
                     </div>
                 </div>
                 <div class="col-4 form-group">
+                    {{ form_label(form.tituloImagen4) }}
+                    {{ form_widget(form.tituloImagen4) }}
+                    {{ form_errors(form.tituloImagen4) }}
+                </div>
+                <div class="col-4 form-group">
+                    {{ form_label(form.descripcionImagen4) }}
+                    {{ form_widget(form.descripcionImagen4) }}
+                    {{ form_errors(form.descripcionImagen4) }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-4 form-group">
                     <div class="row">
-                        <div class="col-10">
+                        <div class="col-10 form-group">
                             {{ form_label(form.imagenFooter) }}
                             {{ form_widget(form.imagenFooter) }}
                             {{ form_errors(form.imagenFooter) }}
@@ -101,6 +150,219 @@
 
 {% block javascripts %}
     <script>
+        ClassicEditor.create(document.getElementById('portada_tituloImagen'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+
+        ClassicEditor.create(document.getElementById('portada_tituloImagen2'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+        ClassicEditor.create(document.getElementById('portada_tituloImagen3'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+        ClassicEditor.create(document.getElementById('portada_tituloImagen4'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+
+
+        ClassicEditor.create(document.getElementById('portada_descripcionImagen'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+
+        ClassicEditor.create(document.getElementById('portada_descripcionImagen2'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+        ClassicEditor.create(document.getElementById('portada_descripcionImagen3'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+        ClassicEditor.create(document.getElementById('portada_descripcionImagen4'), {
+            licenseKey: '',
+            image: {
+                toolbar: [
+                    'imageStyle:inline',
+                    'imageStyle:alignLeft',
+                    'imageStyle:alignRight',
+                    'imageStyle:alignCenter',
+                    'imageStyle:alignBlockLeft',
+                    'imageStyle:alignBlockRight',
+                    'imageStyle:block',
+                    'imageStyle:side',
+                    '|',
+                    'toggleImageCaption',
+                    'imageTextAlternative',
+                    '|',
+                    'linkImage']
+            },
+            readOnly: true
+        })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+
+            });
+
         ClassicEditor.create(document.getElementById('portada_descripcion'), {
             licenseKey: '',
             image: {
@@ -158,8 +420,6 @@
                 alert("Pls select only images");
             }
         });
-
-
         $("#portada_imagen2").on('change', function () {
             //Get count of selected files
             var countFiles = $(this)[0].files.length;

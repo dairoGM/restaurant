@@ -47,20 +47,55 @@ class Portada extends BaseEntity
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagen = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $tituloImagen;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $descripcionImagen;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagen2 = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $tituloImagen2;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $descripcionImagen2;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagen3 = null;
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $tituloImagen3;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $descripcionImagen3;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagen4 = null;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $tituloImagen4;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $descripcionImagen4;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -189,6 +224,134 @@ class Portada extends BaseEntity
     public function setImagenFooter($imagenFooter): void
     {
         $this->imagenFooter = $imagenFooter;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTituloImagen(): ?string
+    {
+        return $this->tituloImagen;
+    }
+
+    /**
+     * @param string|null $tituloImagen
+     */
+    public function setTituloImagen(?string $tituloImagen): void
+    {
+        $this->tituloImagen = $tituloImagen;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescripcionImagen(): ?string
+    {
+        return $this->descripcionImagen;
+    }
+
+    /**
+     * @param string|null $descripcionImagen
+     */
+    public function setDescripcionImagen(?string $descripcionImagen): void
+    {
+        $this->descripcionImagen = $descripcionImagen;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTituloImagen2(): ?string
+    {
+        return $this->tituloImagen2;
+    }
+
+    /**
+     * @param string|null $tituloImagen2
+     */
+    public function setTituloImagen2(?string $tituloImagen2): void
+    {
+        $this->tituloImagen2 = $tituloImagen2;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescripcionImagen2(): ?string
+    {
+        return $this->descripcionImagen2;
+    }
+
+    /**
+     * @param string|null $descripcionImagen2
+     */
+    public function setDescripcionImagen2(?string $descripcionImagen2): void
+    {
+        $this->descripcionImagen2 = $descripcionImagen2;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTituloImagen3(): ?string
+    {
+        return $this->tituloImagen3;
+    }
+
+    /**
+     * @param string|null $tituloImagen3
+     */
+    public function setTituloImagen3(?string $tituloImagen3): void
+    {
+        $this->tituloImagen3 = $tituloImagen3;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescripcionImagen3(): ?string
+    {
+        return $this->descripcionImagen3;
+    }
+
+    /**
+     * @param string|null $descripcionImagen3
+     */
+    public function setDescripcionImagen3(?string $descripcionImagen3): void
+    {
+        $this->descripcionImagen3 = $descripcionImagen3;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTituloImagen4(): ?string
+    {
+        return $this->tituloImagen4;
+    }
+
+    /**
+     * @param string|null $tituloImagen4
+     */
+    public function setTituloImagen4(?string $tituloImagen4): void
+    {
+        $this->tituloImagen4 = $tituloImagen4;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescripcionImagen4(): ?string
+    {
+        return $this->descripcionImagen4;
+    }
+
+    /**
+     * @param string|null $descripcionImagen4
+     */
+    public function setDescripcionImagen4(?string $descripcionImagen4): void
+    {
+        $this->descripcionImagen4 = $descripcionImagen4;
     }
 
 }

@@ -91,45 +91,24 @@ class ApiServicesController extends AbstractController
 
 
     /**
-     * @Route("/reservaciones/mesa/editar", name="api_reservaciones_mesa_editar",methods={"PUT", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/reservaciones/editar", name="api_reservaciones_editar",methods={"PUT", "OPTIONS"}, defaults={"_format":"json"})
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param ReservacionRepository $reservacionMesaRepository
      * @return JsonResponse
      */
-    public function editarMesa(Request $request, EntityManagerInterface $em, ReservacionRepository $reservacionMesaRepository)
+    public function editarReservacion(Request $request, EntityManagerInterface $em, ReservacionRepository $reservacionMesaRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
 
-            if (isset($jsonParams['id']) && !empty($jsonParams['id'])) {
-                $fechaReservacion = $jsonParams['fechaReservacion'] ?? null;
-                $cantidadPersona = $jsonParams['cantidadPersona'] ?? null;
-                $celular = $jsonParams['celular'] ?? null;
-                $dni = $jsonParams['dni'] ?? null;
+            if (isset($jsonParams['id']) && !empty($jsonParams['id']) &&
+                isset($jsonParams['cantidad']) && !empty($jsonParams['cantidad'])) {
+
+                $cantidad = $jsonParams['cantidad'];
 
                 $reservacionMesa = $reservacionMesaRepository->find($jsonParams['id']);
-                if (!empty($celular)) {
-                    $reservacionMesa->setCelular($celular);
-                }
-                if (!empty($dni)) {
-                    $reservacionMesa->setDni($dni);
-                }
 
-                if (!empty($fechaReservacion)) {
-                    $reservaciones = $reservacionMesaRepository->getCantidadReservaciones($fechaReservacion, $reservacionMesa->getEspacio()->getId());
-                    $disponibilidadEspacio = $reservacionMesa->getEspacio()->getCantidadMesa();
-                    if (($disponibilidadEspacio - $reservaciones) > 0) {
-                        $reservacionMesa->setFechaReservacion(\DateTime::createFromFormat('Y-m-d H:i:s', $fechaReservacion));
-                    }
-                }
-                if (!empty($cantidadPersona)) {
-                    $reservaciones = $reservacionMesaRepository->getCantidadReservaciones($reservacionMesa->getFechaReservacion()->format('Y-m-d'), $reservacionMesa->getEspacio()->getId());
-                    $disponibilidadEspacio = $reservacionMesa->getEspacio()->getCantidadMesa();
-                    if (($disponibilidadEspacio - ($reservaciones + $cantidadPersona)) >= 0) {
-                        $reservacionMesa->setCantidadPersona($cantidadPersona);
-                    }
-                }
                 $em->persist($reservacionMesa);
                 $em->flush();
                 return $this->json(['messaje' => 'OK', 'data' => []]);

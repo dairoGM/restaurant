@@ -38,32 +38,63 @@ class PortadaType extends AbstractType
                 "attr" => array("type" => "file"),
                 "required" => false,
                 "mapped" => false,
-
             ))
+            ->add('tituloImagen', TextareaType::class, [
+                'label' => 'Título',
+                'required' => false,
+            ])
+            ->add('descripcionImagen', TextareaType::class, [
+                'label' => 'Descripción',
+                'required' => false,
+            ])
             ->add('imagen2', FileType::class, array(
                 "attr" => array("type" => "file"),
                 "required" => false,
                 "mapped" => false,
 
             ))
+            ->add('tituloImagen2', TextareaType::class, [
+                'label' => 'Título',
+                'required' => false,
+            ])
+            ->add('descripcionImagen2', TextareaType::class, [
+                'label' => 'Descripción',
+                'required' => false,
+            ])
             ->add('imagen3', FileType::class, array(
                 "attr" => array("type" => "file"),
                 "required" => false,
                 "mapped" => false,
 
             ))
+            ->add('tituloImagen3', TextareaType::class, [
+                'label' => 'Título',
+                'required' => false,
+            ])
+            ->add('descripcionImagen3', TextareaType::class, [
+                'label' => 'Descripción',
+                'required' => false,
+            ])
             ->add('imagen4', FileType::class, array(
                 "attr" => array("type" => "file"),
                 "required" => false,
                 "mapped" => false,
 
-            ))  ->add('imagenFooter', FileType::class, array(
+            ))
+            ->add('tituloImagen4', TextareaType::class, [
+                'label' => 'Título',
+                'required' => false,
+            ])
+            ->add('descripcionImagen4', TextareaType::class, [
+                'label' => 'Descripción',
+                'required' => false,
+            ])
+            ->add('imagenFooter', FileType::class, array(
                 "attr" => array("type" => "file"),
                 "required" => false,
                 "mapped" => false,
 
-            ))
-        ;
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
