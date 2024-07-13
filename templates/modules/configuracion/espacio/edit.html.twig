@@ -88,23 +88,9 @@
                 </div>
 
                 <div class="col-4 form-group">
-                    <div class="row">
-                        <div class="col-10">
-                            {{ form_label(form.imagenMovil) }}
-                            {{ form_widget(form.imagenMovil) }}
-                            {{ form_errors(form.imagenMovil) }}
-                        </div>
-                        <div class="col-2">
-                            <div id="image-holder3"></div>
-
-                            {% if espacio.imagenMovil != null %}
-                                <img src="{{ app.request.getSchemeAndHttpHost() }}/uploads/video/espacio/reel/{{ espacio.imagenMovil }}"
-                                     class="img-circle imgp" alt="Imagen móvil"
-                                     style="width: 40px; height: 40px; position: absolute; bottom: 0;">
-                            {% endif %}
-                        </div>
-                    </div>
-
+                    {{ form_label(form.codigoReel) }}
+                    {{ form_widget(form.codigoReel) }}
+                    {{ form_errors(form.codigoReel) }}
                 </div>
 
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">

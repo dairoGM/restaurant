@@ -66,7 +66,7 @@ class EspacioRepository extends ServiceEntityRepository
                         qb.cantidadMesa,                                           
                         qb.descripcion,
                          qb.imagenPortada, 
-                         qb.imagenMovil, 
+                         qb.codigoReel, 
                          qb.imagenBanner, 
                          qb.imagenDetallada"
             );

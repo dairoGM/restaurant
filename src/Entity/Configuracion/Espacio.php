@@ -44,7 +44,10 @@ class Espacio extends BaseEntity
      */
     private ?string $descripcion;
 
-
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $codigoReel;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -53,10 +56,7 @@ class Espacio extends BaseEntity
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $imagenDetallada = null;
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $imagenMovil = null;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -246,21 +246,6 @@ class Espacio extends BaseEntity
         $this->categoria = $categoria;
     }
 
-    /**
-     * @return null
-     */
-    public function getImagenMovil()
-    {
-        return $this->imagenMovil;
-    }
-
-    /**
-     * @param null $imagenMovil
-     */
-    public function setImagenMovil($imagenMovil): void
-    {
-        $this->imagenMovil = $imagenMovil;
-    }
 
     /**
      * @return null
@@ -292,6 +277,22 @@ class Espacio extends BaseEntity
     public function setReservar(?bool $reservar): void
     {
         $this->reservar = $reservar;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCodigoReel(): ?string
+    {
+        return $this->codigoReel;
+    }
+
+    /**
+     * @param string|null $codigoReel
+     */
+    public function setCodigoReel(?string $codigoReel): void
+    {
+        $this->codigoReel = $codigoReel;
     }
 
 

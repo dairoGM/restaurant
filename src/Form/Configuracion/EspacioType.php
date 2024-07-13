@@ -73,11 +73,9 @@ class EspacioType extends AbstractType
                 "mapped" => false,
 
             ))
-            ->add('imagenMovil', FileType::class, array(
-                'label' => 'Reel',
-                "attr" => array("type" => "file"),
-                "required" => false,
-                "mapped" => false,
+            ->add('codigoReel', TextareaType::class, array(
+                'label' => 'Código del reel',
+                "required" => false
 
             ))
             ->add('imagenDetallada', FileType::class, array(

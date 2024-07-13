@@ -77,13 +77,13 @@ class EspacioController extends AbstractController
                     $entidad->setImagenBanner($file_name);
                     $file->move("uploads/images/espacio/imagenBanner", $file_name);
                 }
-                if (!empty($form['imagenMovil']->getData())) {
-                    $file = $form['imagenMovil']->getData();
-                    $ext = $file->guessExtension();
-                    $file_name = md5(uniqid()) . "." . $ext;
-                    $entidad->setImagenMovil($file_name);
-                    $file->move("uploads/video/espacio/reel", $file_name);
-                }
+//                if (!empty($form['imagenMovil']->getData())) {
+//                    $file = $form['imagenMovil']->getData();
+//                    $ext = $file->guessExtension();
+//                    $file_name = md5(uniqid()) . "." . $ext;
+//                    $entidad->setImagenMovil($file_name);
+//                    $file->move("uploads/video/espacio/reel", $file_name);
+//                }
                 $espacioRepository->add($entidad, true);
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
                 return $this->redirectToRoute('app_espacio_index', [], Response::HTTP_SEE_OTHER);
@@ -143,19 +143,19 @@ class EspacioController extends AbstractController
                 }
 
 
-                if (!empty($form['imagenMovil']->getData())) {
-                    if ($espacio->getImagenMovil() != null) {
-                        if (file_exists('uploads/video/espacio/reel/' . $espacio->getImagenMovil())) {
-                            unlink('uploads/video/espacio/reel/' . $espacio->getImagenMovil());
-                        }
-                    }
-
-                    $file = $form['imagenMovil']->getData();
-                    $ext = $file->guessExtension();
-                    $file_name = md5(uniqid()) . "." . $ext;
-                    $espacio->setImagenMovil($file_name);
-                    $file->move("uploads/video/espacio/reel", $file_name);
-                }
+//                if (!empty($form['imagenMovil']->getData())) {
+//                    if ($espacio->getImagenMovil() != null) {
+//                        if (file_exists('uploads/video/espacio/reel/' . $espacio->getImagenMovil())) {
+//                            unlink('uploads/video/espacio/reel/' . $espacio->getImagenMovil());
+//                        }
+//                    }
+//
+//                    $file = $form['imagenMovil']->getData();
+//                    $ext = $file->guessExtension();
+//                    $file_name = md5(uniqid()) . "." . $ext;
+//                    $espacio->setImagenMovil($file_name);
+//                    $file->move("uploads/video/espacio/reel", $file_name);
+//                }
 
                 if (!empty($form['imagenBanner']->getData())) {
                     if ($espacio->getImagenBanner() != null) {
