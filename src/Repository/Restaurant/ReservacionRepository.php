@@ -60,8 +60,7 @@ class ReservacionRepository extends ServiceEntityRepository
         if (!empty($espacioId)) {
             $query->where("e.id = $espacioId");
         }
-        $query->andWhere('qb.fechaReservacion LIKE :val');
-        $query->setParameter('val', '%' . $fecha . '%');
+        $query->andWhere('qb.fechaReservacion LIKE :val')->setParameter('val', '%' . $fecha . '%');
 
         $result = $query->getQuery()->getResult(1);
         return $result[0]['total'] ?? 0;
@@ -69,14 +68,15 @@ class ReservacionRepository extends ServiceEntityRepository
 
     public function getReservaciones($email = null)
     {
+        $where = "qb.estado <> 'Prereserva'";
         $query = $this->createQueryBuilder('qb')
             ->select(
                 "qb.id,
                  qb.nombreCompleto, 
                  qb.celular,  
                  qb.ticket, 
-                 qb.cantidadPersona,
-                 qb.cantidad,
+                 qb.tipo,
+                 case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
@@ -94,8 +94,9 @@ class ReservacionRepository extends ServiceEntityRepository
             ->leftJoin('qb.metodoPago', 'mp')
             ->join('qb.perfil', 'p');
         if (!empty($email)) {
-            $query->where("p.email = '$email'");
+            $where .= " AND p.email = '$email'";
         }
+        $query->where($where);
         $query->orderBy('qb.id', 'desc');
         $result = $query->getQuery()->getResult();
         return $result;
@@ -144,7 +145,8 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.nombreCompleto, 
                  qb.celular,  
                  qb.ticket, 
-                 qb.cantidadPersona,
+                 qb.tipo,
+                 case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 

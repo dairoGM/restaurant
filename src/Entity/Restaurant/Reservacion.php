@@ -74,6 +74,10 @@ class Reservacion extends BaseEntity
      * @ORM\Column(type="string", nullable=false)
      */
     private ?string $estado = null;
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private ?string $tipo = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -419,6 +423,22 @@ class Reservacion extends BaseEntity
     public function setIdReservaMesa(?Reservacion $idReservaMesa): void
     {
         $this->idReservaMesa = $idReservaMesa;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTipo(): ?string
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * @param string|null $tipo
+     */
+    public function setTipo(?string $tipo): void
+    {
+        $this->tipo = $tipo;
     }
 
 

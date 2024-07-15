@@ -533,7 +533,7 @@ class ApiWithoutAuthorizationController extends AbstractController
             $jsonParams = json_decode($request->getContent(), true);
 
             if (isset($jsonParams['email']) && !empty($jsonParams['email'])) {
-
+                $tipo = 'por_mesa';
                 $cantidadPersonas = $jsonParams['cantidadPersona'] ?? null;
                 $espacio = $jsonParams['espacio'] ?? null;
                 $fechaReservacion = $jsonParams['fechaReservacion'] ?? null;
@@ -543,6 +543,9 @@ class ApiWithoutAuthorizationController extends AbstractController
                 $idReservaMesa = $jsonParams['idReservaMesa'] ?? null;//la reserva de la mesa a la que se asociaria el plato
                 $entidadPlato = null;
 
+                if (isset($jsonParams['plato']) && !empty($jsonParams['plato'])) {
+                    $tipo = 'por_plato';
+                }
                 if (!empty($cantidadPersonas)) {
                     $precioUsd = intval($cantidadPersonas) * 50;
                 }
@@ -618,6 +621,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                         $reservacion->setEspacio($espacio);
                         $reservacion->setPlato($entidadPlato);
                         $reservacion->setEstado('Prereserva');
+                        $reservacion->setTipo($tipo);
                         $reservacion->setFechaReservacion($fecha);
                         $reservacion->setHoraInicio($horaInicio);
                         $reservacion->setPrecioUsd($precioUsd);
