@@ -166,6 +166,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  p.email"
             )
             ->leftJoin('qb.espacio', 'e')
+            ->leftJoin('qb.plato', 'pl')
             ->leftJoin('qb.metodoPago', 'mp')
             ->leftJoin('qb.perfil', 'p');
         $query->where("p.email = '$email'");
@@ -198,7 +199,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  e.id as idEspacio,
                  pl.nombre as nombrePlato, 
                  pl.id as idPlato,
-                 p.email"
+                 p.email    "
             )
             ->join('qb.espacio', 'e')
             ->leftJoin('qb.metodoPago', 'mp')
