@@ -85,7 +85,8 @@
                                         class="fa fa-edit"></i>
                             </a>
                             {% if '1' == item.activo %}
-                                <button title="{% if '1' == item.publico %} Ocultar {% else %} Publicar {% endif %}" class="{% if '0' == item.publico %} btn btn-outline-primary {% else %} btn btn-outline-secondary {% endif %} elementRemove"
+                                <button title="{% if '1' == item.publico %} Ocultar {% else %} Publicar {% endif %}"
+                                        class="{% if '0' == item.publico %} btn btn-outline-primary {% else %} btn btn-outline-secondary {% endif %} elementRemove"
                                         data-url="{{ path('app_espacio_publicar', {'id': item.id}) }}">
                                     <i class="fa fa-check-circle"></i>
                                 </button>
@@ -97,6 +98,10 @@
                             <a title="Asociar comentarios" class="btn btn-outline-primary"
                                href="{{ path('app_espacio_asociar_comentario', {'id': item.id}) }}"><i
                                         class="fas fa-address-card"></i>
+                            </a>
+                            <a title="Configurar galería" class="btn btn-outline-primary"
+                               href="{{ path('app_espacio_asociar_galeria', {'id': item.id}) }}"><i
+                                        class="fas fa-images"></i>
                             </a>
                             <button title="Eliminar" class="btn btn-outline-danger elementRemove"
                                     data-url="{{ path('app_espacio_eliminar', {'id': item.id}) }}">

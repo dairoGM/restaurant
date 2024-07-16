@@ -7,6 +7,7 @@ use App\Entity\Configuracion\ComentarioEspacio;
 use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\EspacioRedesSociales;
 use App\Form\Configuracion\ComentarioEspacioType;
+use App\Form\Configuracion\EspacioGaleriaType;
 use App\Form\Configuracion\EspacioType;
 use App\Repository\Configuracion\ComentarioEspacioRepository;
 use App\Repository\Configuracion\EspacioRedesSocialesRepository;
@@ -369,5 +370,75 @@ class EspacioController extends AbstractController
         return $this->render('modules/configuracion/espacio/detail.html.twig', [
             'item' => $espacio,
         ]);
+    }
+
+
+    /**
+     * @Route("/{id}/galeria", name="app_espacio_asociar_galeria", methods={"GET", "POST"})
+     * @param Request $request
+     * @param Espacio $espacio
+     * @param EspacioRepository $espacioRepository
+     * @return Response
+     */
+    public function galeria(Request $request, Espacio $espacio, EspacioRepository $espacioRepository)
+    {
+        try {
+            $form = $this->createForm(EspacioGaleriaType::class, $espacio, ['action' => 'modificar']);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $gallery = json_decode($espacio->getGaleria());
+                if (!empty($form['galeria']->getData())) {
+                    foreach ($form['galeria']->getData() as $key => $val) {
+                        $file = $val;
+                        $ext = $file->guessExtension();
+                        $file_name = md5(uniqid()) . "." . $ext;
+                        $gallery[] = $file_name;
+                        $file->move("uploads/images/espacio/galeria", $file_name);
+                    }
+                }
+                $espacio->setGaleria(json_encode($gallery));
+                $espacioRepository->edit($espacio, true);
+                $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
+                return $this->redirectToRoute('app_espacio_asociar_galeria', ['id' => $espacio->getId()], Response::HTTP_SEE_OTHER);
+            }
+            return $this->render('modules/configuracion/espacio/galeria.html.twig', [
+                'form' => $form->createView(),
+                'espacio' => $espacio,
+                'imagenes' => json_decode($espacio->getGaleria(), true)
+            ]);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_espacio_asociar_galeria', ['id' => $espacio->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/eliminar-imagen/{id}/{imagen}", name="app_espacio_eliminar_imagen", methods={"GET"})
+     * @param Espacio $id
+     * @param $imagen
+     * @param EspacioRepository $espacioRepository
+     * @return Response
+     */
+    public function eliminarImagen(Espacio $id, $imagen, EspacioRepository $espacioRepository)
+    {
+        try {
+            $galeria = json_decode($id->getGaleria());
+            $nuevaGaleria = [];
+            if (is_array($galeria)) {
+                foreach ($galeria as $value) {
+                    $img = explode(".", $value);
+                    if ($img[0] != $imagen) {
+                        $nuevaGaleria[] = $value;
+                    }
+                }
+            }
+            $id->setGaleria(json_encode($nuevaGaleria));
+            $espacioRepository->edit($id, true);
+            return $this->redirectToRoute('app_espacio_asociar_galeria', ['id' => $id->getId()], Response::HTTP_SEE_OTHER);
+
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_espacio_asociar_comentario', ['id' => $id->getEspacio()->getId()], Response::HTTP_SEE_OTHER);
+        }
     }
 }

@@ -417,17 +417,21 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $value['imagenPortada'] = !empty($value['imagenPortada']) ? $this->baseUrl . '/uploads/images/espacio/imagenPortada/' . $value['imagenPortada'] : null;
                     $value['imagenDetallada'] = !empty($value['imagenDetallada']) ? $this->baseUrl . '/uploads/images/espacio/imagenDetallada/' . $value['imagenDetallada'] : null;
                     $value['imagenBanner'] = !empty($value['imagenBanner']) ? $this->baseUrl . '/uploads/images/espacio/imagenBanner/' . $value['imagenBanner'] : null;
-//                    $value['reel'] = !empty($value['imagenMovil']) ? $this->baseUrl . '/uploads/video/espacio/reel/' . $value['imagenMovil'] : null;
-//                    unset($value['imagenMovil']);
                     $value['redesSociales'] = $espacioRedesSocialesRepository->listarRedesSocialesEspacios(['e.id' => $value['id']]);
-
                     $comentarios = $comentarioEspacioRepository->listarComentariosEspacios(['e.id' => $value['id']]);
                     $comentariosAsignados = [];
                     foreach ($comentarios as $v) {
                         $v['imagen'] = !empty($v['imagen']) ? $this->baseUrl . "/uploads/images/espacio/comentario/imagen/" . $v['imagen'] : null;
                         $comentariosAsignados[] = $v;
                     }
-
+                    $temp = json_decode($value['galeria'], true);
+                    $galeria = [];
+                    if (is_array($temp)) {
+                        foreach ($temp as $gal) {
+                            $galeria[] = $this->baseUrl . "/uploads/images/espacio/galeria/" . $gal;
+                        }
+                    }
+                    $value['galeria'] = $galeria;
                     $value['comentarios'] = $comentariosAsignados;
                     $response[] = $value;
                 }

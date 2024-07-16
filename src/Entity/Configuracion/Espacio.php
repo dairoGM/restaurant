@@ -87,6 +87,11 @@ class Espacio extends BaseEntity
     private ?int $cantidadMesa;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $galeria = null;
+
+    /**
      * @return string|null
      */
     public function getNombreCorto(): ?string
@@ -293,6 +298,22 @@ class Espacio extends BaseEntity
     public function setCodigoReel(?string $codigoReel): void
     {
         $this->codigoReel = $codigoReel;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGaleria(): ?string
+    {
+        return $this->galeria;
+    }
+
+    /**
+     * @param string|null $galeria
+     */
+    public function setGaleria(?string $galeria): void
+    {
+        $this->galeria = $galeria;
     }
 
 

@@ -63,6 +63,7 @@ class EspacioRepository extends ServiceEntityRepository
                         qb.activo,                                           
                         qb.reservar,                                           
                         qb.publico,                                           
+                        qb.galeria,                                           
                         qb.cantidadMesa,                                           
                         qb.descripcion,
                          qb.imagenPortada, 
