@@ -86,7 +86,9 @@ class ReservacionRepository extends ServiceEntityRepository
                  mp.nombre as nombreMetodoPago,
                  qb.horaFin,                  
                  e.nombreCorto as nombreCortoEspacio, 
+                 e.id as idEspacio,
                  pl.nombre as nombrePlato, 
+                 pl.id as idPlato,
                  p.email"
             )
             ->leftJoin('qb.espacio', 'e')
@@ -110,8 +112,8 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.nombreCompleto, 
                  qb.celular,  
                  qb.ticket, 
-                 qb.cantidadPersona,
-                 qb.cantidad,
+                 qb.tipo,
+                 case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
@@ -121,7 +123,9 @@ class ReservacionRepository extends ServiceEntityRepository
                  mp.nombre as nombreMetodoPago,
                  qb.horaFin,                  
                  e.nombreCorto as nombreCortoEspacio, 
+                 e.id as idEspacio,
                  pl.nombre as nombrePlato, 
+                 pl.id as idPlato,
                  p.email"
             )
             ->leftJoin('qb.espacio', 'e')
@@ -155,7 +159,10 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.horaInicio, 
                  mp.nombre as nombreMetodoPago,
                  qb.horaFin,                  
-                 e.nombreCorto as nombreCorteEspacio, 
+                 e.nombreCorto as nombreCortoEspacio, 
+                 e.id as idEspacio,
+                 pl.nombre as nombrePlato, 
+                 pl.id as idPlato,
                  p.email"
             )
             ->leftJoin('qb.espacio', 'e')
@@ -177,7 +184,8 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.nombreCompleto, 
                  qb.celular,  
                  qb.ticket, 
-                 qb.cantidadPersona,
+                 qb.tipo,
+                 case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
@@ -186,7 +194,10 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.horaInicio, 
                  mp.nombre as nombreMetodoPago,
                  qb.horaFin,                  
-                 e.nombreCorto as nombreCorteEspacio, 
+                 e.nombreCorto as nombreCortoEspacio, 
+                 e.id as idEspacio,
+                 pl.nombre as nombrePlato, 
+                 pl.id as idPlato,
                  p.email"
             )
             ->join('qb.espacio', 'e')
