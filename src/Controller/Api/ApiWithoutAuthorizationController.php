@@ -509,7 +509,7 @@ class ApiWithoutAuthorizationController extends AbstractController
             if (is_array($result)) {
                 foreach ($result as $value) {
                     $value['redes_sociales'] = $conocenosRedesSocialesRepository->listarRedesSocialesEspacios(['c.id' => $value['id']]);
-                    $value['imagen'] = !empty($value['imagenPortada']) ? $this->baseUrl . '/uploads/images/conocenos/imagen/' . $value['imagen'] : null;
+                    $value['imagen'] = !empty($value['imagen']) ? $this->baseUrl . '/uploads/images/conocenos/imagen/' . $value['imagen'] : null;
                     $response[] = $value;
                 }
             }
