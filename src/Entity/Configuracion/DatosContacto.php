@@ -30,6 +30,10 @@ class DatosContacto
      * @ORM\Column(type="string")
      */
     private $correo;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $direccionPostal;
 
     /**
      * @return int|null
@@ -93,6 +97,22 @@ class DatosContacto
     public function setCorreo($correo): void
     {
         $this->correo = $correo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDireccionPostal()
+    {
+        return $this->direccionPostal;
+    }
+
+    /**
+     * @param mixed $direccionPostal
+     */
+    public function setDireccionPostal($direccionPostal): void
+    {
+        $this->direccionPostal = $direccionPostal;
     }
 
 
