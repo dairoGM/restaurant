@@ -34,6 +34,10 @@ class DatosContacto
      * @ORM\Column(type="string")
      */
     private $direccionPostal;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $urlGoogle;
 
     /**
      * @return int|null
@@ -113,6 +117,22 @@ class DatosContacto
     public function setDireccionPostal($direccionPostal): void
     {
         $this->direccionPostal = $direccionPostal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrlGoogle()
+    {
+        return $this->urlGoogle;
+    }
+
+    /**
+     * @param mixed $urlGoogle
+     */
+    public function setUrlGoogle($urlGoogle): void
+    {
+        $this->urlGoogle = $urlGoogle;
     }
 
 

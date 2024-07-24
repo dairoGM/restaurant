@@ -18,6 +18,7 @@
                     <th>Teléfono</th>
                     <th>Teléfono celular</th>
                     <th>Dirección postal</th>
+                    <th>Url Google</th>
                     <th>Correo</th>
                 </tr>
                 </thead>
@@ -33,6 +34,9 @@
                         <td><input style="width: 90%" class="form-control" type="text"
                                    id="dc_direccionPostal_{{ item.id }}"
                                    name="dc_direccionPostal_{{ item.id }}" value="{{ item.direccionPostal }}"></td>
+                        <td><input style="width: 90%" class="form-control" type="text"
+                                   id="dc_urlGoogle_{{ item.id }}"
+                                   name="dc_urlGoogle_{{ item.id }}" value="{{ item.urlGoogle }}"></td>
                         <td><input style="width: 90%" class="form-control" type="email" id="dc_correo_{{ item.id }}"
                                    name="dc_correo_{{ item.id }}" value="{{ item.correo }}"></td>
                     </tr>
