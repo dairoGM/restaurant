@@ -206,6 +206,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  p.email    "
             )
             ->join('qb.espacio', 'e')
+            ->join('qb.plato', 'pl')
             ->leftJoin('qb.metodoPago', 'mp')
             ->leftJoin('qb.perfil', 'p')
             ->where("p.email = '$email' and e.id is not null");
