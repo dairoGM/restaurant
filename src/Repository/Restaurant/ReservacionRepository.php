@@ -115,7 +115,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.ticket, 
                  qb.tipo,
                  case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
-                 case when qb.tipo='por_mesa' then qb.cantidadPersona*50 else  qb.cantidad*pl.recio end as precio,
+                 case when qb.tipo='por_mesa' then qb.cantidadPersona*50 else  qb.cantidad*pl.precio end as precio,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
