@@ -31,7 +31,7 @@
                     <th>Método de pago</th>
                     <th>No. de transferencia</th>
                     <th>Estado</th>
-                    <th class="text-center">Opciones</th>
+{#                    <th class="text-center">Opciones</th>#}
                 </tr>
                 </thead>
                 <tbody>
@@ -67,12 +67,12 @@
                                 <span class="ms-status bg-gradient-green">{{ item.estado }}</span>
                             {% endif %}
                         </td>
-                        <td class="text-center" width="10%">
-                            <button title="Eliminar" class="btn btn-outline-danger elementRemove"
-                                    data-url="{{ path('app_reservacion_mesa_eliminar', {'id': item.id}) }}">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
+{#                        <td class="text-center" width="10%">#}
+{#                            <button title="Eliminar" class="btn btn-outline-danger elementRemove"#}
+{#                                    data-url="{{ path('app_reservacion_mesa_eliminar', {'id': item.id}) }}">#}
+{#                                <i class="fa fa-trash"></i>#}
+{#                            </button>#}
+{#                        </td>#}
                     </tr>
                 {% endfor %}
                 </tbody>
