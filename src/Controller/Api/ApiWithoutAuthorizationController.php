@@ -134,6 +134,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                 foreach ($result as $value) {
                     $value['imagenPortada'] = !empty($value['imagenPortada']) ? $this->baseUrl . "/uploads/images/servicio/imagenPortada/" . $value['imagenPortada'] : null;
                     $value['imagenDetallada'] = !empty($value['imagenDetallada']) ? $this->baseUrl . "/uploads/images/servicio/imagenDetallada/" . $value['imagenDetallada'] : null;
+                    $value['imagenMenu'] = !empty($value['imagenMenu']) ? $this->baseUrl . "/uploads/images/servicio/imagenMenu/" . $value['imagenMenu'] : null;
                     $seccion = $seccionServicioRepository->listarSeccionServicio(['s.id' => $value['id']]);
                     $seccionAss = [];
                     foreach ($seccion as $v) {

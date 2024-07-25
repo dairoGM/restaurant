@@ -44,7 +44,13 @@
                 <img src="{% if item.imagenDetallada != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenDetallada/{{ item.imagenDetallada }}{% else %} /assets/images/usuario.png {% endif %}"
                      class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
             </a></h5>
-        <h5 class="mb-0"><b>Imagen móvil:</b></h5>
+        <h5 class="mb-0"><b>Imagen menu:</b></h5>
+        <h5 class="mb-0"><a
+                    href="{% if item.imagenMenu != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenMenu/{{ item.imagenMenu }} {% else %} /assets/images/usuario.png {% endif %}"
+                    target="_blank">
+                <img src="{% if item.imagenMenu != null %}{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenMenu/{{ item.imagenMenu }}{% else %} /assets/images/usuario.png {% endif %}"
+                     class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
+            </a></h5>
         <h5 class="mb-0"><b>Código reel:</b> {{ item.codigoReel | default('') }}</h5>
     </div>
 </div>

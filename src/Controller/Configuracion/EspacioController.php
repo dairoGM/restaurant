@@ -63,7 +63,13 @@ class EspacioController extends AbstractController
                     $entidad->setImagenPortada($file_name);
                     $file->move("uploads/images/espacio/imagenPortada", $file_name);
                 }
-
+                if (!empty($form['imagenMenu']->getData())) {
+                    $file = $form['imagenMenu']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setImagenMenu($file_name);
+                    $file->move("uploads/images/espacio/imagenMenu", $file_name);
+                }
                 if (!empty($form['imagenDetallada']->getData())) {
                     $file = $form['imagenDetallada']->getData();
                     $ext = $file->guessExtension();
@@ -127,6 +133,19 @@ class EspacioController extends AbstractController
                     $file_name = md5(uniqid()) . "." . $ext;
                     $espacio->setImagenPortada($file_name);
                     $file->move("uploads/images/espacio/imagenPortada", $file_name);
+                }
+                if (!empty($form['imagenMenu']->getData())) {
+                    if ($espacio->getImagenMenu() != null) {
+                        if (file_exists('uploads/images/espacio/imagenMenu/' . $espacio->getImagenMenu())) {
+                            unlink('uploads/images/espacio/imagenMenu/' . $espacio->getImagenMenu());
+                        }
+                    }
+
+                    $file = $form['imagenMenu']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagenMenu($file_name);
+                    $file->move("uploads/images/espacio/imagenMenu", $file_name);
                 }
 
                 if (!empty($form['imagenDetallada']->getData())) {

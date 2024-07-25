@@ -83,6 +83,11 @@ class EspacioType extends AbstractType
                 "required" => false,
                 "mapped" => false,
 
+            ))->add('imagenMenu', FileType::class, array(
+                "attr" => array("type" => "file"),
+                "required" => false,
+                "mapped" => false,
+
             ));
     }
 

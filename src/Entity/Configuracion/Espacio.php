@@ -62,6 +62,10 @@ class Espacio extends BaseEntity
      */
     private $imagenBanner = null;
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagenMenu = null;
+    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private ?bool $activo = true;
@@ -314,6 +318,22 @@ class Espacio extends BaseEntity
     public function setGaleria(?string $galeria): void
     {
         $this->galeria = $galeria;
+    }
+
+    /**
+     * @return null
+     */
+    public function getImagenMenu()
+    {
+        return $this->imagenMenu;
+    }
+
+    /**
+     * @param null $imagenMenu
+     */
+    public function setImagenMenu($imagenMenu): void
+    {
+        $this->imagenMenu = $imagenMenu;
     }
 
 

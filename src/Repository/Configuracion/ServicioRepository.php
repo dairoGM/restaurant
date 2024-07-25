@@ -67,6 +67,7 @@ class ServicioRepository extends ServiceEntityRepository
                         qb.publico,                                           
                         qb.descripcion,
                          qb.imagenPortada, 
+                         qb.imagenMenu, 
                          qb.imagenDetallada,
                          ts.id as idTipoServicio,
                          ts.nombre as nombreTipoServicio
