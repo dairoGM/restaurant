@@ -218,10 +218,11 @@ class EspacioController extends AbstractController
             $arrayAsignadas = [];
             if (is_array($redesAsignadas)) {
                 foreach ($redesAsignadas as $value) {
-                    $arrayAsignadas[$value->getRedSocial()->getId()] = $value->getEnlace();
+                    $arrayAsignadas[$value->getRedSocial()->getId()]['enlace'] = $value->getEnlace();
+                    $arrayAsignadas[$value->getRedSocial()->getId()]['nombreCorto'] = $value->getNombreCorto();
                 }
             }
-
+//pr($arrayAsignadas);
             return $this->render('modules/configuracion/espacio/configurarRedesSociales.html.twig', [
                 'espacio' => $espacio,
                 'redesSociales' => $redSocialRepository->findBy(['activo' => true], ['id' => 'asc']),
@@ -253,7 +254,6 @@ class EspacioController extends AbstractController
                             unlink('uploads/images/espacio/comentario/imagen/' . $comentarioEspacio->getImagen());
                         }
                     }
-
                     $file = $form['imagen']->getData();
                     $ext = $file->guessExtension();
                     $file_name = md5(uniqid()) . "." . $ext;
@@ -319,7 +319,8 @@ class EspacioController extends AbstractController
                 $new = $exist[0];
                 $isNew = false;
             }
-            $new->setEnlace($allPost['valor']);
+            $fieldToUpdate = 'set' . ucwords($allPost['campo']);
+            $new->$fieldToUpdate($allPost['valor']);
             $new->setEspacio($espacioRepository->find($allPost['idEspacio']));
             $new->setRedSocial($redSocialRepository->find($allPost['idRedSocial']));
             if ($isNew) {

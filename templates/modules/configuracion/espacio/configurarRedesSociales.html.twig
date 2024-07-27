@@ -38,6 +38,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre</th>
+                    <th>Nombre corto</th>
                     <th>Enlace</th>
                 </tr>
                 </thead>
@@ -46,8 +47,12 @@
                     <tr>
                         <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.nombre }}</td>
+                        <td><input style="width: 95%" class="form-control" type="tel" id="rs_nombreCorto_{{ item.id }}"
+                                   name="rs_nombreCorto_{{ item.id }}" value="{{redesSocialesAsignadas[item.id]['nombreCorto'] | default('') }}">
+                        </td>
                         <td><input style="width: 95%" class="form-control" type="tel" id="rs_enlace_{{ item.id }}"
-                                   name="rs_enlace_{{ item.id }}" value="{{redesSocialesAsignadas[item.id] | default('') }}"></td>
+                                   name="rs_enlace_{{ item.id }}" value="{{redesSocialesAsignadas[item.id]['enlace'] | default('') }}">
+                        </td>
 
                     </tr>
                 {% endfor %}

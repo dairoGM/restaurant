@@ -34,6 +34,10 @@ class EspacioRedesSociales extends BaseEntity
      * @ORM\Column(type="string", nullable=true)
      */
     protected $enlace;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $nombreCorto;
 
     /**
      * @return \App\Entity\Configuracion\Espacio|null
@@ -81,6 +85,22 @@ class EspacioRedesSociales extends BaseEntity
     public function setEnlace($enlace): void
     {
         $this->enlace = $enlace;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNombreCorto()
+    {
+        return $this->nombreCorto;
+    }
+
+    /**
+     * @param mixed $nombreCorto
+     */
+    public function setNombreCorto($nombreCorto): void
+    {
+        $this->nombreCorto = $nombreCorto;
     }
 
 }
