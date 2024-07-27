@@ -55,11 +55,12 @@ class EspacioRedesSocialesRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('qb')
             ->select(
                 "rs.nombre, 
-                        qb.enlace 
+                        qb.enlace,
+                        qb.nombreCorto 
                         "
             )
-        ->join('qb.espacio', 'e')
-        ->join('qb.redSocial', 'rs');
+            ->join('qb.espacio', 'e')
+            ->join('qb.redSocial', 'rs');
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }
