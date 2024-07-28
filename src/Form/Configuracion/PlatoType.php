@@ -48,12 +48,9 @@ class PlatoType extends AbstractType
                 "required" => false,
                 "mapped" => false
             ))
-            ->add('precio', IntegerType::class, [
+            ->add('precio', TextType::class, [
                 'constraints' => [
                     new NotBlank()
-                ],
-                'attr' => [
-                    'min' => 1
                 ]
             ]);
     }
