@@ -37,22 +37,20 @@
 
             <div class="row">
                 <div class="col-4 form-group">
-                    <div class="row">
-                        <div class="col-10">
-                            {{ form_label(form.galeria) }}
-                            {{ form_widget(form.galeria) }}
-                            {{ form_errors(form.galeria) }}
-                        </div>
-                        <div class="col-2">
-                            <div id="image-holder"></div>
-                        </div>
+                    <div class="col-10">
+                        {{ form_label(form.galeria) }}
+                        {{ form_widget(form.galeria) }}
+                        {{ form_errors(form.galeria) }}
                     </div>
+                    <div class="col-2">
+                        <div id="image-holder"></div>
+                    </div>
+                </div>
+                <div class="col-4 form-group" style="margin-top: 2%;position: relative">
+                    <button id="btn_guardar" class="btn btn-primary">Aceptar</button>
                 </div>
             </div>
 
-            <div class="col-4 form-group" style="margin-top: -2.5%; margin-left: 30%">
-                <button id="btn_guardar" class="btn btn-primary">Aceptar</button>
-            </div>
             {{ form_end(form) }}
         </div>
         <table class="table table-bordered table-striped dataTable">
