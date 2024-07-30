@@ -129,32 +129,6 @@
 {% block javascripts %}
     <script>
 
-        ClassicEditor.create(document.getElementById('espacio_nombreLargo'), {
-            licenseKey: '',
-            image: {
-                toolbar: [
-                    'imageStyle:inline',
-                    'imageStyle:alignLeft',
-                    'imageStyle:alignRight',
-                    'imageStyle:alignCenter',
-                    'imageStyle:alignBlockLeft',
-                    'imageStyle:alignBlockRight',
-                    'imageStyle:block',
-                    'imageStyle:side',
-                    '|',
-                    'toggleImageCaption',
-                    'imageTextAlternative',
-                    '|',
-                    'linkImage']
-            },
-            readOnly: true
-        })
-            .then(editor => {
-                window.editor = editor;
-            })
-            .catch(error => {
-
-            });
         ClassicEditor.create(document.getElementById('espacio_descripcion'), {
             licenseKey: '',
             image: {
