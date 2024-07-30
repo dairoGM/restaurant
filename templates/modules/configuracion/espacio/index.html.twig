@@ -26,7 +26,7 @@
                     <th>Imagen portada</th>
                     <th>Imagen detallada</th>
                     <th>Nombre corto</th>
-                    <th>Nombre largo</th>
+{#                    <th>Nombre largo</th>#}
                     <th>Orden</th>
                     <th>Publicado</th>
                     <th>Se reserva</th>
@@ -52,7 +52,7 @@
                                      class="img-circle" style="width: 40px;height: 40px; object-fit: cover">
                             </a></td>
                         <td>{{ item.nombreCorto | default('') }}</td>
-                        <td>{{ item.nombreLargo | raw }}</td>
+{#                        <td>{{ item.nombreLargo | raw }}</td>#}
                         <td>{{ item.orden |default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.publico %}
