@@ -28,7 +28,7 @@
                     <th>Imagen detallada</th>
                     <th>Nombre corto</th>
                     <th>Tipo de servicio</th>
-                    <th>Nombre largo</th>
+{#                    <th>Nombre largo</th>#}
                     <th>Orden</th>
                     <th>Publicado</th>
                     <th>Estado</th>
@@ -53,7 +53,7 @@
                             </a></td>
                         <td>{{ item.nombreCorto | default('') }}</td>
                         <td>{{ item.tipoServicio.nombre | default('') }}</td>
-                        <td>{{ item.nombreLargo | raw }}</td>
+{#                        <td>{{ item.nombreLargo | raw }}</td>#}
                         <td>{{ item.orden |default('') }}</td>
                         <td class="-text-center">
                             {% if '1' == item.publico %}

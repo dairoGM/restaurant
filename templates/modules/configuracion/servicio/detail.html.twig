@@ -17,7 +17,6 @@
 
     </div>
     <div class="col-6">
-        <h5 class="mb-0"><b>Nombre largo:</b> {{ item.nombreLargo | raw }}</h5>
         {% if '1' == item.activo %}
             <h5 class="mb-0"><b>Estado:</b> Habilitado</h5>
         {% else %}
@@ -36,6 +35,7 @@
 </div>
 <div class="row">
     <div class="col-12">
+        <h5 class="mb-0"><b>Nombre largo:</b> {{ item.nombreLargo  | raw }}</h5>
         <h5 class="mb-0"><b>Descripción:</b> {{ item.descripcion  | raw }}</h5>
     </div>
 </div>
