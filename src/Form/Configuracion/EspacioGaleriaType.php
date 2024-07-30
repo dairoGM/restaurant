@@ -29,6 +29,7 @@ class EspacioGaleriaType extends AbstractType
         $builder
             ->add('galeria', FileType::class, array(
                 "attr" => array("type" => "file"),
+                'label' => 'Galería',
                 "required" => false,
                 "mapped" => false,
                 'multiple' => true,

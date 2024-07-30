@@ -34,8 +34,17 @@ class EspacioController extends AbstractController
     public function index(EspacioRepository $espacioRepository)
     {
         try {
+            $registros = $espacioRepository->findBy([], ['activo' => 'desc', 'id' => 'desc']);
+            $response = [];
+            if (is_array($registros)) {
+                foreach ($registros as $value) {
+                    $fotosEngaleria = count(json_decode($value->getGaleria(), true));
+                    $value->fotosGaleria = $fotosEngaleria;
+                    $response[] = $value;
+                }
+            }
             return $this->render('modules/configuracion/espacio/index.html.twig', [
-                'registros' => $espacioRepository->findBy([], ['activo' => 'desc', 'id' => 'desc']),
+                'registros' => $response
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
@@ -407,13 +416,17 @@ class EspacioController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $gallery = json_decode($espacio->getGaleria());
+                $cant = count($gallery);
                 if (!empty($form['galeria']->getData())) {
                     foreach ($form['galeria']->getData() as $key => $val) {
-                        $file = $val;
-                        $ext = $file->guessExtension();
-                        $file_name = md5(uniqid()) . "." . $ext;
-                        $gallery[] = $file_name;
-                        $file->move("uploads/images/espacio/galeria", $file_name);
+                        $cant++;
+                        if ($cant <= 6) {
+                            $file = $val;
+                            $ext = $file->guessExtension();
+                            $file_name = md5(uniqid()) . "." . $ext;
+                            $gallery[] = $file_name;
+                            $file->move("uploads/images/espacio/galeria", $file_name);
+                        }
                     }
                 }
                 $espacio->setGaleria(json_encode($gallery));
@@ -454,6 +467,7 @@ class EspacioController extends AbstractController
             }
             $id->setGaleria(json_encode($nuevaGaleria));
             $espacioRepository->edit($id, true);
+            $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
             return $this->redirectToRoute('app_espacio_asociar_galeria', ['id' => $id->getId()], Response::HTTP_SEE_OTHER);
 
         } catch (\Exception $exception) {

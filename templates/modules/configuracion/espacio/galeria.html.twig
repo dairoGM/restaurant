@@ -49,11 +49,12 @@
                     </div>
                 </div>
 
-
-                <div class="col-4 form-group">
-                    <br>
-                    <button id="btn_guardar" class="btn btn-primary">Aceptar</button>
-                </div>
+                {% if imagenes | length < 6 %}
+                    <div class="col-4 form-group">
+                        <br>
+                        <button id="btn_guardar" class="btn btn-primary">Aceptar</button>
+                    </div>
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
@@ -95,6 +96,11 @@
 {% block javascripts %}
     <script>
         $('#btn_guardar').click(function (e) {
+            HoldOn.open({
+                theme: "sk-cube-grid",
+                message: 'Por favor espere...',
+                textColor: "white"
+            });
             e.preventDefault();
             $('form[name*=espacio_galeria]').prop('action', 'galeria');
             $('form[name*=espacio_galeria]').submit();

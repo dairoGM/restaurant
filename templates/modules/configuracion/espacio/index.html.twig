@@ -30,6 +30,7 @@
                     <th>Orden</th>
                     <th>Publicado</th>
                     <th>Se reserva</th>
+                    <th>Galería</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -65,6 +66,15 @@
                                 <span class="ms-status -active">Sí</span>
                             {% else %}
                                 <span class="ms-status">No</span>
+                            {% endif %}
+                        </td>
+                        <td class="-text-center">
+                            {% if 0 == item.fotosGaleria %}
+                                <span class="ms-status">No disponible ({{ item.fotosGaleria }})</span>
+                            {% elseif  item.fotosGaleria < 6 %}
+                                <span class="ms-status -warning">Incompleta ({{ item.fotosGaleria }})</span>
+                                {% else %}
+                                    <span class="ms-status -active">Disponible ({{ item.fotosGaleria }})</span>
                             {% endif %}
                         </td>
                         <td class="-text-center">
