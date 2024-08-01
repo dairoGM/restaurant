@@ -495,6 +495,22 @@ class ApiWithoutAuthorizationController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/plato/listar-oferta-familiar", name="api_plato_listar-oferta-familiar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param MenuPlatoRepository $menuPlatoRepository
+     * @param Utils $utils
+     * @return JsonResponse
+     */
+    public function listarPlatosOfertaFamiliar(MenuPlatoRepository $menuPlatoRepository, Utils $utils)
+    {
+        try {
+            $response = $utils->listarPlatos($menuPlatoRepository, $this->baseUrl, true, -1, true);
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
 
     /**
      * @Route("/conocenos/listar", name="api_conocenos_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})

@@ -459,13 +459,16 @@ class Utils
     }
 
 
-    public function listarPlatos($menuPlatoRepository, $baseUrl, $sugerenciaChef = false, $idEspacio)
+    public function listarPlatos($menuPlatoRepository, $baseUrl, $sugerenciaChef = false, $idEspacio, $ofertaFamiliar = false)
     {
         $filtros['p.publico'] = true;
         $filtros['p.activo'] = true;
-
+        $filtros['p.ofertaFamiliar'] = false;
         if ($sugerenciaChef) {
             $filtros['p.sugerenciaChef'] = true;
+        }
+        if ($ofertaFamiliar) {
+            $filtros['p.ofertaFamiliar'] = true;
         }
         if (-1 != $idEspacio) {
             $filtros['e.id'] = $idEspacio;

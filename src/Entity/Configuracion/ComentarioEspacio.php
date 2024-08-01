@@ -60,6 +60,12 @@ class ComentarioEspacio extends BaseEntity
      */
     private ?string $comentario = null;
 
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private ?string $url = null;
+
     /**
      * @return string|null
      */
@@ -154,6 +160,22 @@ class ComentarioEspacio extends BaseEntity
     public function setComentario(?string $comentario): void
     {
         $this->comentario = $comentario;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string|null $url
+     */
+    public function setUrl(?string $url): void
+    {
+        $this->url = $url;
     }
 
 
