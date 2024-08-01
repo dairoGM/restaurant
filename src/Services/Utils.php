@@ -463,12 +463,12 @@ class Utils
     {
         $filtros['p.publico'] = true;
         $filtros['p.activo'] = true;
-        $filtros['p.ofertaFamiliar'] = false;
+        $filtros['p.ofertaFamilia'] = false;
         if ($sugerenciaChef) {
             $filtros['p.sugerenciaChef'] = true;
         }
         if ($ofertaFamiliar) {
-            $filtros['p.ofertaFamiliar'] = true;
+            $filtros['p.ofertaFamilia'] = true;
         }
         if (-1 != $idEspacio) {
             $filtros['e.id'] = $idEspacio;

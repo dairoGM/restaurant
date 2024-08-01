@@ -50,7 +50,6 @@ class EspacioRepository extends ServiceEntityRepository
     }
 
 
-
     public function listarEspacios($filters = [], $orderBy = [], $limit = null)
     {
         $query = $this->createQueryBuilder('qb')
@@ -70,6 +69,12 @@ class EspacioRepository extends ServiceEntityRepository
                          qb.imagenMenu, 
                          qb.codigoReel, 
                          qb.imagenBanner, 
+                         qb.imagen1, 
+                         qb.imagen2, 
+                         qb.imagen3, 
+                         qb.imagen4, 
+                         qb.imagen5, 
+                         qb.imagen6, 
                          qb.imagenDetallada"
             );
         if (!is_null($limit)) {

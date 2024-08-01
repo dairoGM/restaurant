@@ -425,13 +425,21 @@ class ApiWithoutAuthorizationController extends AbstractController
                         $v['imagen'] = !empty($v['imagen']) ? $this->baseUrl . "/uploads/images/espacio/comentario/imagen/" . $v['imagen'] : null;
                         $comentariosAsignados[] = $v;
                     }
-                    $temp = json_decode($value['galeria'], true);
-                    $galeria = [];
-                    if (is_array($temp)) {
-                        foreach ($temp as $gal) {
-                            $galeria[] = $this->baseUrl . "/uploads/images/espacio/galeria/" . $gal;
-                        }
-                    }
+
+                    $galeria['imagen1'] = !empty($value['imagen1']) ? $this->baseUrl . '/uploads/images/espacio/imagen1/' . $value['imagen1'] : null;
+                    $galeria['imagen2'] = !empty($value['imagen2']) ? $this->baseUrl . '/uploads/images/espacio/imagen2/' . $value['imagen2'] : null;
+                    $galeria['imagen3'] = !empty($value['imagen3']) ? $this->baseUrl . '/uploads/images/espacio/imagen3/' . $value['imagen3'] : null;
+                    $galeria['imagen4'] = !empty($value['imagen4']) ? $this->baseUrl . '/uploads/images/espacio/imagen4/' . $value['imagen4'] : null;
+                    $galeria['imagen5'] = !empty($value['imagen5']) ? $this->baseUrl . '/uploads/images/espacio/imagen5/' . $value['imagen5'] : null;
+                    $galeria['imagen6'] = !empty($value['imagen6']) ? $this->baseUrl . '/uploads/images/espacio/imagen6/' . $value['imagen6'] : null;
+
+                    unset($value['imagen1']);
+                    unset($value['imagen2']);
+                    unset($value['imagen3']);
+                    unset($value['imagen4']);
+                    unset($value['imagen5']);
+                    unset($value['imagen6']);
+
                     $value['galeria'] = $galeria;
                     $value['comentarios'] = $comentariosAsignados;
                     $response[] = $value;

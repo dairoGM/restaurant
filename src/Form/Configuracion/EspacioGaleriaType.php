@@ -27,12 +27,41 @@ class EspacioGaleriaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('galeria', FileType::class, array(
+            ->add('imagen1', FileType::class, array(
                 "attr" => array("type" => "file"),
-                'label' => 'Galería',
+                'label' => 'Imagen 1',
                 "required" => false,
                 "mapped" => false,
-                'multiple' => true,
+
+            ))->add('imagen2', FileType::class, array(
+                "attr" => array("type" => "file"),
+                'label' => 'Imagen 2',
+                "required" => false,
+                "mapped" => false,
+
+            ))->add('imagen3', FileType::class, array(
+                "attr" => array("type" => "file"),
+                'label' => 'Imagen 3',
+                "required" => false,
+                "mapped" => false,
+
+            ))->add('imagen4', FileType::class, array(
+                "attr" => array("type" => "file"),
+                'label' => 'Imagen 4',
+                "required" => false,
+                "mapped" => false,
+
+            ))->add('imagen5', FileType::class, array(
+                "attr" => array("type" => "file"),
+                'label' => 'Imagen 5',
+                "required" => false,
+                "mapped" => false,
+
+            ))->add('imagen6', FileType::class, array(
+                "attr" => array("type" => "file"),
+                'label' => 'Imagen 6',
+                "required" => false,
+                "mapped" => false,
 
             ));
     }

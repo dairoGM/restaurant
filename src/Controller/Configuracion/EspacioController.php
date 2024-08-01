@@ -172,20 +172,6 @@ class EspacioController extends AbstractController
                 }
 
 
-//                if (!empty($form['imagenMovil']->getData())) {
-//                    if ($espacio->getImagenMovil() != null) {
-//                        if (file_exists('uploads/video/espacio/reel/' . $espacio->getImagenMovil())) {
-//                            unlink('uploads/video/espacio/reel/' . $espacio->getImagenMovil());
-//                        }
-//                    }
-//
-//                    $file = $form['imagenMovil']->getData();
-//                    $ext = $file->guessExtension();
-//                    $file_name = md5(uniqid()) . "." . $ext;
-//                    $espacio->setImagenMovil($file_name);
-//                    $file->move("uploads/video/espacio/reel", $file_name);
-//                }
-
                 if (!empty($form['imagenBanner']->getData())) {
                     if ($espacio->getImagenBanner() != null) {
                         if (file_exists('uploads/images/espacio/imagenBanner/' . $espacio->getImagenBanner())) {
@@ -231,7 +217,7 @@ class EspacioController extends AbstractController
                     $arrayAsignadas[$value->getRedSocial()->getId()]['nombreCorto'] = $value->getNombreCorto();
                 }
             }
-//pr($arrayAsignadas);
+
             return $this->render('modules/configuracion/espacio/configurarRedesSociales.html.twig', [
                 'espacio' => $espacio,
                 'redesSociales' => $redSocialRepository->findBy(['activo' => true], ['id' => 'asc']),
@@ -415,29 +401,92 @@ class EspacioController extends AbstractController
             $form = $this->createForm(EspacioGaleriaType::class, $espacio, ['action' => 'modificar']);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $gallery = json_decode($espacio->getGaleria());
-                $cant = count($gallery);
-                if (!empty($form['galeria']->getData())) {
-                    foreach ($form['galeria']->getData() as $key => $val) {
-                        $cant++;
-                        if ($cant <= 6) {
-                            $file = $val;
-                            $ext = $file->guessExtension();
-                            $file_name = md5(uniqid()) . "." . $ext;
-                            $gallery[] = $file_name;
-                            $file->move("uploads/images/espacio/galeria", $file_name);
+
+                if (!empty($form['imagen1']->getData())) {
+                    if ($espacio->getImagen1() != null) {
+                        if (file_exists('uploads/images/espacio/imagen1/' . $espacio->getImagen1())) {
+                            unlink('uploads/images/espacio/imagen1/' . $espacio->getImagen1());
                         }
                     }
+                    $file = $form['imagen1']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagen1($file_name);
+                    $file->move("uploads/images/espacio/imagen1", $file_name);
                 }
-                $espacio->setGaleria(json_encode($gallery));
+
+                if (!empty($form['imagen2']->getData())) {
+                    if ($espacio->getImagen2() != null) {
+                        if (file_exists('uploads/images/espacio/imagen2/' . $espacio->getImagen2())) {
+                            unlink('uploads/images/espacio/imagen2/' . $espacio->getImagen2());
+                        }
+                    }
+                    $file = $form['imagen2']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagen2($file_name);
+                    $file->move("uploads/images/espacio/imagen2", $file_name);
+                }
+
+                if (!empty($form['imagen3']->getData())) {
+                    if ($espacio->getImagen3() != null) {
+                        if (file_exists('uploads/images/espacio/imagen3/' . $espacio->getImagen3())) {
+                            unlink('uploads/images/espacio/imagen3/' . $espacio->getImagen3());
+                        }
+                    }
+                    $file = $form['imagen3']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagen3($file_name);
+                    $file->move("uploads/images/espacio/imagen3", $file_name);
+                }
+
+                if (!empty($form['imagen4']->getData())) {
+                    if ($espacio->getImagen4() != null) {
+                        if (file_exists('uploads/images/espacio/imagen4/' . $espacio->getImagen4())) {
+                            unlink('uploads/images/espacio/imagen4/' . $espacio->getImagen4());
+                        }
+                    }
+                    $file = $form['imagen4']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagen4($file_name);
+                    $file->move("uploads/images/espacio/imagen4", $file_name);
+                }
+
+                if (!empty($form['imagen5']->getData())) {
+                    if ($espacio->getImagen5() != null) {
+                        if (file_exists('uploads/images/espacio/imagen5/' . $espacio->getImagen5())) {
+                            unlink('uploads/images/espacio/imagen5/' . $espacio->getImagen5());
+                        }
+                    }
+                    $file = $form['imagen5']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagen5($file_name);
+                    $file->move("uploads/images/espacio/imagen5", $file_name);
+                }
+
+                if (!empty($form['imagen6']->getData())) {
+                    if ($espacio->getImagen6() != null) {
+                        if (file_exists('uploads/images/espacio/imagen6/' . $espacio->getImagen6())) {
+                            unlink('uploads/images/espacio/imagen6/' . $espacio->getImagen6());
+                        }
+                    }
+                    $file = $form['imagen6']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setImagen6($file_name);
+                    $file->move("uploads/images/espacio/imagen6", $file_name);
+                }
+
                 $espacioRepository->edit($espacio, true);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
                 return $this->redirectToRoute('app_espacio_asociar_galeria', ['id' => $espacio->getId()], Response::HTTP_SEE_OTHER);
             }
             return $this->render('modules/configuracion/espacio/galeria.html.twig', [
                 'form' => $form->createView(),
-                'espacio' => $espacio,
-                'imagenes' => json_decode($espacio->getGaleria(), true)
+                'espacio' => $espacio
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());

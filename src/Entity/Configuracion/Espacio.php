@@ -96,6 +96,31 @@ class Espacio extends BaseEntity
     private ?string $galeria = null;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $imagen1 = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $imagen2 = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $imagen3 = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $imagen4 = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $imagen5 = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $imagen6 = null;
+
+    /**
      * @return string|null
      */
     public function getNombreCorto(): ?string
@@ -334,6 +359,102 @@ class Espacio extends BaseEntity
     public function setImagenMenu($imagenMenu): void
     {
         $this->imagenMenu = $imagenMenu;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImagen1(): ?string
+    {
+        return $this->imagen1;
+    }
+
+    /**
+     * @param string|null $imagen1
+     */
+    public function setImagen1(?string $imagen1): void
+    {
+        $this->imagen1 = $imagen1;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImagen2(): ?string
+    {
+        return $this->imagen2;
+    }
+
+    /**
+     * @param string|null $imagen2
+     */
+    public function setImagen2(?string $imagen2): void
+    {
+        $this->imagen2 = $imagen2;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImagen3(): ?string
+    {
+        return $this->imagen3;
+    }
+
+    /**
+     * @param string|null $imagen3
+     */
+    public function setImagen3(?string $imagen3): void
+    {
+        $this->imagen3 = $imagen3;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImagen4(): ?string
+    {
+        return $this->imagen4;
+    }
+
+    /**
+     * @param string|null $imagen4
+     */
+    public function setImagen4(?string $imagen4): void
+    {
+        $this->imagen4 = $imagen4;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImagen5(): ?string
+    {
+        return $this->imagen5;
+    }
+
+    /**
+     * @param string|null $imagen5
+     */
+    public function setImagen5(?string $imagen5): void
+    {
+        $this->imagen5 = $imagen5;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImagen6(): ?string
+    {
+        return $this->imagen6;
+    }
+
+    /**
+     * @param string|null $imagen6
+     */
+    public function setImagen6(?string $imagen6): void
+    {
+        $this->imagen6 = $imagen6;
     }
 
 
