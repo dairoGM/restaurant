@@ -90,6 +90,7 @@
                 <th>Comentario</th>
                 <th>Evaluación</th>
                 <th>Fecha</th>
+                <th>URL</th>
 
                 <th class="text-center">Opciones</th>
             </tr>
@@ -109,6 +110,7 @@
                     <td>{{ item.comentario | default('') }}</td>
                     <td>{{ item.evaluacion | raw }}</td>
                     <td>{{ item.fecha |default('') }}</td>
+                    <td>{{ item.url |default('') }}</td>
 
 
                     <td class="text-center">
