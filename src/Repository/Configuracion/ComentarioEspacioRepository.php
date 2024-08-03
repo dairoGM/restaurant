@@ -58,6 +58,7 @@ class ComentarioEspacioRepository extends ServiceEntityRepository
                         qb.comentario,
                         qb.evaluacion, 
                         qb.imagen,
+                        qb.url,
                         qb.creado 
                         "
             )
