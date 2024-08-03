@@ -33,8 +33,8 @@ class PlatoController extends AbstractController
                 $filtros['sugerenciaChef'] = '0';
                 $filtros['ofertaFamilia'] = '0';
                 $filtros['activo'] = '1';
+                $request->getSession()->set('filtro_plato', $filtros);
             }
-
             return $this->render('modules/configuracion/plato/index.html.twig', [
                 'registros' => $platoRepository->findBy($filtros, ['activo' => 'desc', 'id' => 'desc']),
                 'filtros' => $filtros
@@ -54,8 +54,15 @@ class PlatoController extends AbstractController
     {
         try {
             $allPost = $request->request->All();
+
             $filtros = $request->getSession()->get('filtro_plato');
-            $nuevo = array_merge($filtros, [$allPost['campo'] => $allPost['valor']]);
+            if (!empty($filtros)) {
+                $nuevo = array_merge($filtros, [$allPost['campo'] => $allPost['valor']]);
+            } else {
+                $nuevo = $allPost;
+            }
+
+
             $request->getSession()->set('filtro_plato', $nuevo);
             return $this->json('OK');
         } catch (\Exception $exception) {

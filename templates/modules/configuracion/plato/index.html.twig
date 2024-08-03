@@ -171,7 +171,7 @@
             });
             $.post("{{ path('app_plato_filtro') }}", {
                     campo: campo[1],
-                    valor: state==true
+                    valor: state==true?1:0
                 },
                 function (data) {
                     toastr.success("Filtro aplicado correctamente.");
