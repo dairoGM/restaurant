@@ -27,7 +27,7 @@ class PlatoController extends AbstractController
     public function index(PlatoRepository $platoRepository, Request $request)
     {
         try {
-            $request->getSession()->remove('filtro_plato');
+//            $request->getSession()->remove('filtro_plato');
             $filtros = $request->getSession()->get('filtro_plato');
             if (empty($filtros)) {
                 $filtros['sugerenciaChef'] = 'false';
