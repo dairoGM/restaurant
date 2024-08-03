@@ -5,13 +5,12 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
 
-
         <li class="nav-item">
             <a href="#"
                class="nav-link nav-link-menu">
                 <i class="nav-icon fas fa-cog"></i>
                 <p>
-                    Restaurant
+                    Portal
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
@@ -29,27 +28,33 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_menu_index') }}"
-                       class="nav-link nav-link-menu">
-                        <p>Menús</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ path('app_plato_index') }}"
-                       class="nav-link nav-link-menu">
-                        <p>Platos</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ path('app_espacio_index') }}"
                        class="nav-link nav-link-menu">
                         <p>Espacios</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path('app_contactenos_index') }}"
+                    <a href="{{ path('app_menu_index') }}"
                        class="nav-link nav-link-menu">
-                        <p>Contáctenos</p>
+                        <p>Menús</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#"
+               class="nav-link nav-link-menu">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                    Restaurant
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ path('app_plato_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Platos</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -58,6 +63,24 @@
                         <p>Métodos de pago</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_tasa_cambio_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Tasa de cambio</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#"
+               class="nav-link nav-link-menu">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                    Reservas
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="{{ path('app_reservacion_mesa_index') }}"
                        class="nav-link nav-link-menu">
@@ -70,30 +93,28 @@
                         <p>Reservaciones canceladas</p>
                     </a>
                 </li>
-
-            </ul>
-        </li>
-
-        <li class="nav-item">
-            <a href="#"
-               class="nav-link nav-link-menu">
-                <i class="nav-icon fas fa-cog"></i>
-                <p>
-                    Configuración
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="{{ path('app_tiempo_index') }}"
                        class="nav-link nav-link-menu">
                         <p>Tiempo de reservación</p>
                     </a>
                 </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#"
+               class="nav-link nav-link-menu">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                    Footer
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="{{ path('app_sobre_index') }}"
                        class="nav-link nav-link-menu">
-                        <p>Sobre</p>
+                        <p>Sobre el chef</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -109,15 +130,34 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ path('app_conocenos_index') }}"
+                       class="nav-link nav-link-menu">
+                        <p>Quienes somos</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ path('app_terminos_condiciones_index') }}"
                        class="nav-link nav-link-menu">
                         <p>Términos y condiciones</p>
                     </a>
                 </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#"
+               class="nav-link nav-link-menu">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                    Configuración
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+
                 <li class="nav-item">
-                    <a href="{{ path('app_conocenos_index') }}"
+                    <a href="{{ path('app_contactenos_index') }}"
                        class="nav-link nav-link-menu">
-                        <p>Quienes somos</p>
+                        <p>Contáctenos</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -126,12 +166,7 @@
                         <p>Redes sociales</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ path('app_tasa_cambio_index') }}"
-                       class="nav-link nav-link-menu">
-                        <p>Tasa de cambio</p>
-                    </a>
-                </li>
+
                 <li class="nav-item">
                     <a href="{{ path('app_politica_cancelacion_index') }}"
                        class="nav-link nav-link-menu">
