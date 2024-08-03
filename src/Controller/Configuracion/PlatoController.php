@@ -30,9 +30,9 @@ class PlatoController extends AbstractController
 //            $request->getSession()->remove('filtro_plato');
             $filtros = $request->getSession()->get('filtro_plato');
             if (empty($filtros)) {
-                $filtros['sugerenciaChef'] = 'false';
-                $filtros['ofertaFamilia'] = 'false';
-                $filtros['activo'] = 'true';
+                $filtros['sugerenciaChef'] = '0';
+                $filtros['ofertaFamilia'] = '0';
+                $filtros['activo'] = '1';
             }
 
             return $this->render('modules/configuracion/plato/index.html.twig', [
