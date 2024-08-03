@@ -18,6 +18,71 @@
             </div>
         </div>
         <!-- /.card-header -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header" style="background: #134679">
+                                <h4 class="card-title w-100">
+                                    <a style="color: #FFFFFF" class="d-block w-100 collapsed" data-toggle="collapse"
+                                       href="#collapseOne" aria-expanded="false">
+                                        Búsqueda avanzada
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class=" " data-parent="#accordion" style="">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="sugerenciaChef">Sugerencia del Chef</label>
+                                            <input type="checkbox"
+                                                   name="check_sugerenciaChef"
+                                                    {% if filtros['sugerenciaChef'] is defined and filtros['sugerenciaChef']=='true' %}
+                                                        checked=""
+                                                    {% endif %}
+                                                   data-bootstrap-switch=""
+                                                   data-off-color="danger"
+                                                   data-on-color="success">
+
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sugerenciaChef">Oferta familiar</label>
+                                            <input type="checkbox"
+                                                   name="check_ofertaFamilia"
+                                                    {% if filtros['ofertaFamilia'] is defined and filtros['ofertaFamilia']=='true' %}
+                                                        checked=""
+                                                    {% endif %}
+                                                   data-bootstrap-switch=""
+                                                   data-off-color="danger"
+                                                   data-on-color="success">
+
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sugerenciaChef">Estado</label>
+                                            <input type="checkbox"
+                                                   name="check_activo"
+                                                    {% if filtros['activo'] is defined and filtros['activo']=='true' %}
+                                                        checked=""
+                                                    {% endif %}
+                                                   data-bootstrap-switch="0"
+                                                   data-off-color="danger"
+                                                   data-on-color="success">
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             <table class="table table-bordered table-striped dataTable">
                 <thead class="table-custom-header">
@@ -71,7 +136,8 @@
                                         class="fa fa-edit"></i>
                             </a>
                             {% if '1' == item.activo %}
-                                <button title="{% if '1' == item.publico %} Ocultar {% else %} Publicar {% endif %}" class="{% if '0' == item.publico %} btn btn-outline-primary {% else %} btn btn-outline-secondary {% endif %} elementRemove"
+                                <button title="{% if '1' == item.publico %} Ocultar {% else %} Publicar {% endif %}"
+                                        class="{% if '0' == item.publico %} btn btn-outline-primary {% else %} btn btn-outline-secondary {% endif %} elementRemove"
                                         data-url="{{ path('app_plato_publicar', {'id': item.id}) }}">
                                     <i class="fa fa-check-circle"></i>
                                 </button>
@@ -90,4 +156,63 @@
         <!-- /.card-body -->
     </div>
 
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $("[name*='check_']").bootstrapSwitch();
+        $("[name*='check_']").on('switchChange.bootstrapSwitch', function (event, state) {
+            console.log(state);
+            var campo = event.currentTarget.attributes.name.nodeValue.split('_');
+            console.log(campo);
+            HoldOn.open({
+                theme: "sk-cube-grid",
+                message: 'Por favor espere...',
+                textColor: "white"
+            });
+            $.post("{{ path('app_plato_filtro') }}", {
+                    campo: campo[1],
+                    valor: state
+                },
+                function (data) {
+                    toastr.success("Filtro aplicado correctamente.");
+                    setTimeout(function () {
+                        $(window).attr('location', window.location)
+                    }, 500);
+                    HoldOn.close()
+                });
+
+            // if (state) {
+            //     console.log("El switch está en verde (ON).");
+            // } else {
+            //     console.log("El switch está en rojo (OFF).");
+            // }
+        });
+
+
+        {# $('input[name*="check_"]').on('change', function (e) { #}
+        {#    console.log($(this).val()) #}
+        {#    var valor = $(this).val(); #}
+        {#    var campo = e.currentTarget.id.split('_')[1]; #}
+        {#    var id = e.currentTarget.id.split('_')[2]; #}
+        {#    HoldOn.open({ #}
+        {#        theme: "sk-cube-grid", #}
+        {#        message: 'Por favor espere...', #}
+        {#        textColor: "white" #}
+        {#    }); #}
+        {#    $.post("{{ path('app_red_social_guardar') }}", #}
+        {#        { #}
+        {#            id: id, #}
+        {#            campo: campo, #}
+        {#            valor: valor, #}
+        {#        }, #}
+        {#        function (data) { #}
+        {#            toastr.success("El elemento ha sido modificado correctamente."); #}
+        {#            setTimeout(function () { #}
+        {#                $(window).attr('location', window.location) #}
+        {#            }, 500); #}
+        {#            HoldOn.close() #}
+        {#        }); #}
+        {# }) #}
+
+    </script>
 {% endblock %}

@@ -24,15 +24,42 @@ class PlatoController extends AbstractController
      * @param PlatoRepository $platoRepository
      * @return Response
      */
-    public function index(PlatoRepository $platoRepository)
+    public function index(PlatoRepository $platoRepository, Request $request)
     {
         try {
+            $request->getSession()->remove('filtro_plato');
+            $filtros = $request->getSession()->get('filtro_plato');
+            if (empty($filtros)) {
+                $filtros['sugerenciaChef'] = 'false';
+                $filtros['ofertaFamilia'] = 'false';
+                $filtros['activo'] = 'true';
+            }
+
             return $this->render('modules/configuracion/plato/index.html.twig', [
-                'registros' => $platoRepository->findBy([], ['activo' => 'desc', 'id' => 'desc']),
+                'registros' => $platoRepository->findBy($filtros, ['activo' => 'desc', 'id' => 'desc']),
+                'filtros' => $filtros
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
             return $this->redirectToRoute('app_plato_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/filtros", name="app_plato_filtro", methods={"GET", "POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function guardarFiltro(Request $request)
+    {
+        try {
+            $allPost = $request->request->All();
+            $filtros = $request->getSession()->get('filtro_plato');
+            $nuevo = array_merge($filtros, [$allPost['campo'] => $allPost['valor']]);
+            $request->getSession()->set('filtro_plato', $nuevo);
+            return $this->json('OK');
+        } catch (\Exception $exception) {
+            return $this->json(null);
         }
     }
 
