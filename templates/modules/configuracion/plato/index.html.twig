@@ -38,7 +38,7 @@
                                             <label for="sugerenciaChef">Sugerencia del Chef</label>
                                             <input type="checkbox"
                                                    name="check_sugerenciaChef"
-                                                    {% if filtros['sugerenciaChef'] is defined and filtros['sugerenciaChef']=='true' %}
+                                                    {% if filtros['sugerenciaChef'] is defined and filtros['sugerenciaChef']=='1' %}
                                                         checked=""
                                                     {% endif %}
                                                    data-bootstrap-switch=""
@@ -51,7 +51,7 @@
                                             <label for="sugerenciaChef">Oferta familiar</label>
                                             <input type="checkbox"
                                                    name="check_ofertaFamilia"
-                                                    {% if filtros['ofertaFamilia'] is defined and filtros['ofertaFamilia']=='true' %}
+                                                    {% if filtros['ofertaFamilia'] is defined and filtros['ofertaFamilia']=='1' %}
                                                         checked=""
                                                     {% endif %}
                                                    data-bootstrap-switch=""
@@ -64,7 +64,7 @@
                                             <label for="sugerenciaChef">Estado</label>
                                             <input type="checkbox"
                                                    name="check_activo"
-                                                    {% if filtros['activo'] is defined and filtros['activo']=='true' %}
+                                                    {% if filtros['activo'] is defined and filtros['activo']=='1' %}
                                                         checked=""
                                                     {% endif %}
                                                    data-bootstrap-switch="0"
@@ -171,7 +171,7 @@
             });
             $.post("{{ path('app_plato_filtro') }}", {
                     campo: campo[1],
-                    valor: state
+                    valor: state==true
                 },
                 function (data) {
                     toastr.success("Filtro aplicado correctamente.");
