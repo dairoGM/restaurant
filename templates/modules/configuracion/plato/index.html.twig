@@ -159,7 +159,10 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        $("[name*='check_']").bootstrapSwitch();
+        $("[name*='check_']").bootstrapSwitch({
+            onText: 'SÍ',
+            offText: 'NO'
+        });
         $("[name*='check_']").on('switchChange.bootstrapSwitch', function (event, state) {
             console.log(state);
             var campo = event.currentTarget.attributes.name.nodeValue.split('_');
