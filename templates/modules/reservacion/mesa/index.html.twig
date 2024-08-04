@@ -42,7 +42,7 @@
                         <td>{{ item.horaInicio | default('') }}</td>
                         <td>{{ item.horaFin | default('') }}</td>
                         <td>{{ item.nombreCortoEspacio | default('') }}</td>
-                        <td>{% if item.cantidad is not null %} ({{ item.cantidad | default('') }}) {{ item.nombrePlato | default('') }} {% endif %}</td>
+                        <td>{% if item.nombreCortoEspacio is not null %} ({{ item.cantidad | default('') }}) {{ item.nombrePlato | default('') }} {% endif %}</td>
                         <td>{{ item.cantidadPersona | default('') }}</td>
                         <td>{{ item.nombreMetodoPago | default('') }}</td>
                         <td>{{ item.numeroTransferencia | default('') }}</td>
