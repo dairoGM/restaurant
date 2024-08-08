@@ -35,7 +35,7 @@ class Espacio extends BaseEntity
     private ?string $nombreCorto;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text",length=150, nullable=true)
      */
     private ?string $nombreLargo;
 
