@@ -52,6 +52,15 @@
                      class="img-circle" style="width: 80px;height: 80px; object-fit: cover">
             </a></h5>
         <h5 class="mb-0"><b>Código reel:</b> {{ item.codigoReel | default('') }}</h5>
+        <h5 class="mb-0"><b>Video:</b></h5>
+        <h5 class="mb-0">
+            {% if item.video != null %}
+                <video width="330" height="360" controls>
+                    <source src="{{ app.request.getSchemeAndHttpHost() }}/uploads/video/espacio/video/{{ item.video }} ">
+                    Your browser does not support the video tag.
+                </video>
+            {% endif %}
+        </h5>
     </div>
 </div>
 <div class="row">

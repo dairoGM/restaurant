@@ -93,6 +93,13 @@ class EspacioController extends AbstractController
                     $entidad->setImagenBanner($file_name);
                     $file->move("uploads/images/espacio/imagenBanner", $file_name);
                 }
+                if (!empty($form['video']->getData())) {
+                    $file = $form['video']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setVideo($file_name);
+                    $file->move("uploads/video/espacio/video", $file_name);
+                }
 //                if (!empty($form['imagenMovil']->getData())) {
 //                    $file = $form['imagenMovil']->getData();
 //                    $ext = $file->guessExtension();
@@ -124,7 +131,7 @@ class EspacioController extends AbstractController
      */
     public function modificar(Request $request, Espacio $espacio, EspacioRepository $espacioRepository)
     {
-        try {
+//        try {
             $form = $this->createForm(EspacioType::class, $espacio, ['action' => 'modificar']);
             $form->handleRequest($request);
 
@@ -185,6 +192,20 @@ class EspacioController extends AbstractController
                     $espacio->setImagenBanner($file_name);
                     $file->move("uploads/images/espacio/imagenBanner", $file_name);
                 }
+
+                if (!empty($form['video']->getData())) {
+                    if ($espacio->getVideo() != null) {
+                        if (file_exists('uploads/video/espacio/video/' . $espacio->getVideo())) {
+                            unlink('uploads/video/espacio/video/' . $espacio->getVideo());
+                        }
+                    }
+
+                    $file = $form['video']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $espacio->setVideo($file_name);
+                    $file->move("uploads/video/espacio/video", $file_name);
+                }
                 $espacioRepository->edit($espacio);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
                 return $this->redirectToRoute('app_espacio_index', [], Response::HTTP_SEE_OTHER);
@@ -194,10 +215,10 @@ class EspacioController extends AbstractController
                 'form' => $form->createView(),
                 'espacio' => $espacio
             ]);
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_espacio_modificar', ['id' => $espacio], Response::HTTP_SEE_OTHER);
-        }
+//        } catch (\Exception $exception) {
+//            $this->addFlash('error', $exception->getMessage());
+//            return $this->redirectToRoute('app_espacio_modificar', ['id' => $espacio], Response::HTTP_SEE_OTHER);
+//        }
     }
 
     /**

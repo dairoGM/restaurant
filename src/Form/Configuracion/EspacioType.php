@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
 
 class EspacioType extends AbstractType
 {
@@ -88,7 +89,26 @@ class EspacioType extends AbstractType
                 "required" => false,
                 "mapped" => false,
 
-            ));
+            ))->add('video', FileType::class, [
+                'label' => 'Video', // Etiqueta para el campo
+                'mapped' => false, // Importante: el archivo no está mapeado directamente a la entidad
+                'required' => false, // Configura si el campo es obligatorio
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024M', // Tamaño máximo permitido, ajustable según tus necesidades
+                        'mimeTypes' => [
+                            'video/mp4', // Restricción para que solo se suban videos en formato MP4
+                            'video/avi',
+                            'video/mpeg',
+                            'video/quicktime',
+                        ],
+                        'mimeTypesMessage' => 'Suba un video de extención válida (MP4, AVI, MPEG, MOV)',
+                    ])
+                ],
+                'attr' => [
+                    'class' => 'form-control', // Clase CSS para estilizar el campo
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

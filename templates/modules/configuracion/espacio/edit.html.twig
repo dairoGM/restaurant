@@ -95,7 +95,32 @@
                         </div>
                         <div class="col-2">
                             <div id="image-holder3"></div>
+                            {% if espacio.imagenMenu != null %}
+                                <img src="{{ app.request.getSchemeAndHttpHost() }}/uploads/images/espacio/imagenMenu/{{ espacio.imagenMenu }}"
+                                     class="img-circle imgp" alt="Imagen banner"
+                                     style="width: 40px; height: 40px; position: absolute; bottom: 0;">
+                            {% endif %}
                         </div>
+
+                    </div>
+                </div>
+                <div class="col-4 form-group">
+                    <div class="row">
+                        <div class="col-10">
+                            {{ form_label(form.video) }}
+                            {{ form_widget(form.video) }}
+                            {{ form_errors(form.video) }}
+                        </div>
+                        <div class="col-2">
+                            <div id="image-holder4"></div>
+                            {% if espacio.video != null %}
+                                <video width="100" height="100" controls>
+                                    <source src="{{ app.request.getSchemeAndHttpHost() }}/uploads/video/espacio/video/{{ espacio.video }} ">
+                                    Your browser does not support the video tag.
+                                </video>
+                            {% endif %}
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">
@@ -152,7 +177,6 @@
     <script>
 
 
-
         $('#espacio_orden, #espacio_cantidadMesa').bind("keypress", function (event) {
             if (event.charCode != 0) {
                 var regex = new RegExp("^[0-9-]*$");
@@ -201,7 +225,7 @@
                         reader.readAsDataURL($(this)[0].files[i]);
                     }
                 } else {
-                    alert("This browser does not support FileReader.");
+                    alert("Este navegador no soporta FileReader.");
                 }
             } else {
                 alert("Pls select only images");
@@ -233,7 +257,7 @@
                         reader.readAsDataURL($(this)[0].files[i]);
                     }
                 } else {
-                    alert("This browser does not support FileReader.");
+                    alert("Este navegador no soporta FileReader.");
                 }
             } else {
                 alert("Pls select only images");
@@ -264,7 +288,7 @@
                         reader.readAsDataURL($(this)[0].files[i]);
                     }
                 } else {
-                    alert("This browser does not support FileReader.");
+                    alert("Este navegador no soporta FileReader.");
                 }
             } else {
                 alert("Pls select only images");
@@ -294,7 +318,7 @@
                         reader.readAsDataURL($(this)[0].files[i]);
                     }
                 } else {
-                    alert("This browser does not support FileReader.");
+                    alert("Este navegador no soporta FileReader.");
                 }
             } else {
                 alert("Pls select only images");
@@ -324,11 +348,41 @@
                         reader.readAsDataURL($(this)[0].files[i]);
                     }
                 } else {
-                    alert("This browser does not support FileReader.");
+                    alert("Este navegador no soporta FileReader.");
                 }
             } else {
                 alert("Pls select only images");
             }
+        });
+        $("#espacio_video").on('change', function () {
+            // Get count of selected files
+            var countFiles = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder1 = $("#image-holder4");
+            image_holder1.empty();
+
+            if (typeof (FileReader) != "undefined") {
+                // Loop for each file selected for upload
+                for (var i = 0; i < countFiles; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        console.log("aqui: " + e.target.result);
+                        // Crear un elemento <video> en lugar de <img>
+                        $("<video />", {
+                            "src": e.target.result,
+                            "class": "thumb-video",
+                            "controls": true, // Mostrar controles del video
+                            "style": 'width: 100px; height: 100px; position: absolute; bottom: -52px;'
+                        }).appendTo(image_holder1);
+                    }
+                    image_holder1.show();
+                    reader.readAsDataURL($(this)[0].files[i]);
+                }
+            } else {
+                alert("Este navegador no soporta FileReader.");
+            }
+
         });
     </script>
 {% endblock %}

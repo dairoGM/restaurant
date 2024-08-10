@@ -121,6 +121,11 @@ class Espacio extends BaseEntity
     private ?string $imagen6 = null;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $video = null;
+
+    /**
      * @return string|null
      */
     public function getNombreCorto(): ?string
@@ -455,6 +460,22 @@ class Espacio extends BaseEntity
     public function setImagen6(?string $imagen6): void
     {
         $this->imagen6 = $imagen6;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVideo(): ?string
+    {
+        return $this->video;
+    }
+
+    /**
+     * @param string|null $video
+     */
+    public function setVideo(?string $video): void
+    {
+        $this->video = $video;
     }
 
 
