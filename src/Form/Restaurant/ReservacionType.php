@@ -23,7 +23,9 @@ class ReservacionType extends AbstractType
                 'label' => 'Usuario',
                 'mapped' => false,
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('idReservaMesa', TextType::class, [

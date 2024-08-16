@@ -131,7 +131,7 @@ class EspacioController extends AbstractController
      */
     public function modificar(Request $request, Espacio $espacio, EspacioRepository $espacioRepository)
     {
-//        try {
+        try {
             $form = $this->createForm(EspacioType::class, $espacio, ['action' => 'modificar']);
             $form->handleRequest($request);
 
@@ -215,10 +215,10 @@ class EspacioController extends AbstractController
                 'form' => $form->createView(),
                 'espacio' => $espacio
             ]);
-//        } catch (\Exception $exception) {
-//            $this->addFlash('error', $exception->getMessage());
-//            return $this->redirectToRoute('app_espacio_modificar', ['id' => $espacio], Response::HTTP_SEE_OTHER);
-//        }
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_espacio_modificar', ['id' => $espacio], Response::HTTP_SEE_OTHER);
+        }
     }
 
     /**

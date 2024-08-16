@@ -4,6 +4,7 @@ namespace App\Form\Configuracion;
 
 use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\TipoEvento;
+
 //use App\Entity\Estructura\Provincia;
 //use App\Entity\Personal\Carrera;
 //use App\Entity\Personal\NivelEscolar;
@@ -26,14 +27,18 @@ class EventoType extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('telefonoAuspiciador', TextType::class, [
                 'label' => 'Teléfono del auspiciador',
                 'required' => false,
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('activo', CheckboxType::class, [
@@ -56,7 +61,9 @@ class EventoType extends AbstractType
                 'label' => 'Locación',
                 'required' => false,
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('descripcion', TextareaType::class, [

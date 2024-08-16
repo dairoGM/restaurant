@@ -24,14 +24,18 @@ class UserChgPswFormType extends AbstractType
             ->add('passwordPlainOld', PasswordType::class, [                
                 'label' => 'Contraseña anterior',
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('passwordPlainText', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Contraseña no coincide.',
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ],
                 'required' => true,
                 'first_options'  => ['label' => 'Contraseña'],

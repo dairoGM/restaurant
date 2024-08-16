@@ -22,7 +22,9 @@ class ModuloType extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('descripcion', TextareaType::class, [

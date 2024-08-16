@@ -32,7 +32,9 @@ class SeccionServicioType extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('descripcion', TextareaType::class, [
@@ -41,16 +43,21 @@ class SeccionServicioType extends AbstractType
             ])
             ->add('imagen', FileType::class, array(
                 "attr" => array("type" => "file"),
-                "required" => false,
-                "mapped" => false
-            ))
-            ->add('galeria', FileType::class, array(
-                "attr" => array("type" => "file"),
-                "required" => false,
                 "mapped" => false,
-                'multiple' => true,
-
-            ));
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
+                ]
+            ))
+//            ->add('galeria', FileType::class, array(
+//                "attr" => array("type" => "file"),
+//                "required" => false,
+//                "mapped" => false,
+//                'multiple' => true,
+//
+//            ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

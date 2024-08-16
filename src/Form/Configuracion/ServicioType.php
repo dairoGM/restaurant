@@ -31,7 +31,9 @@ class ServicioType extends AbstractType
         $builder
             ->add('nombreCorto', TextType::class, [
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('nombreLargo', TextareaType::class, [

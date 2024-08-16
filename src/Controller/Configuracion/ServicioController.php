@@ -8,6 +8,7 @@ use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\SeccionServicio;
 use App\Entity\Configuracion\Servicio;
 use App\Form\Configuracion\ComentarioEspacioType;
+use App\Form\Configuracion\SeccionServicioGaleriaType;
 use App\Form\Configuracion\SeccionServicioType;
 use App\Form\Configuracion\ServicioType;
 use App\Repository\Configuracion\ComentarioEspacioRepository;
@@ -221,18 +222,6 @@ class ServicioController extends AbstractController
             $form = $this->createForm(SeccionServicioType::class, $seccionServicio, ['action' => 'modificar']);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $gallery = [];
-                if (!empty($form['galeria']->getData())) {
-                    foreach ($form['galeria']->getData() as $key => $val) {
-                        $file = $val;
-                        $ext = $file->guessExtension();
-                        $file_name = md5(uniqid()) . "." . $ext;
-                        $gallery[] = $file_name;
-                        $file->move("uploads/images/servicio/seccion/galeria", $file_name);
-                    }
-                }
-                $seccionServicio->setGaleria(json_encode($gallery));
-
                 if (!empty($form['imagen']->getData())) {
                     if ($seccionServicio->getImagen() != null) {
                         if (file_exists('uploads/images/servicio/seccion/imagen/' . $seccionServicio->getImagen())) {
@@ -274,8 +263,8 @@ class ServicioController extends AbstractController
 
     /**
      * @Route("/{id}/eliminar_seccion", name="app_servicio_eliminar_seccion", methods={"GET"})
-     * @param ComentarioEspacio $seccionServicio
-     * @param ComentarioEspacioRepository $seccionServicioRepository
+     * @param SeccionServicio $seccionServicio
+     * @param SeccionServicioRepository $seccionServicioRepository
      * @return Response
      */
     public function eliminarSeccion(SeccionServicio $seccionServicio, SeccionServicioRepository $seccionServicioRepository)
@@ -291,6 +280,83 @@ class ServicioController extends AbstractController
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
             return $this->redirectToRoute('app_servicio_asociar_seccion', ['id' => $seccionServicio->getServicio()->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+
+    /**
+     * @Route("/{id}/asociar_galeria_seccion", name="app_servicio_asociar_galeria_seccion", methods={"GET", "POST"})
+     * @param Request $request
+     * @param SeccionServicio $seccionServicio
+     * @param SeccionServicioRepository $seccionServicioRepository
+     * @return Response
+     */
+    public function asociarGaleriaSeccion(Request $request, SeccionServicio $seccionServicio, SeccionServicioRepository $seccionServicioRepository)
+    {
+        try {
+
+            $form = $this->createForm(SeccionServicioGaleriaType::class, $seccionServicio, ['action' => 'modificar']);
+            $form->handleRequest($request);
+            $gallery = json_decode($seccionServicio->getGaleria(), true);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+
+                if (!empty($form['imagen']->getData())) {
+                    $file = $form['imagen']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $gallery[] = $file_name;
+                    $file->move("uploads/images/servicio/seccion/galeria", $file_name);
+                    $seccionServicio->setGaleria(json_encode($gallery));
+                    $seccionServicioRepository->edit($seccionServicio, true);
+                }
+
+                $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
+                return $this->redirectToRoute('app_servicio_asociar_galeria_seccion', ['id' => $seccionServicio->getId()], Response::HTTP_SEE_OTHER);
+            }
+            $request->getSession()->set('gallery_seccion', $gallery);
+            $request->getSession()->set('seccion_servicio_id', $seccionServicio->getId());
+            return $this->render('modules/configuracion/servicio/galeria_seccion.html.twig', [
+                'form' => $form->createView(),
+                'seccionServicio' => $seccionServicio,
+                'servicio' => $seccionServicio->getServicio(),
+                'galeria' => $gallery
+            ]);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_servicio_asociar_galeria_seccion', ['id' => $seccionServicio->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @Route("/{id}/eliminar_imagen_seccion", name="app_servicio_eliminar_imagen_seccion", methods={"GET"})
+     * @param Request $request
+     * @param $id
+     * @param SeccionServicioRepository $seccionServicioRepository
+     * @return Response
+     */
+    public function eliminarImagenSeccion(Request $request, $id, SeccionServicioRepository $seccionServicioRepository)
+    {
+        $seccionServicioId = $request->getSession()->get('seccion_servicio_id');
+        $temp = $seccionServicioRepository->find($seccionServicioId);
+        try {
+            $gallery = $request->getSession()->get('gallery_seccion');
+
+            $newGallery = [];
+            foreach ($gallery as $value) {
+                if (!str_contains($value, $id)) {
+                    $newGallery[] = $value;
+                }
+            }
+            $temp->setGaleria(json_encode($newGallery));
+            $seccionServicioRepository->edit($temp, true);
+
+            $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
+            return $this->redirectToRoute('app_servicio_asociar_galeria_seccion', ['id' => $temp->getId()], Response::HTTP_SEE_OTHER);
+
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_servicio_asociar_seccion', ['id' => $temp->getId()], Response::HTTP_SEE_OTHER);
         }
     }
 

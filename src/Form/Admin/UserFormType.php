@@ -26,7 +26,9 @@ class UserFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Correo',
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ]);
 //            ->add('userRoles', EntityType::class, [
@@ -47,7 +49,9 @@ class UserFormType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Contraseña no coincide.',
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ],
                 'required' => true,
                 'first_options' => ['label' => 'Contraseña'],

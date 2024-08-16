@@ -28,7 +28,9 @@ class PerfilType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('activo', CheckboxType::class, [

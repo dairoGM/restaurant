@@ -28,7 +28,9 @@ class NotificacionesUsuarioType extends AbstractType
             ->add('texto', TextareaType::class, [
 
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
                 ]
             ])
             ->add('usuarioRecive', EntityType::class, [
