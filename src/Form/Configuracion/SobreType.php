@@ -7,6 +7,7 @@ use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\Servicio;
 use App\Entity\Configuracion\Sobre;
 use App\Entity\Configuracion\TipoEvento;
+
 //use App\Entity\Estructura\Provincia;
 
 use Doctrine\ORM\EntityRepository;
@@ -29,12 +30,21 @@ class SobreType extends AbstractType
         $builder
             ->add('descripcion', TextareaType::class, [
                 'label' => 'Descripción',
-                'required' => false,
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
+                ]
             ])
             ->add('imagen', FileType::class, array(
                 "attr" => array("type" => "file"),
-                "required" => false,
                 "mapped" => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Este campo no puede estar vacío.',
+                    ])
+                ]
 
             ));
     }
