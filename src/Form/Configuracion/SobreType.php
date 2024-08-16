@@ -34,7 +34,11 @@ class SobreType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Este campo no puede estar vacío.',
-                    ])
+                    ]),
+                    new Length([
+                        'max' => 125,
+                        'maxMessage' => 'La descripción no puede tener más de {{ limit }} caracteres.',
+                    ]),
                 ]
             ])
             ->add('imagen', FileType::class, array(
