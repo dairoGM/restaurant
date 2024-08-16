@@ -44,6 +44,7 @@ class SobreType extends AbstractType
             ->add('imagen', FileType::class, array(
                 "attr" => array("type" => "file"),
                 "mapped" => false,
+                "required" => false,
 //                'constraints' => [
 //                    new NotBlank([
 //                        'message' => 'Este campo no puede estar vacío.',
