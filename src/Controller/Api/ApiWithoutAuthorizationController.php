@@ -35,6 +35,7 @@ use App\Repository\Configuracion\ServicioRepository;
 use App\Repository\Configuracion\SobreRepository;
 use App\Repository\Configuracion\TerminosCondicionesRepository;
 use App\Repository\Configuracion\TiempoRepository;
+use App\Repository\Configuracion\TipoReservacionRepository;
 use App\Repository\Restaurant\ContactenosRepository;
 use App\Repository\Restaurant\PerfilRepository;
 use App\Repository\Restaurant\ReservacionRepository;
@@ -772,4 +773,19 @@ class ApiWithoutAuthorizationController extends AbstractController
         }
     }
 
+
+    /**
+     * @Route("/tipo_reservacion/listar", name="api_tipo_reservacion_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param TipoReservacionRepository $tipoReservacionRepository
+     * @return JsonResponse
+     */
+    public function listarTiposReservacion(TipoReservacionRepository $tipoReservacionRepository)
+    {
+        try {
+            $result = $tipoReservacionRepository->listarTiposReservacion();
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
 }
