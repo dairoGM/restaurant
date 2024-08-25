@@ -563,7 +563,7 @@ class ApiWithoutAuthorizationController extends AbstractController
         try {
             $jsonParams = json_decode($request->getContent(), true);
 
-            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['id_tipo_reservacion']) && !empty($jsonParams['id_tipo_reservacion'])) {
+            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['tipoReservacion']) && !empty($jsonParams['tipoReservacion'])) {
                 $tipo = 'por_mesa';
                 $cantidadPersonas = $jsonParams['cantidadPersona'] ?? null;
                 $espacio = $jsonParams['espacio'] ?? null;
