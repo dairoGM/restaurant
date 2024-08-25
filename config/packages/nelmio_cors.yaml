@@ -1,7 +1,0 @@
-# config/packages/nelmio_cors.yaml
-nelmio_cors:
-  defaults:
-    allow_credentials: false
-    allow_origin: ['*'] # Cambia esto al dominio específico en producción
-    allow_headers: ['Content-Type']
-    allow_methods: ['GET', 'POST', 'OPTIONS']
