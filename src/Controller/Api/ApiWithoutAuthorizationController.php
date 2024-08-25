@@ -558,12 +558,12 @@ class ApiWithoutAuthorizationController extends AbstractController
      */
     public function reservarMesa(Request          $request, Utils $utils, PoliticaCancelacionRepository $politicaCancelacionRepository,
                                  TiempoRepository $tiempoRepository, EspacioRepository $espacioRepository,
-                                 PerfilRepository $perfilRepository, EntityManagerInterface $em, ReservacionRepository $reservacionRepository, PlatoRepository $platoRepository)
+                                 PerfilRepository $perfilRepository, TipoReservacionRepository $tipoReservacionRepository, EntityManagerInterface $em, ReservacionRepository $reservacionRepository, PlatoRepository $platoRepository)
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
 
-            if (isset($jsonParams['email']) && !empty($jsonParams['email'])) {
+            if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['id_tipo_reservacion']) && !empty($jsonParams['id_tipo_reservacion'])) {
                 $tipo = 'por_mesa';
                 $cantidadPersonas = $jsonParams['cantidadPersona'] ?? null;
                 $espacio = $jsonParams['espacio'] ?? null;
@@ -574,11 +574,15 @@ class ApiWithoutAuthorizationController extends AbstractController
                 $idReservaMesa = $jsonParams['idReservaMesa'] ?? null;//la reserva de la mesa a la que se asociaria el plato
                 $entidadPlato = null;
 
+                $idTipoReservacion = $jsonParams['tipoReservacion'];
+                $tipoReservacion = $tipoReservacionRepository->find($idTipoReservacion);
+                $montoAPagar = $tipoReservacion->getMontoAPagar();
+
                 if (isset($jsonParams['plato']) && !empty($jsonParams['plato'])) {
                     $tipo = 'por_plato';
                 }
                 if (!empty($cantidadPersonas)) {
-                    $precioUsd = intval($cantidadPersonas) * 50;
+                    $precioUsd = intval($cantidadPersonas) * $montoAPagar;
                 }
                 if (!empty($plato)) {
                     $entidadPlato = $platoRepository->find($plato);
@@ -724,10 +728,19 @@ class ApiWithoutAuthorizationController extends AbstractController
      * @param MetodoPagoRepository $metodoPagoRepository
      * @return JsonResponse
      */
-    public function listarMetodosPago(MetodoPagoRepository $metodoPagoRepository)
+    public function listarMetodosPago(Request $request, MetodoPagoRepository $metodoPagoRepository, TipoReservacionRepository $tipoReservacionRepository)
     {
         try {
-            $result = $metodoPagoRepository->listarMetodosPago(['activo' => true]);
+            $jsonParams = json_decode($request->getContent(), true);
+            $tipoReservacion = $jsonParams['id_tipo_reservacion'] ?? null;
+            $metodosPagoConfig = null;
+            if (!empty($tipoReservacion)) {
+                $tipoReservacionEntity = $tipoReservacionRepository->find($tipoReservacion);
+                $metodosPagoConfig = json_decode($tipoReservacionEntity->getMetodoPago(), true);
+            }
+            $filtros['activo'] = true;
+            $filtros['metodosPagoConfig'] = $metodosPagoConfig != null ? implode(",", $metodosPagoConfig) : "-1";
+            $result = $metodoPagoRepository->listarMetodosPago($filtros);
             $response = [];
             if (is_array($result)) {
                 foreach ($result as $value) {

@@ -11,9 +11,9 @@
             <div class="row" style="display: flex; justify-content: space-between; align-items: center">
 
                 <h3 class="card-title text-bold text-gray">Listado de tipos de reservación</h3>
-{#                <a title="Adicionar" class="btn btn-primary mr-2" href="{{ path('app_tipo_reservacion_registrar') }}"><i#}
-{#                            class="fa fa-plus"></i>#}
-{#                </a>#}
+                {#                <a title="Adicionar" class="btn btn-primary mr-2" href="{{ path('app_tipo_reservacion_registrar') }}"><i #}
+                {#                            class="fa fa-plus"></i> #}
+                {#                </a> #}
             </div>
         </div>
         <!-- /.card-header -->
@@ -23,6 +23,8 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre</th>
+                    <th>Monto a pagar</th>
+                    <th>Métodos de pago</th>
                     <th>Estado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -32,6 +34,8 @@
                     <tr>
                         <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.nombre }}</td>
+                        <td>{{ item.montoAPagar | default('') }}</td>
+                        <td>{{ item.nombreMostrar | default('') }}</td>
                         <td width="3%" class="-text-center">
                             {% if '1' == item.activo %}
                                 <span class="ms-status -active">Habilitado</span>
@@ -40,20 +44,15 @@
                             {% endif %}
                         </td>
                         <td width="10%" class="text-center">
-                            <button title="Detalles" class="btn btn-outline-primary modalDetailAction"
-                                    data-url="{{ path('app_tipo_reservacion_detail', {'id' : item.id}) }}"
-                                    data-title="Detalles del tipo de reservación">
-                                <i class="fa fa-eye "></i>
-                            </button>
 
                             <a title="Modificar" href="{{ path('app_tipo_reservacion_modificar', {'id': item.id}) }}"
                                class="btn btn-outline-primary"><i
                                         class="fa fa-edit"></i>
                             </a>
-{#                            <button title="Eliminar" class="btn btn-outline-danger elementRemove"#}
-{#                                    data-url="{{ path('app_tipo_reservacion_eliminar', {'id': item.id}) }}">#}
-{#                                <i class="fa fa-trash"></i>#}
-{#                            </button>#}
+                            {#                            <button title="Eliminar" class="btn btn-outline-danger elementRemove" #}
+                            {#                                    data-url="{{ path('app_tipo_reservacion_eliminar', {'id': item.id}) }}"> #}
+                            {#                                <i class="fa fa-trash"></i> #}
+                            {#                            </button> #}
                         </td>
                     </tr>
                 {% endfor %}

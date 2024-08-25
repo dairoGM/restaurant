@@ -6,6 +6,7 @@ use App\Entity\BaseEntity;
 use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\MetodoPago;
 use App\Entity\Configuracion\Plato;
+use App\Entity\Configuracion\TipoReservacion;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -15,6 +16,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Reservacion extends BaseEntity
 {
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Configuracion\TipoReservacion")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     */
+    private ?TipoReservacion $tipoReservacion;
 
     /**
      * @ORM\ManyToOne(targetEntity="Perfil")
@@ -439,6 +446,22 @@ class Reservacion extends BaseEntity
     public function setTipo(?string $tipo): void
     {
         $this->tipo = $tipo;
+    }
+
+    /**
+     * @return TipoReservacion|null
+     */
+    public function getTipoReservacion(): ?TipoReservacion
+    {
+        return $this->tipoReservacion;
+    }
+
+    /**
+     * @param TipoReservacion|null $tipoReservacion
+     */
+    public function setTipoReservacion(?TipoReservacion $tipoReservacion): void
+    {
+        $this->tipoReservacion = $tipoReservacion;
     }
 
 

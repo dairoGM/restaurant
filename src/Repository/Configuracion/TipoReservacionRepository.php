@@ -55,6 +55,18 @@ class TipoReservacionRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('qb')
             ->select('qb.id, 
                         qb.nombre, 
+                        qb.montoAPagar, 
+                        qb.activo')
+            ->orderBy('qb.nombre');
+        return $query->getQuery()->getResult();
+    }
+    public function listarTiposReservacionGestion()
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select('qb.id, 
+                        qb.nombre, 
+                        qb.montoAPagar, 
+                        qb.metodoPago, 
                         qb.activo')
             ->orderBy('qb.nombre');
         return $query->getQuery()->getResult();

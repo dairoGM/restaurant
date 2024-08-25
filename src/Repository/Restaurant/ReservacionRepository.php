@@ -77,7 +77,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.ticket, 
                  qb.tipo,
                  case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
-                 case when qb.tipo='por_mesa' then qb.cantidadPersona*50 else  qb.cantidad*pl.precio end as precio,
+                 case when qb.tipo='por_mesa' then qb.cantidadPersona*tr.montoAPagar else  qb.cantidad*pl.precio end as precio,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
@@ -90,11 +90,13 @@ class ReservacionRepository extends ServiceEntityRepository
                  e.id as idEspacio,
                  pl.nombre as nombrePlato, 
                  pl.id as idPlato,
-                 p.email"
+                 p.email,
+                 tr.nombre as nombreTipoReservacion"
             )
             ->leftJoin('qb.espacio', 'e')
             ->leftJoin('qb.plato', 'pl')
             ->leftJoin('qb.metodoPago', 'mp')
+            ->leftJoin('qb.tipoReservacion', 'tr')
             ->join('qb.perfil', 'p');
         if (!empty($email)) {
             $where .= " AND p.email = '$email'";
@@ -115,7 +117,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.ticket, 
                  qb.tipo,
                  case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
-                 case when qb.tipo='por_mesa' then qb.cantidadPersona*50 else  qb.cantidad*pl.precio end as precio,
+                 case when qb.tipo='por_mesa' then qb.cantidadPersona * tr.montoAPagar else  qb.cantidad*pl.precio end as precio,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
@@ -128,11 +130,13 @@ class ReservacionRepository extends ServiceEntityRepository
                  e.id as idEspacio,
                  pl.nombre as nombrePlato, 
                  pl.id as idPlato,
-                 p.email"
+                 p.email,
+                 tr.nombre as nombreTipoReservacion"
             )
             ->leftJoin('qb.espacio', 'e')
             ->leftJoin('qb.plato', 'pl')
             ->leftJoin('qb.metodoPago', 'mp')
+            ->leftJoin('qb.tipoReservacion', 'tr')
             ->join('qb.perfil', 'p')
             ->where("qb.estado = 'Cancelada'");
         if (!empty($email)) {
@@ -153,7 +157,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.ticket, 
                  qb.tipo,
                  case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
-                 case when qb.tipo='por_mesa' then qb.cantidadPersona*50 else  qb.cantidad*pl.precio end as precio,
+                 case when qb.tipo='por_mesa' then qb.cantidadPersona*tr.montoAPagar else  qb.cantidad*pl.precio end as precio,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
@@ -166,11 +170,13 @@ class ReservacionRepository extends ServiceEntityRepository
                  e.id as idEspacio,
                  pl.nombre as nombrePlato, 
                  pl.id as idPlato,
-                 p.email"
+                 p.email,
+                 tr.nombre as nombreTipoReservacion"
             )
             ->leftJoin('qb.espacio', 'e')
             ->leftJoin('qb.plato', 'pl')
             ->leftJoin('qb.metodoPago', 'mp')
+            ->leftJoin('qb.tipoReservacion', 'tr')
             ->leftJoin('qb.perfil', 'p');
         $query->where("p.email = '$email'");
         $query->andWhere("qb.estado = 'Prereserva'");
@@ -190,7 +196,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  qb.ticket, 
                  qb.tipo,
                  case when qb.tipo='por_mesa' then qb.cantidadPersona else  qb.cantidad end as cantidad,
-                  case when qb.tipo='por_mesa' then qb.cantidadPersona*50 else  qb.cantidad*pl.precio end as precio,
+                  case when qb.tipo='por_mesa' then qb.cantidadPersona*tr.montoAPagar else qb.cantidad*pl.precio end as precio,
                  qb.estado,                 
                  qb.descripcion,                 
                  qb.fechaReservacion, 
@@ -203,18 +209,21 @@ class ReservacionRepository extends ServiceEntityRepository
                  e.id as idEspacio,
                  pl.nombre as nombrePlato, 
                  pl.id as idPlato,
-                 p.email    "
+                 p.email,
+                 tr.nombre as nombreTipoReservacion"
             )
             ->join('qb.espacio', 'e')
             ->leftJoin('qb.plato', 'pl')
             ->leftJoin('qb.metodoPago', 'mp')
             ->leftJoin('qb.perfil', 'p')
+            ->leftJoin('qb.tipoReservacion', 'tr')
             ->where("p.email = '$email' and e.id is not null");
         $query->andWhere("qb.estado = 'Prereserva'");
         if (!empty($espacio)) {
             $query->andWhere("e.id = '$espacio'");
         }
         $query->orderBy('qb.id', 'desc');
+        pr($query->getQuery()->getSQL());
         $result = $query->getQuery()->getResult();
         return $result;
     }

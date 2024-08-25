@@ -4,6 +4,7 @@ namespace App\Form\Restaurant;
 
 use App\Entity\Configuracion\Espacio;
 use App\Entity\Configuracion\Plato;
+use App\Entity\Configuracion\TipoReservacion;
 use App\Entity\Restaurant\Reservacion;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -66,6 +67,15 @@ class ReservacionType extends AbstractType
                 'choice_label' => 'nombreCorto',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombreCorto', 'ASC');
+                },
+                'placeholder' => 'Seleccione',
+                'empty_data' => null
+            ])
+            ->add('tipoReservacion', EntityType::class, [
+                'class' => TipoReservacion::class,
+                'choice_label' => 'nombre',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')->where('u.activo = true')->orderBy('u.nombre', 'ASC');
                 },
                 'placeholder' => 'Seleccione',
                 'empty_data' => null

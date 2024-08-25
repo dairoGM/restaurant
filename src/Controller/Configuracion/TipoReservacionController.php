@@ -5,6 +5,7 @@ namespace App\Controller\Configuracion;
 use App\Entity\Configuracion\TipoReservacion;
 use App\Entity\Security\User;
 use App\Form\Configuracion\TipoReservacionType;
+use App\Repository\Configuracion\MetodoPagoRepository;
 use App\Repository\Configuracion\TipoReservacionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +26,31 @@ class TipoReservacionController extends AbstractController
      * @param TipoReservacionRepository $tipoReservacionRepository
      * @return Response
      */
-    public function index(TipoReservacionRepository $tipoReservacionRepository)
+    public function index(TipoReservacionRepository $tipoReservacionRepository, MetodoPagoRepository $metodoPagoRepository)
     {
+        $response = [];
+        $registros = $tipoReservacionRepository->listarTiposReservacionGestion();
+        foreach ($registros as $value) {
+            $metodosPagoConfig = [];
+            if (!empty($value['metodoPago'])) {
+                $metodosPagoConfig = json_decode($value['metodoPago'], true);
+            }
+
+            $filtros['metodosPagoConfig'] = implode(",", $metodosPagoConfig);
+            $filtros['activo'] = true;
+            $metPag = $metodoPagoRepository->listarMetodosPago($filtros);
+            $nombreMostrar = [];
+            if (is_array($metPag)) {
+                foreach ($metPag as $value1) {
+                    $nombreMostrar[] = $value1['nombre'];
+                }
+            }
+            $value['nombreMostrar'] = implode(", ", $nombreMostrar);
+            $response[] = $value;
+        }
+
         return $this->render('modules/configuracion/tipo_reservacion/index.html.twig', [
-            'registros' => $tipoReservacionRepository->findBy([], ['activo' => 'desc', 'nombre' => 'asc']),
+            'registros' => $response
         ]);
     }
 
@@ -41,11 +63,13 @@ class TipoReservacionController extends AbstractController
     public function registrar(Request $request, TipoReservacionRepository $tipoReservacionRepository, SerializerInterface $serializer)
     {
         try {
-            $catDocenteEntity = new TipoReservacion();
-            $form = $this->createForm(TipoReservacionType::class, $catDocenteEntity, ['action' => 'registrar']);
+            $tipoReservacion = new TipoReservacion();
+            $form = $this->createForm(TipoReservacionType::class, $tipoReservacion, ['action' => 'registrar']);
             $form->handleRequest($request);
+            $allPost = $request->request->All();
             if ($form->isSubmitted() && $form->isValid()) {
-                $tipoReservacionRepository->add($catDocenteEntity, true);
+                $tipoReservacion->setMetodoPago(json_encode($allPost['tipo_reservacion']['metodoPago']));
+                $tipoReservacionRepository->add($tipoReservacion, true);
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
                 return $this->redirectToRoute('app_tipo_reservacion_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -72,19 +96,23 @@ class TipoReservacionController extends AbstractController
         try {
             $form = $this->createForm(TipoReservacionType::class, $tipoReservacion, ['action' => 'modificar']);
             $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
+            $allPost = $request->request->All();
+            if ($form->isSubmitted()) {
+                $met = isset($allPost['tipo_reservacion']['metodoPago']) ? json_encode($allPost['tipo_reservacion']['metodoPago']) : null;
+                $tipoReservacion->setMetodoPago($met);
                 $tipoReservacionRepository->edit($tipoReservacion);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
                 return $this->redirectToRoute('app_tipo_reservacion_index', [], Response::HTTP_SEE_OTHER);
             }
+            $metodosPago = $tipoReservacion->getMetodoPago() != null ? implode(',', json_decode($tipoReservacion->getMetodoPago(), true)) : "-1";
 
             return $this->render('modules/configuracion/tipo_reservacion/edit.html.twig', [
                 'form' => $form->createView(),
+                'metodosPago' => $metodosPago
             ]);
         } catch (\Exception $exception) {
             $this->addFlash('error', $exception->getMessage());
-            return $this->redirectToRoute('app_tipo_reservacion_modificar', ['id' => $tipoReservacion], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_tipo_reservacion_index', [], Response::HTTP_SEE_OTHER);
         }
     }
 

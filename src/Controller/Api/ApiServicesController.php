@@ -106,7 +106,7 @@ class ApiServicesController extends AbstractController
                 isset($jsonParams['dni']) && !empty($jsonParams['dni']) &&
                 isset($jsonParams['celular']) && !empty($jsonParams['celular']) &&
                 isset($jsonParams['numeroTransferencia']) && !empty($jsonParams['numeroTransferencia']) &&
-                isset($jsonParams['metodoPago']) && !empty($jsonParams['metodoPago']) &&
+                //isset($jsonParams['metodoPago']) && !empty($jsonParams['metodoPago']) &&
                 isset($jsonParams['reservaciones']) && !empty($jsonParams['reservaciones'])) {
 
                 $pago = new Pago();

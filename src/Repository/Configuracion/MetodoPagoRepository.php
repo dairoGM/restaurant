@@ -52,6 +52,9 @@ class MetodoPagoRepository extends ServiceEntityRepository
 
     public function listarMetodosPago($filters = [], $orderBy = [], $limit = null)
     {
+        $metodosPagoConfig = $filters['metodosPagoConfig'];
+        unset($filters['metodosPagoConfig']);
+
         $query = $this->createQueryBuilder('qb')
             ->select(
                 "qb.id, 
@@ -65,6 +68,10 @@ class MetodoPagoRepository extends ServiceEntityRepository
             )
             ->join('qb.tipoMetodoPago', 't')
             ->join('qb.tipoMoneda', 'tm');
+
+        if (!empty($metodosPagoConfig)) {
+            $query->where("qb.id in ($metodosPagoConfig)");
+        }
         if (!is_null($limit)) {
             $query->setMaxResults($limit);
         }
