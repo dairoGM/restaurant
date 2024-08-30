@@ -581,7 +581,8 @@ class ApiWithoutAuthorizationController extends AbstractController
                 if (isset($jsonParams['plato']) && !empty($jsonParams['plato'])) {
                     $tipo = 'por_plato';
                 }
-                if (!empty($cantidadPersonas)) {
+                $precioUsd = null;
+                if (!empty($cantidadPersonas) && $montoAPagar > 0) {
                     $precioUsd = intval($cantidadPersonas) * $montoAPagar;
                 }
                 if (!empty($plato)) {
@@ -609,16 +610,18 @@ class ApiWithoutAuthorizationController extends AbstractController
                         $espacio = $espacioRepository->find($jsonParams['espacio']);
                         $mesasEspacio = $espacio->getCantidadMesa();
                         $reservacionesRealizadas = $reservacionRepository->getCantidadReservaciones($fecha);
-
-                        if (intval($cantidadPersonas) <= $mesasEspacio * 4) {
-                            if (($mesasEspacio * 4 - $reservacionesRealizadas) >= $cantidadPersonas) {
-                                $reglasEspacio = true;
+                        if ($cantidadPersonas > 0) {
+                            if (intval($cantidadPersonas) <= $mesasEspacio * 4) {
+                                if (($mesasEspacio * 4 - $reservacionesRealizadas) >= $cantidadPersonas) {
+                                    $reglasEspacio = true;
+                                } else {
+                                    return $this->json(['messaje' => "La disponibilidad de mesas es insuficiente", 'data' => []], Response::HTTP_BAD_REQUEST);
+                                }
                             } else {
-                                return $this->json(['messaje' => "La disponibilidad de mesas es insuficiente", 'data' => []], Response::HTTP_BAD_REQUEST);
+                                return $this->json(['messaje' => "La cantidad de mesas solicitada es superior a las mesas del espacio seleccionado", 'data' => []], Response::HTTP_BAD_REQUEST);
                             }
-                        } else {
-                            return $this->json(['messaje' => "La cantidad de mesas solicitada es superior a las mesas del espacio seleccionado", 'data' => []], Response::HTTP_BAD_REQUEST);
                         }
+
 
                     } elseif (!empty($plato)) {
                         $reglasPlatos = true;
@@ -655,7 +658,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                         $reservacion->setPerfil($perfilRegistro);
                         $reservacion->setEspacio($espacio);
                         $reservacion->setPlato($entidadPlato);
-                        $reservacion->setEstado($cantidadPersonas == 0 ? 'Confirmada' : 'Prereserva');
+                        $reservacion->setEstado($montoAPagar == 0 ? 'Confirmada' : 'Prereserva');
                         $reservacion->setTipo($tipo);
                         $reservacion->setFechaReservacion($fecha);
                         $reservacion->setHoraInicio($horaInicio);

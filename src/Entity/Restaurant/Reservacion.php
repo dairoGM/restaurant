@@ -106,7 +106,7 @@ class Reservacion extends BaseEntity
     private ?string $ticket = null;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
     private ?string $precioUsd = null;
 
