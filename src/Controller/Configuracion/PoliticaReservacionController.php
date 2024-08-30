@@ -2,18 +2,23 @@
 
 namespace App\Controller\Configuracion;
 
-use App\Form\Configuracion\DatosContactoType;
-use App\Repository\Configuracion\DatosContactoRepository;
+use App\Entity\Configuracion\Conocenos;
+use App\Entity\Configuracion\PoliticaReservacion;
+use App\Entity\Security\User;
+use App\Form\Configuracion\ConocenosType;
+use App\Form\Configuracion\PoliticaReservacionType;
+use App\Repository\Configuracion\MetodoPagoRepository;
 use App\Repository\Configuracion\PoliticaReservacionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/configuracion/politica_reservacion")
- * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CARRERA")
+ * @IsGranted("ROLE_ADMIN", "ROLE_GEST_CATDOC")
  */
 class PoliticaReservacionController extends AbstractController
 {
@@ -25,31 +30,125 @@ class PoliticaReservacionController extends AbstractController
      */
     public function index(PoliticaReservacionRepository $politicaReservacionRepository)
     {
-        $registros = $politicaReservacionRepository->findAll();
         return $this->render('modules/configuracion/politica_reservacion/index.html.twig', [
-            'registros' => $registros,
-            'descripcion' => isset($registros[0]) ? $registros[0]->getDescripcion() : null
+            'registros' => $politicaReservacionRepository->listarPoliticaReservacion(),
         ]);
     }
 
     /**
-     * @Route("/politica_reservacion/guardar", name="app_politica_reservacion_guardar", methods={"GET", "POST"})
+     * @Route("/registrar", name="app_politica_reservacion_registrar", methods={"GET", "POST"})
      * @param Request $request
      * @param PoliticaReservacionRepository $politicaReservacionRepository
      * @return Response
      */
-    public function guardarPoliticaReservacion(Request $request, PoliticaReservacionRepository $politicaReservacionRepository)
+    public function registrar(Request $request, PoliticaReservacionRepository $politicaReservacionRepository, SerializerInterface $serializer)
     {
         try {
-            $allPost = $request->request->All();
-            $fieldToUpdate = 'set' . ucwords($allPost['campo']);
+            $entidad = new PoliticaReservacion();
+            $form = $this->createForm(PoliticaReservacionType::class, $entidad, ['action' => 'registrar']);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!empty($form['imagen']->getData())) {
+                    $file = $form['imagen']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $entidad->setImagen($file_name);
+                    $file->move("uploads/images/politica_reservacion/imagen", $file_name);
+                }
 
-            $entidad = $politicaReservacionRepository->find($allPost['id']);
-            $entidad->$fieldToUpdate($allPost['valor']);
-            $politicaReservacionRepository->edit($entidad, true);
-            return $this->json('OK');
+                $politicaReservacionRepository->add($entidad, true);
+                $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
+                return $this->redirectToRoute('app_politica_reservacion_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->render('modules/configuracion/politica_reservacion/new.html.twig', [
+                'form' => $form->createView(),
+            ]);
         } catch (\Exception $exception) {
-            return $this->json(null);
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_politica_reservacion_index', [], Response::HTTP_SEE_OTHER);
         }
     }
+
+
+    /**
+     * @Route("/{id}/modificar", name="app_politica_reservacion_modificar", methods={"GET", "POST"})
+     * @param Request $request
+     * @param PoliticaReservacion $politicaReservacion
+     * @param PoliticaReservacionRepository $politicaReservacionRepository
+     * @return Response
+     */
+    public function modificar(Request $request, PoliticaReservacion $politicaReservacion, PoliticaReservacionRepository $politicaReservacionRepository)
+    {
+        try {
+            $form = $this->createForm(PoliticaReservacionType::class, $politicaReservacion, ['action' => 'modificar']);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!empty($form['imagen']->getData())) {
+                    if ($politicaReservacion->getImagen() != null) {
+                        if (file_exists('uploads/images/politica_reservacion/imagen/' . $politicaReservacion->getImagen())) {
+                            unlink('uploads/images/politica_reservacion/imagen/' . $politicaReservacion->getImagen());
+                        }
+                    }
+
+                    $file = $form['imagen']->getData();
+                    $ext = $file->guessExtension();
+                    $file_name = md5(uniqid()) . "." . $ext;
+                    $politicaReservacion->setImagen($file_name);
+                    $file->move("uploads/images/politica_reservacion/imagen", $file_name);
+                }
+
+                $politicaReservacionRepository->edit($politicaReservacion);
+                $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');
+                return $this->redirectToRoute('app_politica_reservacion_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->render('modules/configuracion/politica_reservacion/edit.html.twig', [
+                'form' => $form->createView(),
+                'politica_reservacion' => $politicaReservacion
+            ]);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_politica_reservacion_modificar', ['id' => $politicaReservacion->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+
+    /**
+     * @Route("/{id}/detail", name="app_politica_reservacion_detail", methods={"GET", "POST"})
+     * @param Request $request
+     * @param PoliticaReservacion $politicaReservacion
+     * @return Response
+     */
+    public function detail(Request $request, PoliticaReservacion $politicaReservacion)
+    {
+        return $this->render('modules/configuracion/politica_reservacion/detail.html.twig', [
+            'item' => $politicaReservacion,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/eliminar", name="app_politica_reservacion_eliminar", methods={"GET"})
+     * @param Request $request
+     * @param PoliticaReservacion $politicaReservacion
+     * @param PoliticaReservacionRepository $politicaReservacionRepository
+     * @return Response
+     */
+    public function eliminar(Request $request, PoliticaReservacion $politicaReservacion, PoliticaReservacionRepository $politicaReservacionRepository)
+    {
+        try {
+            if ($politicaReservacionRepository->find($politicaReservacion) instanceof PoliticaReservacion) {
+                $politicaReservacionRepository->remove($politicaReservacion, true);
+                $this->addFlash('success', 'El elemento ha sido eliminado satisfactoriamente.');
+                return $this->redirectToRoute('app_politica_reservacion_index', [], Response::HTTP_SEE_OTHER);
+            }
+            $this->addFlash('error', 'Error en la entrada de datos');
+            return $this->redirectToRoute('app_politica_reservacion_index', [], Response::HTTP_SEE_OTHER);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_politica_reservacion_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+
 }

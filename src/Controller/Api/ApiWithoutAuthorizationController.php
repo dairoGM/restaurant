@@ -780,7 +780,12 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         try {
             $result = $politicaReservacionRepository->listarPoliticaReservacion();
-            return $this->json(['messaje' => 'OK', 'data' => $result[0]]);
+            $response = [];
+            foreach ($result as $value) {
+                $value['imagen'] = !empty($value['imagen']) ? $this->baseUrl . "/uploads/images/politica_reservacion/imagen/" . $value['imagen'] : null;
+                $response[] = $value;
+            }
+            return $this->json(['messaje' => 'OK', 'data' => $response[0]]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }

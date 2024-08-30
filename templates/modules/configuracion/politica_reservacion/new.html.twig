@@ -1,6 +1,6 @@
 {% extends 'baseAdmin.html.twig' %}
 
-{% block title %}Modificar quienes somos{% endblock %}
+{% block title %}Adicionar política de reservación{% endblock %}
 
 {% block body %}
 
@@ -8,7 +8,7 @@
         <div class="card-header">
             <div class="row" style="display: flex; justify-content: space-between; align-items: center">
 
-                <h3 class="card-title text-bold text-gray">Modificar quienes somos</h3>
+                <h3 class="card-title text-bold text-gray">Adicionar política de reservación</h3>
 
             </div>
         </div>
@@ -16,7 +16,6 @@
         {{ form_start(form) }}
         <div class="card-body">
             <div class="row">
-                
 
                 <div class="col-4 form-group">
                     <div class="row">
@@ -27,15 +26,9 @@
                         </div>
                         <div class="col-2">
                             <div id="image-holder"></div>
-
-                            {% if conocenos.imagen != null %}
-                                <img src="{{ app.request.getSchemeAndHttpHost() }}/uploads/images/conocenos/imagen/{{ conocenos.imagen }}"
-                                     class="img-circle imgp" alt="Imagen de portada"
-                                     style="width: 40px; height: 40px; position: absolute; bottom: 0;">
-                            {% endif %}
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-group">
@@ -46,17 +39,21 @@
             </div>
         </div>
         <div class="card-footer" style="display: flex; justify-content: flex-end; align-items: center;">
-            <a class="btn btn-danger mr-2 btn-cancel" data-url="{{ path('app_conocenos_index') }}" data-title=""
+            <a class="btn btn-danger mr-2 btn-cancel" data-url="{{ path('app_politica_reservacion_registrar') }}"
+               data-title=""
                data-content="¿Está seguro que desea realizar la acción?" type="button">Cancelar</a>
             <button class="btn btn-primary">Aceptar</button>
         </div>
         {{ form_end(form) }}
     </div>
+
 {% endblock %}
+
 
 {% block javascripts %}
     <script>
- 
+
+
         ClassicEditor.create(document.getElementById('conocenos_descripcion'), {
             licenseKey: '',
             image: {
@@ -83,6 +80,7 @@
             .catch(error => {
 
             });
+
 
         $("#conocenos_imagen").on('change', function () {
             //Get count of selected files
@@ -114,5 +112,7 @@
                 alert("Pls select only images");
             }
         });
+
+
     </script>
 {% endblock %}

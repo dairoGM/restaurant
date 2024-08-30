@@ -22,6 +22,10 @@ class PoliticaReservacion
      * @ORM\Column(type="text")
      */
     private $descripcion;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $imagen = null;
 
     /**
      * @return int|null
@@ -55,5 +59,20 @@ class PoliticaReservacion
         $this->descripcion = $descripcion;
     }
 
+    /**
+     * @return null
+     */
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    /**
+     * @param null $imagen
+     */
+    public function setImagen($imagen): void
+    {
+        $this->imagen = $imagen;
+    }
 
 }

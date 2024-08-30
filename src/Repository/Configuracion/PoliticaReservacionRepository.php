@@ -53,6 +53,7 @@ class PoliticaReservacionRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('qb')
             ->select('qb.id, 
+                          qb.imagen,
                         qb.descripcion');
         $qb->orderBy('qb.id');
         $resul = $qb->getQuery()->getResult();
