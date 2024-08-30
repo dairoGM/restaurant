@@ -655,7 +655,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                         $reservacion->setPerfil($perfilRegistro);
                         $reservacion->setEspacio($espacio);
                         $reservacion->setPlato($entidadPlato);
-                        $reservacion->setEstado('Prereserva');
+                        $reservacion->setEstado($cantidadPersonas == 0 ? 'Confirmada' : 'Prereserva');
                         $reservacion->setTipo($tipo);
                         $reservacion->setFechaReservacion($fecha);
                         $reservacion->setHoraInicio($horaInicio);
