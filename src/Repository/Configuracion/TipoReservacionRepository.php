@@ -56,6 +56,7 @@ class TipoReservacionRepository extends ServiceEntityRepository
             ->select('qb.id, 
                         qb.nombre, 
                         qb.montoAPagar, 
+                        qb.descripcion, 
                         qb.activo')
             ->orderBy('qb.nombre');
         return $query->getQuery()->getResult();
@@ -67,6 +68,7 @@ class TipoReservacionRepository extends ServiceEntityRepository
                         qb.nombre, 
                         qb.montoAPagar, 
                         qb.metodoPago, 
+                        qb.descripcion, 
                         qb.activo')
             ->orderBy('qb.nombre');
         return $query->getQuery()->getResult();
