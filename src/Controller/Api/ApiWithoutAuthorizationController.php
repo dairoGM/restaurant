@@ -742,7 +742,7 @@ class ApiWithoutAuthorizationController extends AbstractController
                 $metodosPagoConfig = json_decode($tipoReservacionEntity->getMetodoPago(), true);
             }
             $filtros['activo'] = true;
-            $filtros['metodosPagoConfig'] = $metodosPagoConfig != null ? implode(",", $metodosPagoConfig) : "-1";
+            $filtros['metodosPagoConfig'] = $metodosPagoConfig != null ? implode(",", $metodosPagoConfig) : null;
             $result = $metodoPagoRepository->listarMetodosPago($filtros);
             $response = [];
             if (is_array($result)) {
