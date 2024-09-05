@@ -48,4 +48,15 @@ class TasaCambioRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function listarTasaCambio()
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select('qb.id, 
+                        qb.cup, 
+                        qb.mlc, 
+                        qb.tropipay')
+            ->orderBy('qb.id');
+        return $query->getQuery()->getResult();
+    }
 }

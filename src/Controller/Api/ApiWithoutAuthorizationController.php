@@ -33,6 +33,7 @@ use App\Repository\Configuracion\ReservaRepository;
 use App\Repository\Configuracion\SeccionServicioRepository;
 use App\Repository\Configuracion\ServicioRepository;
 use App\Repository\Configuracion\SobreRepository;
+use App\Repository\Configuracion\TasaCambioRepository;
 use App\Repository\Configuracion\TerminosCondicionesRepository;
 use App\Repository\Configuracion\TiempoRepository;
 use App\Repository\Configuracion\TipoReservacionRepository;
@@ -804,6 +805,22 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         try {
             $result = $tipoReservacionRepository->listarTiposReservacion();
+            return $this->json(['messaje' => 'OK', 'data' => $result]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
+
+    /**
+     * @Route("/tasa_cambio/listar", name="api_tipo_reservacion_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param TasaCambioRepository $tasaCambioRepository
+     * @return JsonResponse
+     */
+    public function listarTasaCambio(TasaCambioRepository $tasaCambioRepository)
+    {
+        try {
+            $result = $tasaCambioRepository->listarTasaCambio();
             return $this->json(['messaje' => 'OK', 'data' => $result]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
