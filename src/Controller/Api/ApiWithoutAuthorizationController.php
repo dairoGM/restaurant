@@ -813,7 +813,7 @@ class ApiWithoutAuthorizationController extends AbstractController
 
 
     /**
-     * @Route("/tasa_cambio/listar", name="api_tipo_reservacion_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @Route("/tasa_cambio/listar", name="api_tasa_cambio_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
      * @param TasaCambioRepository $tasaCambioRepository
      * @return JsonResponse
      */
