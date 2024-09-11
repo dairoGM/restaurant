@@ -171,6 +171,7 @@ class ReservacionRepository extends ServiceEntityRepository
                  pl.nombre as nombrePlato, 
                  pl.id as idPlato,
                  p.email,
+                 tr.id as idTipoReservacion,
                  tr.nombre as nombreTipoReservacion"
             )
             ->leftJoin('qb.espacio', 'e')
