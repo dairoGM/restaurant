@@ -166,7 +166,7 @@ class MenuPlatoRepository extends ServiceEntityRepository
         $query->orderBy('p.ofertaFamilia', 'desc')
             ->addOrderBy('p.nombre', 'ASC')
             ->setMaxResults(6);
-pr($query->getQuery()->getSQL());
+
         return $query->getQuery()->getResult();
     }
 }
