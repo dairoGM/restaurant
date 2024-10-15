@@ -515,7 +515,7 @@ class ApiWithoutAuthorizationController extends AbstractController
     public function listarPlatosOfertaFamiliar(MenuPlatoRepository $menuPlatoRepository, Utils $utils)
     {
         try {
-            $response = $utils->listarPlatos($menuPlatoRepository, $this->baseUrl, true, -1, true);
+            $response = $utils->listarPlatosOfertaFamiliar($menuPlatoRepository, $this->baseUrl);
             return $this->json(['messaje' => 'OK', 'data' => $response]);
         } catch (Exception $exc) {
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);

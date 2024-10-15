@@ -459,6 +459,20 @@ class Utils
     }
 
 
+    public function listarPlatosOfertaFamiliar($menuPlatoRepository, $baseUrl)
+    {
+        $result = $menuPlatoRepository->listarOfertasFamiliar();
+        $response = [];
+        if (is_array($result)) {
+            foreach ($result as $value) {
+                $value['imagen'] = $baseUrl . "/uploads/images/plato/imagen/" . $value['imagen'];
+                $value['precio'] = '$' . number_format($value['precio'], 2, '.', ',');
+                $response[] = $value;
+            }
+        }
+        return $response;
+    }
+
     public function listarPlatos($menuPlatoRepository, $baseUrl, $sugerenciaChef = false, $idEspacio, $ofertaFamiliar = false)
     {
         $filtros['p.publico'] = true;

@@ -134,4 +134,39 @@ class MenuPlatoRepository extends ServiceEntityRepository
             ->where("m.id = $idMenu");
         return $query->getQuery()->getResult();
     }
+
+    public function listarOfertasFamiliar()
+    {
+        $filters['p.publico'] = 1;
+        $filters['p.activo'] = 1;
+        $filters['p.ofertaFamilia'] = 1;
+        $query = $this->createQueryBuilder('qb')
+            ->select("p.id, 
+                        p.nombre, 
+                        e.nombreCorto as nombreCortoEspacio, 
+                        e.id as idEspacio, 
+                        p.precio,    
+                        p.nombreLargo,    
+                        p.activo,                                           
+                        p.publico,                                           
+                        p.sugerenciaChef,                                           
+                        p.ofertaFamilia,                                           
+                        p.descripcion,
+                         p.imagen")
+            ->innerJoin('qb.menu', 'm')
+            ->innerJoin('m.espacio', 'e')
+            ->innerJoin('qb.plato', 'p');
+
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                $query->andWhere("$key = '$value'");
+            }
+        }
+
+        $query->orderBy('p.ofertaFamilia', 'desc')
+            ->addOrderBy('p.nombre', 'ASC')
+            ->setMaxResults(6);
+pr($query->getQuery()->getSQL());
+        return $query->getQuery()->getResult();
+    }
 }
