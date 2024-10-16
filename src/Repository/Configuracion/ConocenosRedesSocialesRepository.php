@@ -75,9 +75,6 @@ class ConocenosRedesSocialesRepository extends ServiceEntityRepository
                 $query->addOrderBy("qb.$key", $value);
             }
         }
-//        echo '<pre>';
-//        print_r($query->getQuery()->getSQL());
-//        die;
         return $query->getQuery()->getResult(1);
     }
 }

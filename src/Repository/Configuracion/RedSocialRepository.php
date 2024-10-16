@@ -48,4 +48,16 @@ class RedSocialRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function listarRedesSocialesGenerales()
+    {
+        $query = $this->createQueryBuilder('qb')
+            ->select(
+                "qb.nombre, 
+                        qb.enlace 
+                        "
+            )->where('qb.activo=true');
+
+        return $query->getQuery()->getResult(1);
+    }
 }

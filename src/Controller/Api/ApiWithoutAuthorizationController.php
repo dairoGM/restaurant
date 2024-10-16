@@ -29,6 +29,7 @@ use App\Repository\Configuracion\PlatoRepository;
 use App\Repository\Configuracion\PoliticaCancelacionRepository;
 use App\Repository\Configuracion\PoliticaReservacionRepository;
 use App\Repository\Configuracion\PortadaRepository;
+use App\Repository\Configuracion\RedSocialRepository;
 use App\Repository\Configuracion\ReservaRepository;
 use App\Repository\Configuracion\SeccionServicioRepository;
 use App\Repository\Configuracion\ServicioRepository;
@@ -826,4 +827,21 @@ class ApiWithoutAuthorizationController extends AbstractController
             return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
         }
     }
+
+
+    /**
+     * @Route("/redes_sociales_generales/listar", name="api_redes_sociales_generales_listar", methods={"POST", "OPTIONS"}, defaults={"_format":"json"})
+     * @param RedSocialRepository $redSocialRepository
+     * @return JsonResponse
+     */
+    public function listarRedesSocialesGenerales(RedSocialRepository $redSocialRepository)
+    {
+        try {
+            $response = $redSocialRepository->listarRedesSocialesGenerales();
+            return $this->json(['messaje' => 'OK', 'data' => $response]);
+        } catch (Exception $exc) {
+            return $this->json(['messaje' => $exc->getMessage(), 'data' => []], Response::HTTP_BAD_GATEWAY);
+        }
+    }
+
 }

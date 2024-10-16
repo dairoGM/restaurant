@@ -16,7 +16,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Nombre</th>
-{#                    <th>Enlace</th>#}
+                    <th>Enlace</th>
                     <th class="text-center">Opciones</th>
                 </tr>
                 </thead>
@@ -25,8 +25,8 @@
                     <tr>
                         <td width="1%">{{ loop.index }}</td>
                         <td>{{ item.nombre }}</td>
-{#                        <td><input style="width: 95%" class="form-control" type="tel" id="rs_enlace_{{ item.id }}"#}
-{#                                   name="rs_enlace_{{ item.id }}" value="{{ item.enlace }}"></td>#}
+                        <td><input style="width: 95%" class="form-control" type="tel" id="rs_enlace_{{ item.id }}"
+                                   name="rs_enlace_{{ item.id }}" value="{{ item.enlace }}"></td>
                         <td width="2%">
                             <button title="{% if '1' == item.activo %} Deshabilitar {% else %} Habilitar {% endif %}" class="{% if '1' == item.activo %} btn btn-outline-primary {% else %} btn btn-outline-secondary {% endif %} elementRemove"
                                     data-url="{{ path('app_red_social_eliminar', {'id': item.id}) }}">
