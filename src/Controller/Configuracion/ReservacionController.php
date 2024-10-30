@@ -110,7 +110,7 @@ class ReservacionController extends AbstractController
             $numeroTransferencia = $request->query->get('numeroTransferencia');
 
             if ($reservacionRepository->find($reservacion) instanceof Reservacion) {
-                if ($numeroTransferencia == $reservacion->getNumeroTransferencia()) {
+                if (strtolower($numeroTransferencia) == strtolower($reservacion->getNumeroTransferencia())) {
                     $reservacion->setEstado('Confirmada');
                     $reservacionRepository->edit($reservacion, true);
                     $this->addFlash('success', 'El elemento ha sido modificado satisfactoriamente.');
