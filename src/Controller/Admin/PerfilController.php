@@ -59,8 +59,6 @@ class PerfilController extends AbstractController
             $form = $this->createForm(PerfilType::class, $perfil, ['action' => 'registrar']);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-//                $perfil->setNombre($perfil->getEmail());
-
                 $user = new User();
                 $user->setEmail($perfil->getEmail());
                 $user->setRole('ROLE_CLIENT');
