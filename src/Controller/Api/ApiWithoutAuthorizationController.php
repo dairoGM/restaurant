@@ -242,16 +242,19 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
+
             if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
                 $perfil = $perfilRepository->findOneBy(['email' => $jsonParams['email']]);
 
                 if (!$perfil instanceof Perfil) {
                     $perfil = new Perfil();
                 }
+
                 $form = $this->createForm(PerfilApiType::class, $perfil);
                 $form->submit($jsonParams);
+
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $perfil->setNombre($perfil->getEmail());
+//                    $perfil->setNombre($perfil->getEmail());
                     $perfil->setActivo(true);
 
                     $user = new User();
@@ -270,7 +273,6 @@ class ApiWithoutAuthorizationController extends AbstractController
                     $em->persist($perfil);
 
                     $em->flush();
-
                     $token = $utils->getToken($jsonParams['email'], $jsonParams['password']);
                     return $this->json(['messaje' => 'OK', 'token' => $token, 'data' => $perfilRepository->listarPerfiles(['email' => $jsonParams['email']], ['id' => 'desc'], 1)]);
                 }

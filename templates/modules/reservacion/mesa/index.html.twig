@@ -19,8 +19,10 @@
                 <tr>
                     <th>No.</th>
                     <th>Id</th>
+                    <th>Nombre</th>
                     <th>Usuario</th>
-                    <th>Teléfono</th>
+                    <th>Teléfono del cliente</th>
+                    <th>Teléfono de pago</th>
                     <th>Fecha</th>
                     <th>Inicio</th>
                     <th>Fin</th>
@@ -38,7 +40,9 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <td>{{ item.ticket | default('') }}</td>
+                        <td>{{ item.nombreCliente | default('') }}</td>
                         <td>{{ item.email | default('') }}</td>
+                        <td>{{ item.phone | default('') }}</td>
                         <td>{{ item.celular | default('') }}</td>
                         <td>{{ item.fechaReservacion | default('') }}</td>
                         <td>{{ item.horaInicio | default('') }}</td>

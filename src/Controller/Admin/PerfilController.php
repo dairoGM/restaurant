@@ -55,22 +55,22 @@ class PerfilController extends AbstractController
     public function registrar(Request $request, PerfilRepository $perfilRepository, EntityManagerInterface $em)
     {
         try {
-            $entidad = new Perfil();
-            $form = $this->createForm(PerfilType::class, $entidad, ['action' => 'registrar']);
+            $perfil = new Perfil();
+            $form = $this->createForm(PerfilType::class, $perfil, ['action' => 'registrar']);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $entidad->setNombre($entidad->getEmail());
+//                $perfil->setNombre($perfil->getEmail());
 
                 $user = new User();
-                $user->setEmail($entidad->getEmail());
+                $user->setEmail($perfil->getEmail());
                 $user->setRole('ROLE_CLIENT');
-                $password = $this->hasher->hashPassword($user, $entidad->getPassword());
+                $password = $this->hasher->hashPassword($user, $perfil->getPassword());
                 $user->setPassword($password);
 
-                $entidad->setUser($user);
-                $perfilRepository->add($entidad, true);
-
+                $perfil->setUser($user);
                 $em->persist($user);
+
+                $perfilRepository->add($perfil, true);
                 $em->flush();
 
                 $this->addFlash('success', 'El elemento ha sido creado satisfactoriamente.');
@@ -101,7 +101,7 @@ class PerfilController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $perfil->setNombre($perfil->getEmail());
+//                $perfil->setNombre($perfil->getEmail());
 
                 $perfilRepository->edit($perfil);
                 $this->addFlash('success', 'El elemento ha sido actualizado satisfactoriamente.');

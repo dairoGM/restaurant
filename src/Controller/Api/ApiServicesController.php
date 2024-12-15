@@ -204,10 +204,14 @@ class ApiServicesController extends AbstractController
                 if ($perfil instanceof Perfil) {
 
                     $perfil->setPassword($jsonParams['password']);
+                    $phone = $jsonParams['phone'] ?? null;
+                    $name = $jsonParams['name'] ?? null;
 
                     if (method_exists($perfil, 'getUser') && !empty($perfil->getUser())) {
                         $password = $this->hasher->hashPassword($perfil->getUser(), $jsonParams['password']);
                         $perfil->getUser()->setPassword($password);
+                        $perfil->setName($name);
+                        $perfil->setPhone($phone);
                     } else {
                         $user = new User();
                         $user->setEmail($jsonParams['email']);

@@ -4,6 +4,7 @@ namespace App\Form\Restaurant;
 
 use App\Entity\Configuracion\Evento;
 use App\Entity\Configuracion\TipoEvento;
+
 //use App\Entity\Estructura\Provincia;
 use App\Entity\Restaurant\Perfil;
 use Doctrine\ORM\EntityRepository;
@@ -33,13 +34,20 @@ class PerfilType extends AbstractType
                     ])
                 ]
             ])
+            ->add('phone', TextType::class, [
+                'label' => 'Teléfono',
+                'required' => false
+            ])
+            ->add('nombre', TextType::class, [
+                'required' => false
+            ])
             ->add('activo', CheckboxType::class, [
                 'required' => false
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'required' => false,
-                'invalid_message' => 'Contraseña no coincide.' ,
+                'invalid_message' => 'Contraseña no coincide.',
                 'first_options' => ['label' => 'Nueva contraseña'],
                 'second_options' => ['label' => 'Confirmar contraseña'],
             ]);;

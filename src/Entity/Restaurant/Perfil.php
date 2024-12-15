@@ -33,6 +33,12 @@ class Perfil extends BaseNomenclator
     private ?string $password = null;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $phone = null;
+
+
+    /**
      * @return string|null
      */
     public function getEmail(): ?string
@@ -80,6 +86,21 @@ class Perfil extends BaseNomenclator
         $this->user = $user;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string|null $phone
+     */
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
+    }
 
 
 }

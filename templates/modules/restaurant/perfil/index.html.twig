@@ -23,6 +23,8 @@
                 <thead class="table-custom-header">
                 <tr>
                     <th>No.</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
                     <th>Email</th>
                     <th>Fecha de registro</th>
                     <th>Fecha de actualización</th>
@@ -34,6 +36,8 @@
                 {% for item in registros %}
                     <tr>
                         <td>{{ loop.index }}</td>
+                        <td>{{ item.nombre | default('') }}</td>
+                        <td>{{ item.phone | default('') }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.creado | date('d/m/Y H:i:s A') }}</td>
                         <td>{{ item.actualizado | date('d/m/Y H:i:s A') }}</td>

@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -38,7 +39,13 @@ class PerfilApiType extends AbstractType
                         'message' => 'Este campo no puede estar vacío.',
                     ])
                 ]
-            ]);;
+            ])
+            ->add('phone', TextType::class, [
+                'required' => false
+            ])
+            ->add('nombre', TextType::class, [
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
