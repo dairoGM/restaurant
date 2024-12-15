@@ -35,7 +35,7 @@ class PerfilType extends AbstractType
                 ]
             ])
             ->add('phone', TextType::class, [
-                'label' => 'Teléfono',
+                'label' => 'WhatsApp',
                 'required' => false
             ])
             ->add('nombre', TextType::class, [
