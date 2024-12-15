@@ -37,7 +37,6 @@ class Perfil extends BaseNomenclator
      */
     private ?string $phone = null;
 
-
     /**
      * @return string|null
      */
