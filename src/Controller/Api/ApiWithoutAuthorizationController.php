@@ -242,7 +242,6 @@ class ApiWithoutAuthorizationController extends AbstractController
     {
         try {
             $jsonParams = json_decode($request->getContent(), true);
-
             if (isset($jsonParams['email']) && !empty($jsonParams['email']) && isset($jsonParams['password']) && !empty($jsonParams['password'])) {
                 $perfil = $perfilRepository->findOneBy(['email' => $jsonParams['email']]);
 
